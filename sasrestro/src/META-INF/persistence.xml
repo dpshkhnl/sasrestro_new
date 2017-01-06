@@ -6,8 +6,8 @@
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 		<jta-data-source>sasrestroDS</jta-data-source>
 		<class>sasrestro.model.account.AccHeadMap</class>
-		<class>sasrestro.model.account.AccountReportModel</class>
 		<class>sasrestro.model.account.AccHeadMcg</class>
+		<class>sasrestro.model.account.AccountReportModel</class>
 		<class>sasrestro.model.account.BudgetModel</class>
 		<class>sasrestro.model.account.CodeValue</class>
 		<class>sasrestro.model.account.FormCodeModel</class>
