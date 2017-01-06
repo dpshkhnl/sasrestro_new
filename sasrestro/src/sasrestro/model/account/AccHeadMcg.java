@@ -23,7 +23,8 @@ import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "acc_head_mcg", uniqueConstraints = { @UniqueConstraint(columnNames = { "acc_code" }, name = "unq_acc_code_acc_head_mcg") })
+@Table(name = "acc_head_mcg", uniqueConstraints = {
+		@UniqueConstraint(columnNames = { "acc_code" }, name = "unq_acc_code_acc_head_mcg") })
 @NamedQueries({
 		@NamedQuery(name = "AccHeadMcg.findByAccHeadId", query = "SELECT a FROM AccHeadMcg a "
 				+ "where a.accHeadId = :accHeadIdPassed"),
@@ -34,26 +35,24 @@ import javax.persistence.UniqueConstraint;
 		@NamedQuery(name = "AccHeadMcg.GET_ALL_BY_ACC_CODE", query = "SELECT a FROM AccHeadMcg a "
 				+ "where a.accCode=:accCode"),
 		@NamedQuery(name = "AccHeadMcg.findBankAccounts", query = "SELECT DISTINCT a FROM AccHeadMap ah "
-				+ "JOIN ah.accHeadModel a "
-				+ "WHERE ah.mappingPurpose='Bank Account'"),
+				+ "JOIN ah.accHeadModel a " + "WHERE ah.mappingPurpose='Bank Account'"),
 		@NamedQuery(name = "AccHeadMcg.findCheckDuplicateAccHeadName", query = "SELECT a FROM AccHeadMcg a "
 				+ "WHERE a.accName=:accName"),
-		@NamedQuery(name = "AccHeadMcg.listRoots", query = "SELECT a FROM AccHeadMcg a "
-				+ "WHERE a.parent=0"),
+		@NamedQuery(name = "AccHeadMcg.listRoots", query = "SELECT a FROM AccHeadMcg a " + "WHERE a.parent=0"),
 		@NamedQuery(name = "AccHeadMcg.getChildren", query = "SELECT a FROM AccHeadMcg a WHERE a.parent=:parentPassed"),
 		@NamedQuery(name = "AccHeadMcg.findAllNotRoot", query = "SELECT a FROM AccHeadMcg a "
 				+ "WHERE trim(a.accCode) LIKE :acc_code_passed "
-				+ "AND a.parent!=0 AND a.accHeadId NOT IN (SELECT aa.parent FROM AccHeadMcg aa WHERE aa.parent != 0)"),
+				+ "AND a.parent<>0 AND a.accHeadId NOT IN (SELECT aa.parent FROM AccHeadMcg aa WHERE aa.parent <> 0)"),
 		@NamedQuery(name = "AccHeadMcg.findAllNonRoot", query = "SELECT a FROM AccHeadMcg a "
-				+ "WHERE a.parent!=0 AND a.accHeadId NOT IN (SELECT aa.parent FROM AccHeadMcg aa WHERE aa.parent != 0)"),
+				+ "WHERE a.parent<>0 AND a.accHeadId NOT IN (SELECT aa.parent FROM AccHeadMcg aa WHERE aa.parent <> 0)"),
 		@NamedQuery(name = "AccHeadMcg.findAllCashInHand", query = "SELECT DISTINCT a FROM AccHeadMap ah "
-				+ "JOIN ah.accHeadModel a "
-				+ "WHERE ah.mappingPurpose='Cash In Hand'"),
+				+ "JOIN ah.accHeadModel a " + "WHERE ah.mappingPurpose='Cash In Hand'"),
 		@NamedQuery(name = "AccHeadMcg.listParentNodeOnly", query = "SELECT a FROM AccHeadMcg a "
 				+ "WHERE a.accHeadId IN (SELECT DISTINCT(aa.parent) FROM AccHeadMcg aa) ORDER BY a.accCode"),
 		@NamedQuery(name = "AccHeadMcg.listNonParentNodeOnly", query = "SELECT a FROM AccHeadMcg a WHERE a.parent = :passParent AND a.accHeadId "
 				+ "NOT IN (SELECT DISTINCT(aa.parent) FROM AccHeadMcg aa)") })
-@NamedNativeQueries({ @NamedNativeQuery(name = "UniqueAccCode.generateNewOnThisAccRoot", query = "select dbo.max_acc_code(:accRootCodePassed)") })
+@NamedNativeQueries({
+		@NamedNativeQuery(name = "UniqueAccCode.generateNewOnThisAccRoot", query = "select dbo.max_acc_code(:accRootCodePassed)") })
 public class AccHeadMcg implements Serializable {
 
 	private static final long serialVersionUID = 1L;
