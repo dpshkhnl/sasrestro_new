@@ -22,10 +22,6 @@ import sasrestro.sessionejb.account.LedgerEJB;
 @ManagedBean(name="openingBalMB")
 @ViewScoped
 public class OpeningBalanceMB extends AbstractMB implements Serializable{
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	@ManagedProperty(value = UserMB.INJECTION_NAME)

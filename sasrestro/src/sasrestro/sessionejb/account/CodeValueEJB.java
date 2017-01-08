@@ -10,10 +10,6 @@ import javax.ejb.Stateless;
 import sasrestro.model.account.CodeValue;
 import sasrestro.sessionejb.core.GenericDAO;
 
-/**
- * @author nebula
- * 
- */
 @Stateless
 @LocalBean
 public class CodeValueEJB extends GenericDAO<CodeValue> {

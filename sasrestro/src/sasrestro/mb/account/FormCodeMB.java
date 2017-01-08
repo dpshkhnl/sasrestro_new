@@ -16,10 +16,6 @@ import sasrestro.sessionejb.account.FormCodeEJB;
 @ViewScoped
 @ManagedBean(name="formCodeMB")
 public class FormCodeMB implements Serializable{
-
-	/**
-	 * 
-	 */
 	public static final String INJECTION_NAME = "#{formCodeMB}";
 	private static final long serialVersionUID = 1L;
 	private FormCodeModel formModel;

@@ -13,10 +13,6 @@ import sasrestro.misc.AbstractMB;
 import sasrestro.model.account.CodeValue;
 import sasrestro.sessionejb.account.CodeValueEJB;
 
-/**
- * @author nebula
- * 
- */
 @ViewScoped
 @ManagedBean(name = "codeValueMB")
 public class CodeValueMB extends AbstractMB implements Serializable {

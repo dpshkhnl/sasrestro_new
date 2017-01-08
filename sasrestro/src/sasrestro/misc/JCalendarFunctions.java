@@ -20,9 +20,6 @@ import java.util.regex.Pattern;
 import com.csvreader.CsvReader;
 
 public class JCalendarFunctions implements Serializable {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	CsvReader cvsDate;
 	CsvReader cvsIntializeDate;

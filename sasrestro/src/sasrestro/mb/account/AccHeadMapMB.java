@@ -20,10 +20,6 @@ import sasrestro.sessionejb.account.FormCodeEJB;
 @RequestScoped
 @ManagedBean(name = "AccHeadMapMB")
 public class AccHeadMapMB extends AbstractMB implements Serializable {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	public static final String INJECTION_NAME = "#{AccHeadMapMB}";
 	private AccHeadMap accheadmap;

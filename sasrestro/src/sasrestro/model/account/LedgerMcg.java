@@ -26,11 +26,6 @@ import javax.persistence.Version;
 import sasrestro.model.user.User;
 import sasrestro.model.util.FiscalYrModel;
 
-/**
- * @author nebula
- *
- */
-
 @Entity
 @Table(name="ledger_mcg",uniqueConstraints={@UniqueConstraint(name="unqLedgerConstraint",columnNames={"led_id","fy_id","jv_no","jv_type"})})
 @NamedQueries({

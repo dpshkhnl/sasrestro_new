@@ -13,10 +13,6 @@ import sasrestro.model.account.AccountReportModel;
 import sasrestro.model.account.LedgerMcg;
 import sasrestro.sessionejb.core.GenericDAO;
 
-/**
- * @author Ganesh-Magnus
- * 
- */
 @Stateless
 @Local
 public class AccountReportEJB extends GenericDAO<AccountReportModel> {

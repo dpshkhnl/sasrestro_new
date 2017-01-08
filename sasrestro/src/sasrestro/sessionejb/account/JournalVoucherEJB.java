@@ -18,10 +18,6 @@ import sasrestro.model.account.JournalVoucherModel;
 import sasrestro.model.account.LedgerMcg;
 import sasrestro.sessionejb.core.GenericDAO;
 
-/**
- * @author Ganesh-Magnus
- * 
- */
 @Stateless
 @Local
 public class JournalVoucherEJB extends GenericDAO<JournalVoucherModel> {

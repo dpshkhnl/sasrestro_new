@@ -23,7 +23,7 @@ public class DirectSqlUtils {
 		return query.getResultList();
 	}
 	
-	/**Added By Sudeep
+	/**
 	 * @param query = Native SQL query; eg: SELECT * FROM table  
 	 * @param c = name of class to cast to get desired result; eg: ReceiptModel.class
 	 * @return  List.

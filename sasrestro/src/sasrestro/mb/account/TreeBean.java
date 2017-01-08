@@ -23,10 +23,6 @@ import sasrestro.model.account.AccHeadMcg;
 @ViewScoped
 @ManagedBean(name = "treeBean")
 public class TreeBean extends AbstractMB implements Serializable {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private TreeNode root, selectedNode;
 

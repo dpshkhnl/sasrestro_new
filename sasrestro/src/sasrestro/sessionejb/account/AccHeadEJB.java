@@ -13,10 +13,6 @@ import sasrestro.misc.DirectSqlUtils;
 import sasrestro.model.account.AccHeadMcg;
 import sasrestro.sessionejb.core.GenericDAO;
 
-/**
- * @author nebula
- * 
- */
 @Stateless
 @LocalBean
 public class AccHeadEJB extends GenericDAO<AccHeadMcg> {

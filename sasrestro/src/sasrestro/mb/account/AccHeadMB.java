@@ -13,16 +13,11 @@ import org.primefaces.event.SelectEvent;
 
 import sasrestro.mb.user.UserMB;
 import sasrestro.misc.AbstractMB;
-import sasrestro.misc.DirectSqlUtils;
 import sasrestro.misc.JCalendarFunctions;
 import sasrestro.model.account.AccHeadMcg;
 import sasrestro.model.account.LedgerMcg;
 import sasrestro.sessionejb.account.AccHeadEJB;
 
-/**
- * @author nebula
- * 
- */
 @ViewScoped
 @ManagedBean(name = "accHeadMB")
 public class AccHeadMB extends AbstractMB implements Serializable {

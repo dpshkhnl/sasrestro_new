@@ -11,11 +11,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-/**
- * @author nebula
- * 
- */
-
 @Entity
 @Table(name = "code_value_mcg")
 @NamedQueries({
