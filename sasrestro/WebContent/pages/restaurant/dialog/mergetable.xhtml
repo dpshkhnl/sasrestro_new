@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<link rel="stylesheet" type="text/css" href="css/decorator.css" />
+</h:head>
+<h:body>
+	<p:dialog id="merge" width="350px" height="100px" header="Merge "
+		widgetVar="mergeTableDialog" appendToBody="true" closable="true"
+		modal="true" dynamic="true" resizable="false" draggable="false">
+		<h:form id="mergeTableForm" target="_blank">
+			<p:panelGrid columns="1" >
+				<p:selectOneMenu id="txtCapacity"
+							style="width:260px;text-align:left" required="true"
+							requiredMessage="Please select Table "
+							value="#{newDashBoardMB.mergeTable.tableId}">
+							<f:selectItem itemLabel="Select Table" itemValue=""
+								noSelectionOption="true" />
+							<f:selectItems value="#{newDashBoardMB.lstAllTable}" var="item"
+								itemLabel="#{item.tableName}"
+								itemValue="#{item.tableId}" />
+							
+						</p:selectOneMenu>
+			
+		
+				<p:commandButton icon="ui-icon-plus" action="#{newDashBoardMB.mergeTable()}" update="@form" value="Merge #{newDashBoardMB.tableModel.tableName} here" process="@this txtCapacity" oncomplete="mergeTableDialog.hide();"/>
+			
+			</p:panelGrid>
+			<p:growl id="message" showDetail="false" />
+		</h:form>
+	</p:dialog>
+</h:body>
+</html>

@@ -27,9 +27,26 @@
 				<p:panelGrid columns="2">
 					<p:panelGrid style="margin-bottom:10px" columns="2" cellpadding="5"
 						styleClass="issuePanel">
+						
+						<p:column>
+							<h:outputText value="Item Class:" id="lblName" />
+						</p:column>
+						<p:column>
+							<p:selectOneMenu id="cmbClass"
+										style="width:260px;text-align:left" required="true"
+										requiredMessage="Please select Class Type."
+										value="#{menuItemMB.menuItemModel.itemClass.classId}">
+										<f:selectItem itemLabel="Select" itemValue="0" />
+										<f:selectItems value="#{itemClassMB.lstItemClass}" var="item"
+								itemLabel="#{item.className}"
+								itemValue="#{item.classId}" />
+										
+									</p:selectOneMenu>
+						</p:column>
+						
 
 						<p:column>
-							<h:outputText value="Item Name:" id="lblName" />
+							<h:outputText value="Item Name:" id="lblName1" />
 						</p:column>
 						<p:column>
 							<p:inputText style="width:250px" id="txtName"
@@ -42,8 +59,14 @@
 							<h:outputText value="Category:" id="lblCategory" />
 						</p:column>
 						<p:column>
-							<p:inputText style="width:250px" id="txtCategory"
-								value="#{menuItemMB.menuItemModel.category}" />
+							<p:selectOneMenu id="cmbCat" style="width:260px;text-align:left" required="true"
+										requiredMessage="Please select Class Type."
+										value="#{menuItemMB.menuItemModel.category.categoryId}" >
+										<f:selectItem itemLabel="Select" itemValue="0" />
+										<f:selectItems value="#{itemCategoryMB.lstItemCategory}" var="item"
+								itemLabel="#{item.categoryName}"
+								itemValue="#{item.categoryId}" />
+								</p:selectOneMenu>
 						</p:column>
 						<p:column>
 							<h:outputText value="Rate:" id="lblrate" />
@@ -61,16 +84,16 @@
 						</p:column>
 						<p:column>
 						
-						<p:selectOneMenu id="unit"
-										style="width:260px;text-align:left" required="true"
-										requiredMessage="Please select unit Type."
-										value="#{menuItemMB.menuItemModel.unit}">
+			
+									
+									<p:selectOneMenu id="unit" style="width:260px;text-align:left" required="true"
+										requiredMessage="Please select Class Type."
+										value="#{menuItemMB.menuItemModel.unit.unitId}" >
 										<f:selectItem itemLabel="Select" itemValue="0" />
-										<f:selectItem itemLabel="Plate/Plates" itemValue="1" />
-										<f:selectItem itemLabel="Pcs" itemValue="2" />
-										<f:selectItem itemLabel="ml." itemValue="3" />
-										
-									</p:selectOneMenu>
+										<f:selectItems value="#{itemUnitMB.lstItemUnit}" var="item"
+								itemLabel="#{item.unitName}"
+								itemValue="#{item.unitId}" />
+								</p:selectOneMenu>
 
 				</p:column>
 				<p:column>
@@ -90,11 +113,12 @@
 						
 						
 						<p:column>
-							<p:commandButton value="Save" id="cmdSave" process="@this txtRate txtCategory txtName unit foodImage"
+							<p:commandButton value="Save" id="cmdSave" process="@this cmbClass txtRate cmbCat txtName unit foodImage"
+							icon="ui-icon-folder-collapsed"
 								update=":frmMenu msgIssueGrowl" action="#{menuItemMB.save}"
 								oncomplete="menuItemDia.hide();"
 								style="width:100px;margin-left:10px" />
-							<p:commandButton value="Close" id="cmdClear" process="@this"
+							<p:commandButton value="Close" id="cmdClear" process="@this" icon="ui-icon-close"
 								onclick="menuItemDia.hide();"
 								style="width:100px;margin-left:10px" />
 						</p:column>

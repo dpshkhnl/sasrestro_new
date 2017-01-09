@@ -36,7 +36,7 @@
 							<p:commandButton icon=" ui-icon-refresh " value="Cancel"
 								style="width:100px;margin-left:10px">
 							</p:commandButton>
-							<p:commandButton icon=" ui-icon-refresh " value="Add"
+							<p:commandButton icon=" ui-icon-plus " value="Add"
 								action="#{menuItemMB.loadForNew()}" update=":addMenu"
 								style="width:100px;margin-left:10px">
 							</p:commandButton>
@@ -61,9 +61,23 @@
 						</p:column>
 						<p:column>
 							<f:facet name="header">
+								<h:outputText value="Class" />
+							</f:facet>
+							<h:outputText value="#{item.itemClass.className}" />
+						</p:column>
+						
+						<p:column>
+							<f:facet name="header">
 								<h:outputText value="Category" />
 							</f:facet>
-							<h:outputText value="#{item.category}" />
+							<h:outputText value="#{item.category.categoryName}" />
+						</p:column>
+						
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Unit" />
+							</f:facet>
+							<h:outputText value="#{item.unit.unitName}" />
 						</p:column>
 						<p:column>
 							<f:facet name="header">

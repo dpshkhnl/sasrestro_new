@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:body>
+	<p:dialog widgetVar="activeBillDia" id="activeBillId" maximizable="true"
+		width="800"  modal="true" closable="true" draggable="true"
+		 header="Bill">
+		<h:form id="activeBill" prependId="false">
+			<p:growl id="mesasda" showDetail="false"></p:growl>
+			<p:panelGrid columns="2">
+			<p:fieldset legend="Table Info">
+			<p:panelGrid columns="2">
+			<h:outputText value="Table Name :"></h:outputText>
+			<h:outputText value="#{newDashBoardMB.tableModel.tableName}"></h:outputText>
+			<h:outputText value="Total		  :"></h:outputText>
+			<h:outputText value="Rs.#{newDashBoardMB.billAmout}"></h:outputText>
+			<h:outputText value="Vat  		  :"></h:outputText>
+			<h:outputText value="Rs.#{newDashBoardMB.vat}"></h:outputText>
+			<h:outputText value="TSC  		  :"></h:outputText>
+			<h:outputText value="Rs.#{newDashBoardMB.serviceCharge}"></h:outputText>
+			<h:outputText value="Grand Total  :"></h:outputText>
+			<h:outputText value="Rs.#{newDashBoardMB.serviceCharge + newDashBoardMB.vat + newDashBoardMB.billAmout}"></h:outputText>
+			</p:panelGrid>
+			</p:fieldset>
+			
+			<p:fieldset legend="Table Action" >
+			<p:panelGrid columns="3">
+			<p:commandButton icon="ui-icon-check" style="width:100px" value="Pay"></p:commandButton>
+			<p:commandButton icon="ui-icon-print" style="width:100px" value="Print" onclick="printDia.show();" ></p:commandButton>
+					<p:commandButton icon="ui-icon-shuffle" style="width:100px" onclick="mergeTableDialog.show();" update="@form" value="Merge"></p:commandButton>
+					
+					</p:panelGrid>
+			</p:fieldset>
+				</p:panelGrid>
+					<p:dataTable id="billTable" value="#{newDashBoardMB.lstOrder}"
+						update="mesasda" rowIndexVar="rowsn" var="item" 
+						paginator="true" rows="7" 
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="7,14,21" resizableColumns="true">
+
+
+
+						<p:column style="width:20px">
+							<f:facet name="header">
+								<h:outputText value="Sn" />
+							</f:facet>
+							<h:outputText value="#{rowsn+1}" />
+						</p:column>
+						<p:column style="width:100px">
+
+							<f:facet name="header">
+								<h:outputText value="Name" />
+							</f:facet>
+
+							<h:outputText value="#{item.itemId.name}" />
+						</p:column>
+
+						<p:column style="width:100px">
+							<f:facet name="header">
+								<h:outputText value="Rate" />
+							</f:facet>
+							<h:outputText value="#{item.itemId.price}" />
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Quantity" />
+							</f:facet>
+							<h:outputText value="#{item.quantity}" />
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Total" />
+							</f:facet>
+							<h:outputText value="#{item.itemId.price * item.quantity}" />
+						</p:column>
+						
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Action" />
+							</f:facet>
+							<p:commandButton icon="ui-icon-pencil" ></p:commandButton>
+							<p:commandButton icon="ui-icon-close" ></p:commandButton>
+						</p:column>
+						
+
+					</p:dataTable>
+					
+			
+		</h:form>
+		<ui:include src="/pages/restaurant/dialog/mergetable.xhtml"/>
+	</p:dialog>
+</h:body>
+</html>

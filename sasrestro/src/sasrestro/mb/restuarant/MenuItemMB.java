@@ -25,6 +25,9 @@ import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 
 import sasrestro.misc.AbstractMB;
+import sasrestro.model.restaurant.ItemCategoryModel;
+import sasrestro.model.restaurant.ItemClassModel;
+import sasrestro.model.restaurant.ItemUnitModel;
 import sasrestro.model.restaurant.MenuItemModel;
 import sasrestro.sessionejb.restaurant.MenuItemEJB;
 
@@ -45,6 +48,12 @@ public class MenuItemMB extends AbstractMB implements Serializable {
 	public MenuItemModel getMenuItemModel() {
 		if (menuItemModel == null)
 			menuItemModel = new MenuItemModel();
+		if (menuItemModel.getItemClass() == null)
+			menuItemModel.setItemClass(new ItemClassModel());
+		if (menuItemModel.getCategory() == null)
+			menuItemModel.setCategory(new ItemCategoryModel());
+		if (menuItemModel.getUnit() == null)
+			menuItemModel.setUnit(new ItemUnitModel());
 		return menuItemModel;
 	}
 

@@ -19,6 +19,9 @@
 		<class>sasrestro.model.restaurant.BillModel</class>
 		<class>sasrestro.model.restaurant.EmployeeAttModel</class>
 		<class>sasrestro.model.restaurant.EmployeeModel</class>
+		<class>sasrestro.model.restaurant.ItemCategoryModel</class>
+		<class>sasrestro.model.restaurant.ItemClassModel</class>
+		<class>sasrestro.model.restaurant.ItemUnitModel</class>
 		<class>sasrestro.model.restaurant.MasterSettingModel</class>
 		<class>sasrestro.model.restaurant.MenuItemModel</class>
 		<class>sasrestro.model.restaurant.OrderModel</class>

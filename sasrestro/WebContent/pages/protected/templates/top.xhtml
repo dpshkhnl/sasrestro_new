@@ -13,9 +13,9 @@
 		<div id="topMessage">
 			<h:form>
 				<div id="logo">
-					<p:graphicImage url="/resources/images/icon.png"
-						style="float:left;height:80px;margin-left:15px;" />
-					<p:graphicImage url="/resources/images/nepaliTitle.png"
+					<!-- <p:graphicImage url="/resources/images/icon.png"
+						style="float:left;height:80px;margin-left:15px;" /> -->
+					<p:graphicImage url="/resources/images/Rest.png"
 						style="float:left;height:50px;width:320px;margin-top:10px;margin-left:15px;" />
 					<div
 						style="margin-top: 0px; margin-right: 20px; float: right; font-size: 10px;">
@@ -77,9 +77,17 @@
 							<!-- we may omit the action="#{userMB.logOut()}" bean method call in following code -->
 							<p:menuitem value="Log Out" action="#{userMB.logOut()}" />
 						</p:submenu>
-
-						<p:menuitem value="Menu" style="margin-left:20px;"
+						<p:submenu label="Menu" style="margin-left:20px;">
+						<p:menuitem value="Menu Class" 
+							url="/pages/restaurant/ItemClass.xhtml" immediate="true" ajax="false"></p:menuitem>
+							<p:menuitem value="Menu Category" 
+							url="/pages/restaurant/itemCategory.xhtml" immediate="true" ajax="false"></p:menuitem>
+							<p:menuitem value="Menu Item Unit" 
+							url="/pages/restaurant/ItemUnit.xhtml" immediate="true" ajax="false"></p:menuitem>
+						<p:menuitem value="Menu Item" 
 							url="/pages/restaurant/menu.xhtml" immediate="true" ajax="false"></p:menuitem>
+							
+							</p:submenu>
 						<p:menuitem value="Table" style="margin-left:20px;"
 							url="/pages/restaurant/tables.xhtml" immediate="true"
 							ajax="false"></p:menuitem>

@@ -10,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -30,8 +31,11 @@ import javax.persistence.TemporalType;
 		@Column (name="name")
 		private String name;
 		
-		@Column(name="category")
-		private String category;
+		@JoinColumn(name="item_class")
+		private ItemClassModel itemClass;
+		
+		@JoinColumn(name="category")
+		private ItemCategoryModel category;
 		
 		@Basic(fetch = FetchType.LAZY)
 		@Lob
@@ -42,16 +46,9 @@ import javax.persistence.TemporalType;
 		@Column(name = "price")
 		private Double  price;
 		
-		@Column(name ="unit")
-		private Integer unit;
+		@JoinColumn(name ="unit")
+		private ItemUnitModel unit;
 		
-		public Integer getUnit() {
-			return unit;
-		}
-
-		public void setUnit(Integer unit) {
-			this.unit = unit;
-		}
 
 		@Column(name = "created_date")
 		@Temporal(TemporalType.TIMESTAMP)
@@ -142,13 +139,34 @@ import javax.persistence.TemporalType;
 			this.updateCount = updateCount;
 		}
 
-		public String getCategory() {
+		public ItemClassModel getItemClass() {
+			return itemClass;
+		}
+
+		public void setItemClass(ItemClassModel itemClass) {
+			this.itemClass = itemClass;
+		}
+
+		public ItemCategoryModel getCategory() {
 			return category;
 		}
 
-		public void setCategory(String category) {
+		public void setCategory(ItemCategoryModel category) {
 			this.category = category;
 		}
+
+		public ItemUnitModel getUnit() {
+			return unit;
+		}
+
+		public void setUnit(ItemUnitModel unit) {
+			this.unit = unit;
+		}
+
+		public static long getSerialversionuid() {
+			return serialVersionUID;
+		}
+
 		
 
 
