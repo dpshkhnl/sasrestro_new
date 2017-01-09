@@ -30,6 +30,7 @@
 		<class>sasrestro.model.user.UserRole</class>
 		<class>sasrestro.model.util.DayInOutStatusModel</class>
 		<class>sasrestro.model.util.FiscalYrModel</class>
+		<class>sasrestro.model.util.VatSettingModel</class>
 		<!-- <provider>org.hibernate.ejb.HibernatePersistence</provider> -->
 
 		<properties>

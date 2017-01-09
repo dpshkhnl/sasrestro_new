@@ -67,6 +67,8 @@
 									url="/pages/protected/admin/rolemanagement.xhtml" 
 									immediate="true" ajax="false" />-->
 							</p:submenu>
+							<p:menuitem value="Vat Setting"
+								onclick="vatSettingFormWidget.show();" />
 							<p:menuitem value="Active Users"
 								onclick="activeUserWidget.show();" />
 							<p:menuitem value="Day Out" onclick="confirmation.show();" />
@@ -133,6 +135,7 @@
 
 			<ui:include
 				src="/pages/protected/admin/dialogs/activeuserdialog.xhtml" />
+			<ui:include src="/pages/protected/admin/dialogs/vatSetting.xhtml" />
 			<ui:include
 				src="/pages/protected/admin/dialogs/userChangePassword.xhtml" />
 

@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:body>
+	<p:dialog widgetVar="vatSettingFormWidget"
+		id="vatSettigFormId" height="120" width="300" modal="true"
+		closable="true" draggable="false" resizable="false"
+		header="Vat Setting">
+		<h:form id="vatSettingForm" prependId="false">
+			<h:panelGrid columns="2">
+				<h:outputText value="Vat % : " />
+				<p:inputText value="#{vatSettingMB.vatPercent}" required="true" label="VAT" />
+
+				<h:outputText value="Service Charge % : " />
+				<p:inputText value="#{vatSettingMB.servChargePercent}" label="Service Charge" />
+
+				<p:commandButton value="Save" icon="ui-icon-plus"
+				actionListener="#{vatSettingMB.save()}"
+					update=":messageGrowl :vatSettingForm"
+					oncomplete="closeDialogIfSucess(xhr, status, args, vatSettingFormWidget, 'vatSettigFormId')" />
+				<p:commandButton value="Cancel" icon="ui-icon-cancel"
+					onclick="vatSettingFormWidget.hide();" type="button" />
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
+</h:body>
+</html>
