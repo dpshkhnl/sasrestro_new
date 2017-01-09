@@ -41,6 +41,13 @@ public class AccHeadMapEJB extends GenericDAO<AccHeadMap>{
 		return super.findAllWithGivenCondition(AccHeadMap.FIND_BY_MP, param);
 	}
 	
+	public AccHeadMap getByMapPurpose(String mapPurpose){
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("mappurposePassed", mapPurpose);
+		
+		return super.findOneResult(AccHeadMap.FIND_BY_MP, param);
+	}
+	
 	public AccHeadMap checkBankAccountHead(int accHeadId){
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("accHeadIdPassed", accHeadId);
