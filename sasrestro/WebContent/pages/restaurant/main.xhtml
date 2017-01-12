@@ -29,7 +29,7 @@
 				<p:dashboard id="dynamic_dashboard" 
 						binding="#{newDashBoardMB.dashboard}" />
 
-<p:commandButton value="check" process="@this" immediate="true" actionListener="#{newDashBoardMB.loadBill(2)}" update=":activeBill" ></p:commandButton>
+<p:commandButton value="check" process="@this" immediate="true" actionListener="#{newDashBoardMB.loadBill(1)}" update=":activeBill" ></p:commandButton>
 </h:panelGrid> 
 			</h:form>
 			<ui:include src="/pages/restaurant/dialog/bill.xhtml"/>

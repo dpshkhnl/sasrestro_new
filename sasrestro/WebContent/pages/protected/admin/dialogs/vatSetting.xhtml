@@ -19,7 +19,7 @@
 
 				<p:commandButton value="Save" icon="ui-icon-plus"
 				actionListener="#{vatSettingMB.save()}"
-					update=":messageGrowl :vatSettingForm"
+					update=":vatSettingForm"
 					oncomplete="closeDialogIfSucess(xhr, status, args, vatSettingFormWidget, 'vatSettigFormId')" />
 				<p:commandButton value="Cancel" icon="ui-icon-cancel"
 					onclick="vatSettingFormWidget.hide();" type="button" />

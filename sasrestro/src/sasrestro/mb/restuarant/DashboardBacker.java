@@ -9,16 +9,21 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.el.ELContext;
 import javax.el.ExpressionFactory;
+import javax.el.MethodExpression;
 import javax.el.ValueExpression;
 import javax.faces.application.Application;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIOutput;
+import javax.faces.component.html.HtmlCommandLink;
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
+import javax.faces.event.MethodExpressionActionListener;
 
 import org.primefaces.component.column.Column;
+import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.dashboard.Dashboard;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.component.panel.Panel;
@@ -64,10 +69,10 @@ public class DashboardBacker implements Serializable {
 	@PostConstruct
 	public void init() {
 
+		dashboard = new Dashboard();
 		DecimalFormat d = new DecimalFormat("#.##");
 		FacesContext fc = FacesContext.getCurrentInstance();
 		Application application = fc.getApplication();
-
 		dashboard = (Dashboard) application.createComponent(fc, "org.primefaces.component.Dashboard",
 				"org.primefaces.component.DashboardRenderer");
 		dashboard.setId("dashboard");
@@ -90,60 +95,50 @@ public class DashboardBacker implements Serializable {
 			panel.setId("measure_" + i);
 			panel.setHeader(tblModel.getTableName());
 			panel.setClosable(false);
+			panel.setStyleClass("panel panel-primary");
 			panel.setToggleable(true);
 
 			getDashboard().getChildren().add(panel);
-			refreshChildren(panel, tblModel.getTableId());
-
-			double sum = 0;
-			List<OrderModel> lstOrder = new ArrayList<OrderModel>();
-			lstOrder = orderItemEJB.getOrdersFromActiveTable(tblModel.getTableId());
-			// lstOrder = orderItemEJB.findAll();
-			for (OrderModel ord : lstOrder) {
-				double amt = ord.getQuantity() * ord.getItemId().getPrice();
-				sum += amt;
-			}
-
+			//refreshChildren(panel, tblModel.getTableId());
 			DashboardColumn column = model.getColumn(i % getColumnCount());
 			column.addWidget(panel.getId());
+			
+			CommandButton submit = new CommandButton();
+			submit.setValue("View");
+/*			submit.setUpdate("maina");*/
+			submit.setId("createkjkas"+i);
+			submit.setStyleClass("normal");
+			submit.setIcon("ui-icon-zoomin");
+			FacesContext facesCtx = FacesContext.getCurrentInstance();
+			ELContext elContext = facesCtx.getELContext();
+			Application app = facesCtx.getApplication();
+			ExpressionFactory elFactory = app.getExpressionFactory();
+			MethodExpression methodExpression =null;
+			methodExpression = elFactory.createMethodExpression(elContext,"#{newDashBoardMB.loadBill("+tblModel.getTableId()+")}",null, new Class[]{});
+			//submit.setActionExpression(methodExpression);
+			submit.addActionListener(new MethodExpressionActionListener(methodExpression));
+			submit.setActionExpression(methodExpression);
+			
+			/*HtmlCommandLink ajaxLink = new HtmlCommandLink();
+		        ajaxLink.setId("Link"+i);
+		        ajaxLink.setValue("Check Bill");
+		       
+		        FacesContext context = FacesContext.getCurrentInstance();
+		        MethodExpression actionListenerExpression = context.getApplication().getExpressionFactory().createMethodExpression(context.getELContext(), "#{newDashBoardMB.loadBill("+tblModel.getTableId()+")}", null, new Class[]{ActionEvent.class});
+		        MethodExpressionActionListener actionListener = new MethodExpressionActionListener(actionListenerExpression);
+		        ajaxLink.addActionListener(actionListener);*/
+		        
+			
+			/*FacesContext context = FacesContext.getCurrentInstance();
+			MethodExpression methodExpression = context.getApplication().getExpressionFactory().createMethodExpression(
+			    context.getELContext(), "#{newDashBoardMB.loadBill("+tblModel.getTableId()+")}", null,null);
 
-			HtmlOutputText text = new HtmlOutputText();
-			text.setValue(
-					"<br/>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;"
-							+ "Sub Total: &emsp;&emsp;&emsp;&emsp;&emsp;      Rs." + d.format(sum));
+			submit.addActionListener(new MethodExpressionActionListener(methodExpression));*/
+			
+			panel.getChildren().add(submit);
+			//panel.getChildren().add(ajaxLink);
 
-			double vat = sum * 0.10;
-
-			HtmlOutputText text1 = new HtmlOutputText();
-			text1.setValue(
-					"<br/> &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;"
-							+ "VAT : &emsp;&emsp; &emsp;&emsp;&emsp;&emsp;      Rs." + d.format(vat));
-
-			double TSC = sum * 0.10;
-
-			HtmlOutputText text2 = new HtmlOutputText();
-			text2.setValue(
-					"<br/>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;"
-							+ "Service Charge: &emsp;&emsp;  Rs. " + d.format(TSC));
-
-			double gtot = sum + vat + TSC;
-			HtmlOutputText text3 = new HtmlOutputText();
-			text3.setValue(
-					"<br/>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;"
-							+ "Grand Total: &emsp;&emsp;&emsp;         Rs." + d.format(gtot) + " <br/><br/>");
-
-			/*
-			 * CommandButton button = new CommandButton();
-			 * button.setValue("Print Bill");
-			 */
-
-			panel.getChildren().add(text);
-			panel.getChildren().add(text1);
-			panel.getChildren().add(text2);
-			panel.getChildren().add(text3);
-			// panel.getChildren().add(button);
-
-			// }
+			
 		}
 	}
 

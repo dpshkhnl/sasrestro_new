@@ -91,7 +91,6 @@ public class NewDashBoardMB extends AbstractMB implements Serializable{
 		DecimalFormat d = new DecimalFormat("#.##");
 		FacesContext fc = FacesContext.getCurrentInstance();
 		Application application = fc.getApplication();
-
 		dashboard = (Dashboard) application.createComponent(fc, "org.primefaces.component.Dashboard",
 				"org.primefaces.component.DashboardRenderer");
 		dashboard.setId("dashboard");
@@ -113,6 +112,7 @@ public class NewDashBoardMB extends AbstractMB implements Serializable{
 					"org.primefaces.component.PanelRenderer");
 			panel.setId("measure_" + i);
 			panel.setHeader(tblModel.getTableName());
+			panel.setStyleClass("panel panel-primary");
 			panel.setClosable(false);
 			panel.setToggleable(true);
 
@@ -123,7 +123,9 @@ public class NewDashBoardMB extends AbstractMB implements Serializable{
 			
 			CommandButton submit = new CommandButton();
 			submit.setValue("View");
-			submit.setUpdate("maina");
+			
+			submit.setStyleClass("normal");
+			submit.setIcon("ui-icon-zoomin");
 			submit.setId("createkjkas"+i);
 			FacesContext facesCtx = FacesContext.getCurrentInstance();
 			ELContext elContext = facesCtx.getELContext();
@@ -135,15 +137,7 @@ public class NewDashBoardMB extends AbstractMB implements Serializable{
 			submit.addActionListener(new MethodExpressionActionListener(methodExpression));
 			submit.setActionExpression(methodExpression);
 			
-			HtmlCommandLink ajaxLink = new HtmlCommandLink();
-		        ajaxLink.setId("Link"+i);
-		        ajaxLink.setValue("Check Bill");
-		       
-		        FacesContext context = FacesContext.getCurrentInstance();
-		        MethodExpression actionListenerExpression = context.getApplication().getExpressionFactory().createMethodExpression(context.getELContext(), "#{newDashBoardMB.loadBill("+tblModel.getTableId()+")}", null, new Class[]{ActionEvent.class});
-		        MethodExpressionActionListener actionListener = new MethodExpressionActionListener(actionListenerExpression);
-		        ajaxLink.addActionListener(actionListener);
-		        
+			
 			
 			/*FacesContext context = FacesContext.getCurrentInstance();
 			MethodExpression methodExpression = context.getApplication().getExpressionFactory().createMethodExpression(
@@ -152,7 +146,6 @@ public class NewDashBoardMB extends AbstractMB implements Serializable{
 			submit.addActionListener(new MethodExpressionActionListener(methodExpression));*/
 			
 			panel.getChildren().add(submit);
-			panel.getChildren().add(ajaxLink);
 
 			
 		}

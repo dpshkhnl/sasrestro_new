@@ -45,7 +45,7 @@
 				</p:selectOneMenu>
 				<p:commandButton value="Create" icon="ui-icon-plus"
 					action="#{userMB.createUser}"
-					update=":messageGrowl :usersForm:usersTable :userCreateDialogForm"
+					update=":usersForm:usersTable :userCreateDialogForm"
 					oncomplete="closeDialogIfSucess(xhr, status, args, userCreateDialogWidget, 'userCreateDialogId')" />
 				<p:commandButton value="Cancel" icon="ui-icon-cancel"
 					actionListener="#{userMB.resetUser}"

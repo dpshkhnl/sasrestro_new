@@ -52,7 +52,7 @@ footer, header, hgroup, menu, nav, section {
 body{
 	font-family: Cambria, Palatino, "Palatino Linotype", "Palatino LT STD", Georgia, serif;
 	/* background: #fff url(../images/bg.jpg) repeat top left; */
-	background: #fff url(#{resource['images/bg.jpg']}) ; 
+/* 	background: #fff url(#{resource['images/bg.jpg']}) ;  */
 	 
 	font-weight: 400;
 	font-size: 15px;
