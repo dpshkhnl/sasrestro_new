@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<link rel="stylesheet" type="text/css" href="css/decorator.css" />
+</h:head>
+<h:body>
+	<p:dialog id="receipt" width="800px" header="Receipt"
+		widgetVar="receiptDialog" appendToBody="true" closable="true"
+		modal="true" dynamic="true" resizable="false" draggable="false">
+		<h:form id="paymentForm" target="_blank">
+			<p:panelGrid columns="3">
+				<p:panelGrid columns="3">
+					<h:outputText value="" />
+					<h:outputText value="Bill Total Amount :" />
+					<h:inputText value="#{newDashBoardMB.billTotal}" readonly="true"/>
+					<h:selectBooleanCheckbox value="" />
+					<h:outputText value="Cash :" />
+					<h:inputText value="" />
+					<h:selectBooleanCheckbox value="" />
+					<h:outputText value="Bank :" />
+					<h:inputText value="" />
+					<h:selectBooleanCheckbox value="" />
+					<h:outputText value="Credit :" />
+					<h:inputText value="" />
+				</p:panelGrid>
+
+				<p:panelGrid columns="2">
+					<h:outputText value="" />
+					<h:outputText value="" />
+					<h:outputText value="Cheque No. :" />
+					<h:inputText value="" />
+					<h:outputText value="" />
+					<h:outputText value="" />
+				</p:panelGrid>
+
+				<p:panelGrid columns="1">
+					<h:outputText value="" />
+					<h:selectOneMenu value="" />
+					<h:outputText value="" />
+				</p:panelGrid>
+			</p:panelGrid>
+			<p:commandButton value="Receive"/>
+			<p:growl id="mes" showDetail="false" />
+		</h:form>
+	</p:dialog>
+</h:body>
+</html>
