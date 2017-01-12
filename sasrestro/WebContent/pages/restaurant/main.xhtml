@@ -18,21 +18,23 @@
 		<ui:define name="divMain">
 			<h:form id="maina">
 
-				 <h:form>
+				<h:form>
 
 					<!-- <p:poll interval="10" update=":maina:dash" /> -->
-				</h:form> 
+				</h:form>
 
 				<p:growl id="msgs" showDetail="true" />
-				 <h:panelGrid columns="2" id="dash">
-					
-				<p:dashboard id="dynamic_dashboard" 
+				<h:panelGrid columns="2" id="dash">
+
+					<p:dashboard id="dynamic_dashboard"
 						binding="#{newDashBoardMB.dashboard}" />
 
-<p:commandButton value="check" process="@this" immediate="true" actionListener="#{newDashBoardMB.loadBill(2)}" update=":activeBill" ></p:commandButton>
-</h:panelGrid> 
+					<p:commandButton value="check" process="@this" immediate="true"
+						actionListener="#{newDashBoardMB.loadBill(2)}"
+						update=":activeBill"></p:commandButton>
+				</h:panelGrid>
 			</h:form>
-			<ui:include src="/pages/restaurant/dialog/bill.xhtml"/>
+			<ui:include src="/pages/restaurant/dialog/bill.xhtml" />
 		</ui:define>
 	</ui:composition>
 </h:body>
