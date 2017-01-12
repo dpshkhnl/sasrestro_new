@@ -47,6 +47,11 @@ public class NewDashBoardMB extends AbstractMB implements Serializable {
 	public static final int DEFAULT_COLUMN_COUNT = 3;
 	private int columnCount = DEFAULT_COLUMN_COUNT;
 
+	@EJB
+	OrderItemEJB orderItemEJB;
+
+	@EJB
+	TableEJB tableEJB;
 
 	@EJB
 	VatSettingEJB vatEJB;
@@ -60,7 +65,7 @@ public class NewDashBoardMB extends AbstractMB implements Serializable {
 	private List<OrderModel> lstOrder, lstTable;
 	private List<TableModel> lstAllTable;
 	private TableModel tableModel, mergeTable;
-	
+	private Dashboard dashboard;
 	private double billAmout, vat, serviceCharge, billTotal, cashAmount, bankAmount, chequeNum, creditAmount;
 
 	public List<OrderModel> getLstOrder() {
@@ -79,101 +84,6 @@ public class NewDashBoardMB extends AbstractMB implements Serializable {
 
 	public void setUserMB(UserMB userMB) {
 		this.userMB = userMB;
-	}
-
-	private Dashboard dashboard;
-
-	@EJB
-	OrderItemEJB orderItemEJB;
-
-	@EJB
-	TableEJB tableEJB;
-
-	@PostConstruct
-	public void init() {
-
-		DecimalFormat d = new DecimalFormat("#.##");
-		FacesContext fc = FacesContext.getCurrentInstance();
-		Application application = fc.getApplication();
-		dashboard = (Dashboard) application.createComponent(fc, "org.primefaces.component.Dashboard",
-				"org.primefaces.component.DashboardRenderer");
-		dashboard.setId("dashboard");
-
-		DashboardModel model = new DefaultDashboardModel();
-		for (int i = 0, n = getColumnCount(); i < n; i++) {
-			DashboardColumn column = new DefaultDashboardColumn();
-			model.addColumn(column);
-		}
-		dashboard.setModel(model);
-
-		List<OrderModel> lstOrders = new ArrayList<OrderModel>();
-		lstOrders = orderItemEJB.getDistinctActiveTable();
-
-		for (int i = 0, n = lstOrders.size(); i < n; i++) {
-			TableModel tblModel = new TableModel();
-			tblModel = tableEJB.find(lstOrders.get(i).getTable_id().getTableId());
-			Panel panel = (Panel) application.createComponent(fc, "org.primefaces.component.Panel",
-					"org.primefaces.component.PanelRenderer");
-			panel.setId("measure_" + i);
-			panel.setHeader(tblModel.getTableName());
-			panel.setStyleClass("panel panel-primary");
-			panel.setClosable(false);
-			panel.setToggleable(true);
-
-			getDashboard().getChildren().add(panel);
-			//refreshChildren(panel, tblModel.getTableId());
-			DashboardColumn column = model.getColumn(i % getColumnCount());
-			column.addWidget(panel.getId());
-			
-			CommandButton submit = new CommandButton();
-			submit.setValue("View");
-			
-			submit.setStyleClass("normal");
-			submit.setIcon("ui-icon-zoomin");
-			submit.setId("createkjkas"+i);
-			FacesContext facesCtx = FacesContext.getCurrentInstance();
-			ELContext elContext = facesCtx.getELContext();
-			Application app = facesCtx.getApplication();
-			ExpressionFactory elFactory = app.getExpressionFactory();
-			MethodExpression methodExpression =null;
-			methodExpression = elFactory.createMethodExpression(elContext,"#{newDashBoardMB.loadBill("+tblModel.getTableId()+")}",null, new Class[]{});
-			//submit.setActionExpression(methodExpression);
-			submit.addActionListener(new MethodExpressionActionListener(methodExpression));
-			submit.setActionExpression(methodExpression);
-			
-			
-			
-			/*FacesContext context = FacesContext.getCurrentInstance();
-			MethodExpression methodExpression = context.getApplication().getExpressionFactory().createMethodExpression(
-			    context.getELContext(), "#{newDashBoardMB.loadBill("+tblModel.getTableId()+")}", null,null);
-
-			submit.addActionListener(new MethodExpressionActionListener(methodExpression));*/
-			
-			panel.getChildren().add(submit);
-
-			
-		}
-	}
-	
-	public void loadBill(int tableId){
-		
-		lstOrder = new ArrayList<OrderModel>();
-		lstOrder = orderItemEJB.getOrdersFromActiveTable(tableId);
-		tableModel = tableEJB.find(tableId);
-		
-		// lstOrder = orderItemEJB.findAll();
-		for (OrderModel ord : lstOrder) {
-			double amt = ord.getQuantity() * ord.getItemId().getPrice();
-			billAmout += amt;
-		}
-		vat = billAmout * 0.13;
-		serviceCharge = (billAmout+vat) * 0.10;
-		
-		RequestContext context = RequestContext.getCurrentInstance();
-		context.execute("activeBillDia.show();");
-		context.update(":activeBill");
-		
-
 	}
 
 	public Dashboard getDashboard() {
@@ -297,7 +207,7 @@ public class NewDashBoardMB extends AbstractMB implements Serializable {
 		this.creditAmount = creditAmount;
 	}
 
-	/*@PostConstruct
+	@PostConstruct
 	public void init() {
 		FacesContext fc = FacesContext.getCurrentInstance();
 		Application application = fc.getApplication();
@@ -359,7 +269,7 @@ public class NewDashBoardMB extends AbstractMB implements Serializable {
 					actionListenerExpression);
 			ajaxLink.addActionListener(actionListener);
 
-			
+			/*
 			 * FacesContext context = FacesContext.getCurrentInstance();
 			 * MethodExpression methodExpression =
 			 * context.getApplication().getExpressionFactory().
@@ -369,7 +279,7 @@ public class NewDashBoardMB extends AbstractMB implements Serializable {
 			 * 
 			 * submit.addActionListener(new
 			 * MethodExpressionActionListener(methodExpression));
-			 
+			 */
 
 			panel.getChildren().add(submit);
 			panel.getChildren().add(ajaxLink);
@@ -418,6 +328,6 @@ public class NewDashBoardMB extends AbstractMB implements Serializable {
 		orderItemEJB.updateList(lstOrderModel);
 		displayInfoMessageToUser(
 				tableModel.getTableName() + " merged to " + mergeTable.getTableName() + " Successfully");
-	}*/
+	}
 
 }

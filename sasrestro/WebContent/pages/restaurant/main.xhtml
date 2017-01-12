@@ -29,19 +29,13 @@
 					<p:dashboard id="dynamic_dashboard"
 						binding="#{newDashBoardMB.dashboard}" />
 
-<<<<<<< HEAD
 
 					<p:commandButton value="check" process="@this" immediate="true"
 						actionListener="#{newDashBoardMB.loadBill(2)}"
 						update=":activeBill"></p:commandButton>
 				</h:panelGrid>
 
-=======
-					<p:commandButton value="check" process="@this" immediate="true"
-						actionListener="#{newDashBoardMB.loadBill(2)}"
-						update=":activeBill"></p:commandButton>
-				</h:panelGrid>
->>>>>>> branch 'master' of https://github.com/dpshkhnl/sasrestro_new.git
+
 			</h:form>
 			<ui:include src="/pages/restaurant/dialog/bill.xhtml" />
 		</ui:define>
