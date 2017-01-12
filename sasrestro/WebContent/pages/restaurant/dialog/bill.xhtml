@@ -11,7 +11,7 @@
 		<h:form id="activeBill" prependId="false">
 			<p:growl id="mesasda" showDetail="false"></p:growl>
 			<p:panelGrid columns="2">
-				<p:fieldset legend="Table Info">
+				<p:fieldset legend="Table Info" id="info">
 					<p:panelGrid columns="2">
 						<h:outputText value="Table Name :"></h:outputText>
 						<h:outputText value="#{newDashBoardMB.tableModel.tableName}"></h:outputText>
@@ -34,6 +34,23 @@
 							value="Print" onclick="printDia.show();"></p:commandButton>
 						<p:commandButton icon="ui-icon-shuffle" style="width:100px"
 							onclick="mergeTableDialog.show();" update="@form" value="Merge"></p:commandButton>
+							
+							<h:outputText value="Send Bill To:" id="lblName" />
+					
+							<h:selectOneMenu id="cmbClass" 
+										style="width:100px;text-align:left"
+										requiredMessage="Please select Class Type."
+										value="#{newDashBoardMB.itemClass.classId}">
+										<f:selectItem itemLabel="Select" itemValue="0" />
+										<f:selectItems value="#{itemClassMB.lstItemClass}" var="item"
+								itemLabel="#{item.className}"
+								itemValue="#{item.classId}" />
+								<p:ajax update="sendBill billTable" listener="#{newDashBoardMB.loadBillByClass}" process="@this"></p:ajax>
+										
+									</h:selectOneMenu>
+							<p:commandButton value="Send " id="sendBill" type="button" icon="ui-icon-print" style="display:block;width:100px">
+    <p:printer target="activeBill" />
+</p:commandButton>
 
 					</p:panelGrid>
 				</p:fieldset>
@@ -52,6 +69,16 @@
 					</f:facet>
 					<h:outputText value="#{rowsn+1}" />
 				</p:column>
+				<p:column style="width:100px">
+
+					<f:facet name="header">
+						<h:outputText value="Class" />
+					</f:facet>
+
+					<h:outputText value="#{item.itemId.itemClass.className}" />
+				</p:column>
+				
+				
 				<p:column style="width:100px">
 
 					<f:facet name="header">

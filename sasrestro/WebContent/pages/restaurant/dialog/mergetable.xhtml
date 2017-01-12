@@ -16,7 +16,7 @@
 		modal="true" dynamic="true" resizable="false" draggable="false">
 		<h:form id="mergeTableForm" target="_blank">
 			<p:panelGrid columns="1" >
-				<p:selectOneMenu id="txtCapacity"
+				<h:selectOneMenu id="txtCapacity"
 							style="width:260px;text-align:left" required="true"
 							requiredMessage="Please select Table "
 							value="#{newDashBoardMB.mergeTable.tableId}">
@@ -26,7 +26,7 @@
 								itemLabel="#{item.tableName}"
 								itemValue="#{item.tableId}" />
 							
-						</p:selectOneMenu>
+						</h:selectOneMenu>
 			
 		
 				<p:commandButton icon="ui-icon-plus" action="#{newDashBoardMB.mergeTable()}" update="@form" value="Merge #{newDashBoardMB.tableModel.tableName} here" process="@this txtCapacity" oncomplete="mergeTableDialog.hide();"/>
