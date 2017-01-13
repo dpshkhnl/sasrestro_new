@@ -252,6 +252,16 @@ public class NewDashBoardMB extends AbstractMB implements Serializable {
 	public void setChkCredit(boolean chkCredit) {
 		this.chkCredit = chkCredit;
 	}
+	
+	public ItemClassModel getItemClass() {
+		if (itemClass == null)
+			itemClass = new ItemClassModel();
+		return itemClass;
+	}
+
+	public void setItemClass(ItemClassModel itemClass) {
+		this.itemClass = itemClass;
+	}
 
 	@PostConstruct
 	public void init() {
@@ -485,15 +495,5 @@ public class NewDashBoardMB extends AbstractMB implements Serializable {
 		}
 		lstOrder = new ArrayList<>(lstOrderTemp);
 		
-	}
-	
-	public ItemClassModel getItemClass() {
-		if (itemClass == null)
-			itemClass = new ItemClassModel();
-		return itemClass;
-	}
-
-	public void setItemClass(ItemClassModel itemClass) {
-		this.itemClass = itemClass;
 	}
 }
