@@ -252,7 +252,7 @@ public class NewDashBoardMB extends AbstractMB implements Serializable {
 	public void setChkCredit(boolean chkCredit) {
 		this.chkCredit = chkCredit;
 	}
-	
+
 	public ItemClassModel getItemClass() {
 		if (itemClass == null)
 			itemClass = new ItemClassModel();
@@ -313,9 +313,7 @@ public class NewDashBoardMB extends AbstractMB implements Serializable {
 			submit.addActionListener(new MethodExpressionActionListener(methodExpression));
 			submit.setActionExpression(methodExpression);
 
-			
 			panel.getChildren().add(submit);
-		
 
 		}
 	}
@@ -337,11 +335,12 @@ public class NewDashBoardMB extends AbstractMB implements Serializable {
 		}
 		billAmout = Double.valueOf(df.format(billAmout));
 		vat = billAmout * vatEJB.getVatSettingByMapId(vatAccHeadMap.getAccHeadMapId()).getPercent() / 100;
-		//vat = billAmout *13/ 100;
+		// vat = billAmout *13/ 100;
 		vat = Double.valueOf(df.format(vat));
-		serviceCharge = (billAmout + vat)* vatEJB.getVatSettingByMapId(servChargeAccHeadMap.getAccHeadMapId()).getPercent() / 100;
-		//serviceCharge = (billAmout + vat)* 10/ 100;
-		
+		serviceCharge = (billAmout + vat)
+				* vatEJB.getVatSettingByMapId(servChargeAccHeadMap.getAccHeadMapId()).getPercent() / 100;
+		// serviceCharge = (billAmout + vat)* 10/ 100;
+
 		serviceCharge = Double.valueOf(df.format(serviceCharge));
 		billTotal = billAmout + vat + serviceCharge;
 		billTotal = Double.valueOf(df.format(billTotal));
@@ -384,21 +383,31 @@ public class NewDashBoardMB extends AbstractMB implements Serializable {
 		if (jvm == null) {
 			return;
 		} else if (journalEJB.postToLedgerDirectApproval(jvm)) {
+			resetReceipt();
 			displayInfoMessageToUser("Receipt done successfully.");
 		} else {
 			displayErrorMessageToUser("Error occured while saving receipt./nPlease try again later.");
 		}
 	}
 
-	public JournalVoucherModel getJVListForSave() {
+	private void resetReceipt() {
+		billTotal = 0;
+		cashAmount = 0;
+		bankAmount = 0;
+		chequeNum = 0;
+		creditAmount = 0;
+		customerName = "";
+	}
+
+	private JournalVoucherModel getJVListForSave() {
 		AccHeadMap cashAccHeadMap = accHeadMapEJB.getByMapPurpose("Cash");
-		AccHeadMap creditAccHeadMap = accHeadMapEJB.getByMapPurpose("Debitor");
+		AccHeadMap debitorAccHeadMap = accHeadMapEJB.getByMapPurpose("Debitor");
 		AccHeadMap salesAccHeadMap = accHeadMapEJB.getByMapPurpose("Sales");
 
 		List<JournalVoucherDetailModel> jvdmList = new ArrayList<JournalVoucherDetailModel>();
 		JournalVoucherModel jvm = new JournalVoucherModel();
 
-		if (cashAccHeadMap == null || creditAccHeadMap == null || salesAccHeadMap == null) {
+		if (cashAccHeadMap == null || debitorAccHeadMap == null || salesAccHeadMap == null) {
 			displayErrorMessageToUser("Cash, Debitor or sales accounts need to be mapped.");
 			return null;
 		}
@@ -448,7 +457,7 @@ public class NewDashBoardMB extends AbstractMB implements Serializable {
 
 		if (creditAmount > 0) {
 			jvd = new JournalVoucherDetailModel();
-			jvd.setAccountHead(creditAccHeadMap.getAccHeadModel());
+			jvd.setAccountHead(debitorAccHeadMap.getAccHeadModel());
 			jvd.setDrAmt(creditAmount);
 			jvd.setCrAmt(0);
 			jvd.setNarration("Credit recepit from " + customerName);
@@ -457,7 +466,7 @@ public class NewDashBoardMB extends AbstractMB implements Serializable {
 		}
 
 		jvd = new JournalVoucherDetailModel();
-		jvd.setAccountHead(creditAccHeadMap.getAccHeadModel());
+		jvd.setAccountHead(salesAccHeadMap.getAccHeadModel());
 		jvd.setDrAmt(0);
 		jvd.setCrAmt(billTotal);
 		jvd.setNarration("Receipt from sales.");
@@ -479,21 +488,18 @@ public class NewDashBoardMB extends AbstractMB implements Serializable {
 
 		return jvm;
 	}
-	
-	public void loadBillByClass()
-	{
-		List<OrderModel>lstOrderTemp = new ArrayList<OrderModel>();
+
+	public void loadBillByClass() {
+		List<OrderModel> lstOrderTemp = new ArrayList<OrderModel>();
 		lstOrder = orderItemEJB.getOrdersFromActiveTable(tableModel.getTableId());
-		
+
 		getItemClass();
-		for (OrderModel od :lstOrder)
-		{
-			if (od.getItemId().getItemClass().getClassId() == itemClass.getClassId())
-			{
+		for (OrderModel od : lstOrder) {
+			if (od.getItemId().getItemClass().getClassId() == itemClass.getClassId()) {
 				lstOrderTemp.add(od);
 			}
 		}
 		lstOrder = new ArrayList<>(lstOrderTemp);
-		
+
 	}
 }
