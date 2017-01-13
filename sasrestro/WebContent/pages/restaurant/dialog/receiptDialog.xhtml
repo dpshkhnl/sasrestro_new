@@ -14,40 +14,42 @@
 	<p:dialog id="receipt" width="800px" header="Receipt"
 		widgetVar="receiptDialog" appendToBody="true" closable="true"
 		modal="true" dynamic="true" resizable="false" draggable="false">
-		<h:form id="paymentForm" target="_blank">
-			<p:panelGrid columns="3">
+		<h:form id="receiptForm">
+			<p:growl id="receiptMsg" showDetail="false" />
+			<p:panelGrid columns="2">
 				<p:panelGrid columns="3">
 					<h:outputText value="" />
 					<h:outputText value="Bill Total Amount :" />
-					<h:inputText value="#{newDashBoardMB.billTotal}" readonly="true"/>
-					<h:selectBooleanCheckbox value="" />
+					<h:inputText value="#{newDashBoardMB.billTotal}" readonly="true" />
+					<h:selectBooleanCheckbox value="#{newDashBoardMB.chkCash}" />
 					<h:outputText value="Cash :" />
-					<h:inputText value="" />
-					<h:selectBooleanCheckbox value="" />
+					<h:inputText value="#{newDashBoardMB.cashAmount}" />
+					<h:selectBooleanCheckbox value="#{newDashBoardMB.chkBank}" />
 					<h:outputText value="Bank :" />
-					<h:inputText value="" />
-					<h:selectBooleanCheckbox value="" />
+					<h:inputText value="#{newDashBoardMB.bankAmount}" />
+					<h:selectBooleanCheckbox value="#{newDashBoardMB.chkCredit}" />
 					<h:outputText value="Credit :" />
-					<h:inputText value="" />
+					<h:inputText value="#{newDashBoardMB.creditAmount}" />
 				</p:panelGrid>
+
 
 				<p:panelGrid columns="2">
-					<h:outputText value="" />
-					<h:outputText value="" />
+					<h:outputText value="Name : " />
+					<h:inputText value="#{newDashBoardMB.customerName}" />
 					<h:outputText value="Cheque No. :" />
-					<h:inputText value="" />
-					<h:outputText value="" />
-					<h:outputText value="" />
+					<h:inputText value="#{newDashBoardMB.chequeNum}" />
 				</p:panelGrid>
 
-				<p:panelGrid columns="1">
+				<!-- <p:panelGrid columns="1">
+					<h:outputText value="" />
 					<h:outputText value="" />
 					<h:selectOneMenu value="" />
 					<h:outputText value="" />
-				</p:panelGrid>
+				</p:panelGrid> -->
 			</p:panelGrid>
-			<p:commandButton value="Receive"/>
-			<p:growl id="mes" showDetail="false" />
+			<p:commandButton value="Receive" icon="ui-icon-check"
+				actionListener="#{newDashBoardMB.saveReceipt()}"
+				update=":receiptForm" />
 		</h:form>
 	</p:dialog>
 </h:body>
