@@ -15,9 +15,7 @@ import javax.faces.application.Application;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.component.html.HtmlCommandLink;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 import javax.faces.event.MethodExpressionActionListener;
 
 import org.primefaces.component.commandbutton.CommandButton;
@@ -35,6 +33,7 @@ import sasrestro.model.account.AccHeadMap;
 import sasrestro.model.account.JournalPk;
 import sasrestro.model.account.JournalVoucherDetailModel;
 import sasrestro.model.account.JournalVoucherModel;
+import sasrestro.model.restaurant.ItemClassModel;
 import sasrestro.model.restaurant.OrderModel;
 import sasrestro.model.restaurant.TableModel;
 import sasrestro.sessionejb.account.AccHeadMapEJB;
@@ -81,6 +80,7 @@ public class NewDashBoardMB extends AbstractMB implements Serializable {
 	private double billAmout, vat, serviceCharge, billTotal, cashAmount, bankAmount, chequeNum, creditAmount;
 	private String customerName;
 	private boolean chkCash, chkBank, chkCredit;
+	private ItemClassModel itemClass;
 
 	public List<OrderModel> getLstOrder() {
 		if (lstOrder == null)
@@ -289,7 +289,8 @@ public class NewDashBoardMB extends AbstractMB implements Serializable {
 
 			CommandButton submit = new CommandButton();
 			submit.setValue("View");
-			submit.setUpdate("maina");
+			submit.setIcon("ui-icon-zoomin");
+			submit.setUpdate(":activeBill");
 			submit.setId("createkjkas" + i);
 			FacesContext facesCtx = FacesContext.getCurrentInstance();
 			ELContext elContext = facesCtx.getELContext();
@@ -302,33 +303,9 @@ public class NewDashBoardMB extends AbstractMB implements Serializable {
 			submit.addActionListener(new MethodExpressionActionListener(methodExpression));
 			submit.setActionExpression(methodExpression);
 
-			HtmlCommandLink ajaxLink = new HtmlCommandLink();
-			ajaxLink.setId("Link" + i);
-			ajaxLink.setValue("Check Bill");
-
-			FacesContext context = FacesContext.getCurrentInstance();
-			MethodExpression actionListenerExpression = context.getApplication().getExpressionFactory()
-					.createMethodExpression(context.getELContext(),
-							"#{newDashBoardMB.loadBill(" + tblModel.getTableId() + ")}", null,
-							new Class[] { ActionEvent.class });
-			MethodExpressionActionListener actionListener = new MethodExpressionActionListener(
-					actionListenerExpression);
-			ajaxLink.addActionListener(actionListener);
-
-			/*
-			 * FacesContext context = FacesContext.getCurrentInstance();
-			 * MethodExpression methodExpression =
-			 * context.getApplication().getExpressionFactory().
-			 * createMethodExpression( context.getELContext(),
-			 * "#{newDashBoardMB.loadBill("+tblModel.getTableId()+")}",
-			 * null,null);
-			 * 
-			 * submit.addActionListener(new
-			 * MethodExpressionActionListener(methodExpression));
-			 */
-
+			
 			panel.getChildren().add(submit);
-			panel.getChildren().add(ajaxLink);
+		
 
 		}
 	}
@@ -350,9 +327,11 @@ public class NewDashBoardMB extends AbstractMB implements Serializable {
 		}
 		billAmout = Double.valueOf(df.format(billAmout));
 		vat = billAmout * vatEJB.getVatSettingByMapId(vatAccHeadMap.getAccHeadMapId()).getPercent() / 100;
+		//vat = billAmout *13/ 100;
 		vat = Double.valueOf(df.format(vat));
-		serviceCharge = (billAmout + vat)
-				* vatEJB.getVatSettingByMapId(servChargeAccHeadMap.getAccHeadMapId()).getPercent() / 100;
+		serviceCharge = (billAmout + vat)* vatEJB.getVatSettingByMapId(servChargeAccHeadMap.getAccHeadMapId()).getPercent() / 100;
+		//serviceCharge = (billAmout + vat)* 10/ 100;
+		
 		serviceCharge = Double.valueOf(df.format(serviceCharge));
 		billTotal = billAmout + vat + serviceCharge;
 		billTotal = Double.valueOf(df.format(billTotal));
@@ -489,5 +468,32 @@ public class NewDashBoardMB extends AbstractMB implements Serializable {
 		}
 
 		return jvm;
+	}
+	
+	public void loadBillByClass()
+	{
+		List<OrderModel>lstOrderTemp = new ArrayList<OrderModel>();
+		lstOrder = orderItemEJB.getOrdersFromActiveTable(tableModel.getTableId());
+		
+		getItemClass();
+		for (OrderModel od :lstOrder)
+		{
+			if (od.getItemId().getItemClass().getClassId() == itemClass.getClassId())
+			{
+				lstOrderTemp.add(od);
+			}
+		}
+		lstOrder = new ArrayList<>(lstOrderTemp);
+		
+	}
+	
+	public ItemClassModel getItemClass() {
+		if (itemClass == null)
+			itemClass = new ItemClassModel();
+		return itemClass;
+	}
+
+	public void setItemClass(ItemClassModel itemClass) {
+		this.itemClass = itemClass;
 	}
 }
