@@ -3,6 +3,7 @@ package sasrestro.mb.restuarant;
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -31,9 +32,14 @@ import org.primefaces.model.DefaultDashboardModel;
 import sasrestro.mb.user.UserMB;
 import sasrestro.misc.AbstractMB;
 import sasrestro.model.account.AccHeadMap;
+import sasrestro.model.account.JournalPk;
+import sasrestro.model.account.JournalVoucherDetailModel;
+import sasrestro.model.account.JournalVoucherModel;
 import sasrestro.model.restaurant.OrderModel;
 import sasrestro.model.restaurant.TableModel;
 import sasrestro.sessionejb.account.AccHeadMapEJB;
+import sasrestro.sessionejb.account.CodeValueEJB;
+import sasrestro.sessionejb.account.JournalVoucherEJB;
 import sasrestro.sessionejb.restaurant.OrderItemEJB;
 import sasrestro.sessionejb.restaurant.TableEJB;
 import sasrestro.sessionejb.util.VatSettingEJB;
@@ -59,6 +65,12 @@ public class NewDashBoardMB extends AbstractMB implements Serializable {
 	@EJB
 	AccHeadMapEJB accHeadMapEJB;
 
+	@EJB
+	CodeValueEJB codeValueEJB;
+
+	@EJB
+	JournalVoucherEJB journalEJB;
+
 	@ManagedProperty(value = UserMB.INJECTION_NAME)
 	private UserMB userMB;
 
@@ -67,6 +79,8 @@ public class NewDashBoardMB extends AbstractMB implements Serializable {
 	private TableModel tableModel, mergeTable;
 	private Dashboard dashboard;
 	private double billAmout, vat, serviceCharge, billTotal, cashAmount, bankAmount, chequeNum, creditAmount;
+	private String customerName;
+	private boolean chkCash, chkBank, chkCredit;
 
 	public List<OrderModel> getLstOrder() {
 		if (lstOrder == null)
@@ -207,6 +221,38 @@ public class NewDashBoardMB extends AbstractMB implements Serializable {
 		this.creditAmount = creditAmount;
 	}
 
+	public String getCustomerName() {
+		return customerName;
+	}
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
+
+	public boolean isChkCash() {
+		return chkCash;
+	}
+
+	public void setChkCash(boolean chkCash) {
+		this.chkCash = chkCash;
+	}
+
+	public boolean isChkBank() {
+		return chkBank;
+	}
+
+	public void setChkBank(boolean chkBank) {
+		this.chkBank = chkBank;
+	}
+
+	public boolean isChkCredit() {
+		return chkCredit;
+	}
+
+	public void setChkCredit(boolean chkCredit) {
+		this.chkCredit = chkCredit;
+	}
+
 	@PostConstruct
 	public void init() {
 		FacesContext fc = FacesContext.getCurrentInstance();
@@ -330,4 +376,118 @@ public class NewDashBoardMB extends AbstractMB implements Serializable {
 				tableModel.getTableName() + " merged to " + mergeTable.getTableName() + " Successfully");
 	}
 
+	public void saveReceipt() {
+		if (bankAmount > 0 && chequeNum < 0) {
+			displayErrorMessageToUser("Cheque number required.");
+			return;
+		} else if (chequeNum > 0 && bankAmount < 0) {
+			displayErrorMessageToUser("Bank Amount is required.");
+			return;
+		}
+
+		if (creditAmount > 0 && customerName == "") {
+			displayErrorMessageToUser("Customer name is required.");
+			return;
+		}
+
+		JournalVoucherModel jvm = getJVListForSave();
+
+		if (jvm == null) {
+			return;
+		} else if (journalEJB.postToLedgerDirectApproval(jvm)) {
+			displayInfoMessageToUser("Receipt done successfully.");
+		} else {
+			displayErrorMessageToUser("Error occured while saving receipt./nPlease try again later.");
+		}
+	}
+
+	public JournalVoucherModel getJVListForSave() {
+		AccHeadMap cashAccHeadMap = accHeadMapEJB.getByMapPurpose("Cash");
+		AccHeadMap creditAccHeadMap = accHeadMapEJB.getByMapPurpose("Debitor");
+		AccHeadMap salesAccHeadMap = accHeadMapEJB.getByMapPurpose("Sales");
+
+		List<JournalVoucherDetailModel> jvdmList = new ArrayList<JournalVoucherDetailModel>();
+		JournalVoucherModel jvm = new JournalVoucherModel();
+
+		if (cashAccHeadMap == null || creditAccHeadMap == null || salesAccHeadMap == null) {
+			displayErrorMessageToUser("Cash, Debitor or sales accounts need to be mapped.");
+			return null;
+		}
+
+		jvm.setReceiptAmt(billTotal);
+		jvm.setStatus(0);
+		jvm.setRvFlag(0);
+		jvm.setToFromType(1);
+		jvm.setJvDateAd(userMB.getUser().getDayInStatus().getDayInDateEn());
+		jvm.setCreatedDate(new Date());
+		jvm.setJvDateBs(userMB.getUser().getDayInStatus().getDayInDateNp());
+		jvm.setJvType(codeValueEJB.findCodeValueByCVType("Journal Voucher Type", "Receipt Voucher").get(0));
+		jvm.setPostedBy(userMB.getUser());
+		jvm.setUpdatedBy(userMB.getUser());
+		jvm.setBrId(1);
+		jvm.setCreatedBy(userMB.getUser());
+		jvm.setApprovedBy(userMB.getUser());
+		jvm.setAuditedBy(userMB.getUser());
+		jvm.setReceivedBy(userMB.getUser());
+		jvm.setSubmittedBy(userMB.getUser());
+		jvm.setNarration("Receipt from sales.");
+		if (chequeNum > 0) {
+			jvm.setChequeNo(String.valueOf(chequeNum));
+		}
+
+		JournalVoucherDetailModel jvd;
+
+		if (bankAmount > 0 && chequeNum > 0) {
+			jvd = new JournalVoucherDetailModel();
+			jvd.setAccountHead(cashAccHeadMap.getAccHeadModel());
+			jvd.setDrAmt(bankAmount);
+			jvd.setCrAmt(0);
+			jvd.setNarration("Receipt from cheque no" + chequeNum);
+			jvd.setJvm(jvm);
+			jvdmList.add(jvd);
+		}
+
+		if (cashAmount > 0) {
+			jvd = new JournalVoucherDetailModel();
+			jvd.setAccountHead(cashAccHeadMap.getAccHeadModel());
+			jvd.setDrAmt(cashAmount);
+			jvd.setCrAmt(0);
+			jvd.setNarration("Recepit from cash.");
+			jvd.setJvm(jvm);
+			jvdmList.add(jvd);
+		}
+
+		if (creditAmount > 0) {
+			jvd = new JournalVoucherDetailModel();
+			jvd.setAccountHead(creditAccHeadMap.getAccHeadModel());
+			jvd.setDrAmt(creditAmount);
+			jvd.setCrAmt(0);
+			jvd.setNarration("Credit recepit from " + customerName);
+			jvd.setJvm(jvm);
+			jvdmList.add(jvd);
+		}
+
+		jvd = new JournalVoucherDetailModel();
+		jvd.setAccountHead(creditAccHeadMap.getAccHeadModel());
+		jvd.setDrAmt(0);
+		jvd.setCrAmt(billTotal);
+		jvd.setNarration("Receipt from sales.");
+		jvd.setJvm(jvm);
+		jvdmList.add(jvd);
+
+		jvm.setJvdmList(jvdmList);
+
+		jvm.setFiscalYrModel(userMB.getUser().getFyModel());
+
+		if (jvm.getJournalPk().getJvNo() <= 0 && jvm.getJournalPk().getFyId() <= 0
+				&& jvm.getJournalPk().getJvType() <= 0) {
+			JournalPk jp = new JournalPk();
+			jp.setFyId(jvm.getFiscalYrModel().getFyId());
+			jp.setJvType(jvm.getJvType().getCvId());
+			jp.setJvNo(journalEJB.getMaxJvNoWithJvType(jvm.getFiscalYrModel().getFyId(), jvm.getJvType().getCvId()));
+			jvm.setJournalPk(jp);
+		}
+
+		return jvm;
+	}
 }
