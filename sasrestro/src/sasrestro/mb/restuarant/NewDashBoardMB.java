@@ -378,6 +378,12 @@ public class NewDashBoardMB extends AbstractMB implements Serializable {
 			return;
 		}
 
+		double totalReceiptAmt = cashAmount + bankAmount + creditAmount;
+		if (billTotal != totalReceiptAmt) {
+			displayErrorMessageToUser("Receipt amount must be equal to bill amount.");
+			return;
+		}
+
 		JournalVoucherModel jvm = getJVListForSave();
 
 		if (jvm == null) {
@@ -400,9 +406,11 @@ public class NewDashBoardMB extends AbstractMB implements Serializable {
 	}
 
 	private JournalVoucherModel getJVListForSave() {
-		AccHeadMap cashAccHeadMap = accHeadMapEJB.getByMapPurpose("Cash");
-		AccHeadMap debitorAccHeadMap = accHeadMapEJB.getByMapPurpose("Debitor");
-		AccHeadMap salesAccHeadMap = accHeadMapEJB.getByMapPurpose("Sales");
+		AccHeadMap cashAccHeadMap = accHeadMapEJB.getByMapPurpose("Cash"),
+				debitorAccHeadMap = accHeadMapEJB.getByMapPurpose("Debitor"),
+				salesAccHeadMap = accHeadMapEJB.getByMapPurpose("Sales"),
+				serChrgAccHeadMap = accHeadMapEJB.getByMapPurpose("Service Charge"),
+				vatAccHeadMap = accHeadMapEJB.getByMapPurpose("Vat");
 
 		List<JournalVoucherDetailModel> jvdmList = new ArrayList<JournalVoucherDetailModel>();
 		JournalVoucherModel jvm = new JournalVoucherModel();
@@ -450,7 +458,7 @@ public class NewDashBoardMB extends AbstractMB implements Serializable {
 			jvd.setAccountHead(cashAccHeadMap.getAccHeadModel());
 			jvd.setDrAmt(cashAmount);
 			jvd.setCrAmt(0);
-			jvd.setNarration("Recepit from cash.");
+			jvd.setNarration("Cash on sales.");
 			jvd.setJvm(jvm);
 			jvdmList.add(jvd);
 		}
@@ -465,13 +473,39 @@ public class NewDashBoardMB extends AbstractMB implements Serializable {
 			jvdmList.add(jvd);
 		}
 
-		jvd = new JournalVoucherDetailModel();
-		jvd.setAccountHead(salesAccHeadMap.getAccHeadModel());
-		jvd.setDrAmt(0);
-		jvd.setCrAmt(billTotal);
-		jvd.setNarration("Receipt from sales.");
-		jvd.setJvm(jvm);
-		jvdmList.add(jvd);
+		if (vat > 0) {
+			jvd = new JournalVoucherDetailModel();
+			jvd.setAccountHead(vatAccHeadMap.getAccHeadModel());
+			jvd.setDrAmt(0);
+			jvd.setCrAmt(vat);
+			jvd.setNarration("Vat on sales");
+			jvd.setJvm(jvm);
+			jvdmList.add(jvd);
+
+			billTotal -= vat;
+		}
+
+		if (serviceCharge > 0) {
+			jvd = new JournalVoucherDetailModel();
+			jvd.setAccountHead(serChrgAccHeadMap.getAccHeadModel());
+			jvd.setDrAmt(0);
+			jvd.setCrAmt(serviceCharge);
+			jvd.setNarration("Service charge on sales");
+			jvd.setJvm(jvm);
+			jvdmList.add(jvd);
+
+			billTotal -= serviceCharge;
+		}
+
+		if (billTotal > 0) {
+			jvd = new JournalVoucherDetailModel();
+			jvd.setAccountHead(salesAccHeadMap.getAccHeadModel());
+			jvd.setDrAmt(0);
+			jvd.setCrAmt(billTotal);
+			jvd.setNarration("Receipt from sales.");
+			jvd.setJvm(jvm);
+			jvdmList.add(jvd);
+		}
 
 		jvm.setJvdmList(jvdmList);
 
