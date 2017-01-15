@@ -22,11 +22,24 @@
 
 		<h:form id="addTable" target="_blank">
 			<p:growl id="msgIssueGrowl"></p:growl>
-			<br></br>
-			<p:panel header="Add/Edit Menu" id="menu">
+			
+			
 				<p:panel style="text-align:right">
 					<p:panelGrid style="margin-bottom:10px" columns="2" cellpadding="5"
 						styleClass="issuePanel">
+						
+						<h:outputText value="Table Class:" id="lblClass" />
+					
+							<h:selectOneMenu id="cmbClass" 
+										style="width:250px;text-align:left" required="true"
+										requiredMessage="Please select Class Type."
+										value="#{tableMB.tableModel.tableClass.classId}">
+										<f:selectItem itemLabel="Select" itemValue="0" />
+										<f:selectItems value="#{tableClassMB.lstTableClass}" var="item"
+								itemLabel="#{item.className}"
+								itemValue="#{item.classId}" />
+										
+									</h:selectOneMenu>
 
 						<p:column>
 							<h:outputText value="Table Name:" id="lblName" />
@@ -55,25 +68,28 @@
 									value="#{tableMB.tableModel.reservable}">
 									<f:selectItem itemLabel="Yes" itemValue="1" />
 									<f:selectItem itemLabel="No" itemValue="0" />
+									
 								</p:selectOneRadio>
+							
 								</p:column>
 
 						<p:column>
 							<p:outputLabel></p:outputLabel>
 						</p:column>
 						<p:column>
-							<p:commandButton value="Save" id="cmdSave" process="@this  txtCapacity txtName "
+							<p:commandButton value="Save" id="cmdSave" process="@this cmbClass txtCapacity txtName "
+							icon="ic-icon-plus"
 								update=":frmTable msgIssueGrowl" action="#{tableMB.save}"
 								oncomplete="tableDia.hide();"
 								style="width:100px;margin-left:10px" />
-							<p:commandButton value="Close" id="cmdClear" process="@this"
+							<p:commandButton value="Close" id="cmdClear" process="@this" icon="ic-icon-plus"
 								onclick="tableDia.hide();"
 								style="width:100px;margin-left:10px" />
 						</p:column>
 
 					</p:panelGrid>
 				</p:panel>
-			</p:panel>
+		
 		</h:form>
 	</p:dialog>
 

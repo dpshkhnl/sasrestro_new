@@ -25,6 +25,7 @@
 		<class>sasrestro.model.restaurant.MasterSettingModel</class>
 		<class>sasrestro.model.restaurant.MenuItemModel</class>
 		<class>sasrestro.model.restaurant.OrderModel</class>
+		<class>sasrestro.model.restaurant.TableClass</class>
 		<class>sasrestro.model.restaurant.TableModel</class>
 		<class>sasrestro.model.user.AccessControlList</class>
 		<class>sasrestro.model.user.AccessControlListChild</class>

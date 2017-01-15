@@ -11,6 +11,7 @@ import javax.faces.bean.ViewScoped;
 import org.primefaces.context.RequestContext;
 
 import sasrestro.misc.AbstractMB;
+import sasrestro.model.restaurant.TableClass;
 import sasrestro.model.restaurant.TableModel;
 import sasrestro.sessionejb.restaurant.TableEJB;
 
@@ -34,6 +35,8 @@ public class TableMB extends AbstractMB implements Serializable {
 	public TableModel getTableModel() {
 		if (tableModel == null)
 			tableModel = new TableModel();
+		if (tableModel.getTableClass() == null)
+			tableModel.setTableClass( new TableClass());
 		return tableModel;
 	}
 

@@ -211,9 +211,7 @@ public class UserMB implements Serializable {
 			}
 			userSelection = true;
 		}
-		System.out.println("OnRowSelect has selectedUser name : " + selectedUser.getName() + " and email : "
-				+ selectedUser.getEmail() + " and role =" + selectedUser.getRole().getRoleId() + "and Password : "
-				+ selectedUser.getPassword());
+		
 
 	}
 

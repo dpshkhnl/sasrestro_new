@@ -17,9 +17,7 @@
 
 
 			<h:form id="frmTable" target="_blank">
-				<p:blockUI block="frmTable" trigger="search">
-					<p:graphicImage value="/resources/images/ajax-load.gif" />
-				</p:blockUI>
+				
 
 				<p:growl id="msgs" showDetail="false" />
 				<p:panel>
@@ -27,18 +25,17 @@
 						<p:panelGrid columns="2">
 
 
-							<p:outputLabel id="searchFieldClient" value="Table No:" />
-
-
-							<p:autoComplete id="autoCompleteDatad"
-								value="#{tableMB.tableModel.tableName}" minQueryLength="2" maxResults="7"
-								size="33" completeMethod="#{loanPaymentMB.getLstClientName()}">
-
-							</p:autoComplete>
+							<p:outputLabel id="lblName" value="Table Class " />
+							
+							<p:inputText id="txttableClass" value="#{tableClassMB.tableClass.className}"></p:inputText>
+							<p:outputLabel id="lblDesc" value="table Class Description" />
+							
+							<p:inputText id="txttableDesc" value="#{tableClassMB.tableClass.description}"></p:inputText>
+				
 						</p:panelGrid>
 						<p:panelGrid columns="3">
-							<p:commandButton icon=" ui-icon-search " id="search"
-								process="@this" update="tblPlan" value="Search"
+							<p:commandButton icon=" ui-icon-search " id="cmdSave" action="#{tableClassMB.saveClass}"
+								process="@this @form" update=":frmTable" value="Save"
 								style="width:100px;margin-left:10px">
 							</p:commandButton>
 							<p:commandButton icon=" ui-icon-refresh " value="Cancel"
@@ -47,19 +44,13 @@
 
 							</p:commandButton>
 
-							<p:commandButton icon=" ui-icon-refresh " value="Add"
-							action="#{tableMB.loadForNew()}"
-								 update=":addTable"
-								style="width:100px;margin-left:10px">
-
-
-							</p:commandButton>
+							
 
 
 						</p:panelGrid>
 					</p:panel>
-					<p:dataTable id="tblPlan" rowIndexVar="rowIndex"
-						value="#{tableMB.lstTableModel}" var="table" paginator="true"
+					<p:dataTable id="tblClass" rowIndexVar="rowIndex"
+						value="#{tableClassMB.lstTableClass}" var="tableClass" paginator="true"
 						rows="50"
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 						rowsPerPageTemplate="50,100,150" scrollable="true">
@@ -70,35 +61,19 @@
 							</f:facet>
 							<h:outputText value="#{rowIndex+1}" />
 						</p:column>
-						
-						<p:column>
-							<f:facet name="header">
-								<h:outputText value="Class" />
-							</f:facet>
-							<h:outputText value="#{table.tableClass.className}" />
-						</p:column>
 
 						<p:column>
 							<f:facet name="header">
 								<h:outputText value="Name" />
 							</f:facet>
-							<h:outputText value="#{table.tableName}" />
+							<h:outputText value="#{tableClass.className}" />
 						</p:column>
 
 						<p:column>
 							<f:facet name="header">
-								<h:outputText value="Capacity" />
+								<h:outputText value="Description" />
 							</f:facet>
-							<h:outputText value="#{table.capacity}" />
-						</p:column>
-
-
-						<p:column>
-							<f:facet name="header">
-								<h:outputText value="Reservable" />
-							</f:facet>
-							<h:outputText value="#{table.reservable eq 0?'No':'Yes'}">
-							</h:outputText>
+							<h:outputText value="#{tableClass.description}" />
 						</p:column>
 
 
@@ -109,19 +84,17 @@
 							</f:facet>
 
 							<p:commandButton icon="ui-icon-pencil" process="@this"  style="width:25px"
-								action="#{tableMB.loadForEdit()}" update=":addTable ">
-								<f:setPropertyActionListener target="#{tableMB.tableModel}"
-									value="#{table}"></f:setPropertyActionListener>
+								update=":frmTable" >
+								<f:setPropertyActionListener target="#{tableClassMB.tableClass}"
+									value="#{tableClass}"></f:setPropertyActionListener>
 							</p:commandButton>
 							
 							<p:commandButton icon="ui-icon-close" style="width:25px"
-									process="@this" update=":frmTable:msgs :addTable" title="Delete" 
+									process="@this"  title="Delete" 
 									onclick="cd.show()">
-									<f:setPropertyActionListener value="#{table}"
-										target="#{tableMB.tableModel}"></f:setPropertyActionListener>
+									<f:setPropertyActionListener value="#{tableClass}"
+										target="#{tableClassMB.tableClass}"></f:setPropertyActionListener>
 								</p:commandButton>
-							
-							
 
 						</p:column>
 
@@ -136,8 +109,8 @@
 					header="Delete" severity="alert" widgetVar="cd" modal="true">
 					<p:commandButton value="Yes" styleClass="ui-confirmdialog-yes"
 						icon="ui-icon-check"
-						actionListener="#{menuItemMB.delete()}"
-						update="tblPlan"
+						actionListener="#{tableClassMB.deleteClass()}"
+						update=":frmTable"
 						process="@this" oncomplete="cd.hide()">
 					</p:commandButton>
 					<p:commandButton value="No" type="button"
@@ -151,7 +124,6 @@
 			</h:form>
 		
 
-			<ui:include src="/pages/restaurant/dialog/tableDialog.xhtml"></ui:include>
 		</ui:define>
 	</ui:composition>
 

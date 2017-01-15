@@ -27,6 +27,7 @@ import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.dashboard.Dashboard;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.component.panel.Panel;
+import org.primefaces.component.panelgrid.PanelGrid;
 import org.primefaces.model.DashboardColumn;
 import org.primefaces.model.DashboardModel;
 import org.primefaces.model.DefaultDashboardColumn;
@@ -34,8 +35,10 @@ import org.primefaces.model.DefaultDashboardModel;
 
 import sasrestro.mb.user.UserMB;
 import sasrestro.model.restaurant.OrderModel;
+import sasrestro.model.restaurant.TableClass;
 import sasrestro.model.restaurant.TableModel;
 import sasrestro.sessionejb.restaurant.OrderItemEJB;
+import sasrestro.sessionejb.restaurant.TableClassEJB;
 import sasrestro.sessionejb.restaurant.TableEJB;
 
 @ManagedBean(name = "dashboardBacker")
@@ -65,8 +68,52 @@ public class DashboardBacker implements Serializable {
 
 	@EJB
 	TableEJB tableEJB;
-
+	
+	@EJB
+	TableClassEJB tableClassEJB;
+	
 	@PostConstruct
+	public void init() {
+		FacesContext fc = FacesContext.getCurrentInstance();
+		Application application = fc.getApplication();
+
+		dashboard = (Dashboard) application.createComponent(fc, "org.primefaces.component.Dashboard", "org.primefaces.component.DashboardRenderer");
+		dashboard.setId("dashboard");
+
+		DashboardModel model = new DefaultDashboardModel();
+		for( int i = 0, n = getColumnCount(); i < n; i++ ) {
+			DashboardColumn column = new DefaultDashboardColumn();
+			model.addColumn(column);
+		}
+		dashboard.setModel(model);
+
+		List<TableClass> lstTableClass = new ArrayList<>();
+		lstTableClass = tableClassEJB.findAll();
+		int a = 0;
+		for (TableClass tableClass:lstTableClass){
+			a++;
+			Panel panel = (Panel) application.createComponent(fc, "org.primefaces.component.Panel", "org.primefaces.component.PanelRenderer");
+			panel.setId("measure_" + a);
+			panel.setHeader(tableClass.getClassName());
+			panel.setClosable(true);
+			
+			panel.setStyle("margin-left:10px;margin-bottom:10px;width:700px");
+			panel.setToggleable(true);
+			
+			
+
+			getDashboard().getChildren().add(panel);
+			DashboardColumn column = model.getColumn(a%getColumnCount());
+			column.addWidget(panel.getId());
+			HtmlOutputText text = new HtmlOutputText();
+			text.setValue("Dashboard widget bits!" );
+
+			panel.getChildren().add(text);
+		}
+	}
+
+
+/*	@PostConstruct
 	public void init() {
 
 		dashboard = new Dashboard();
@@ -105,7 +152,7 @@ public class DashboardBacker implements Serializable {
 			
 			CommandButton submit = new CommandButton();
 			submit.setValue("View");
-/*			submit.setUpdate("maina");*/
+			submit.setUpdate("maina");
 			submit.setId("createkjkas"+i);
 			submit.setStyleClass("normal");
 			submit.setIcon("ui-icon-zoomin");
@@ -119,28 +166,28 @@ public class DashboardBacker implements Serializable {
 			submit.addActionListener(new MethodExpressionActionListener(methodExpression));
 			submit.setActionExpression(methodExpression);
 			
-			/*HtmlCommandLink ajaxLink = new HtmlCommandLink();
+			HtmlCommandLink ajaxLink = new HtmlCommandLink();
 		        ajaxLink.setId("Link"+i);
 		        ajaxLink.setValue("Check Bill");
 		       
 		        FacesContext context = FacesContext.getCurrentInstance();
 		        MethodExpression actionListenerExpression = context.getApplication().getExpressionFactory().createMethodExpression(context.getELContext(), "#{newDashBoardMB.loadBill("+tblModel.getTableId()+")}", null, new Class[]{ActionEvent.class});
 		        MethodExpressionActionListener actionListener = new MethodExpressionActionListener(actionListenerExpression);
-		        ajaxLink.addActionListener(actionListener);*/
+		        ajaxLink.addActionListener(actionListener);
 		        
 			
-			/*FacesContext context = FacesContext.getCurrentInstance();
+			FacesContext context = FacesContext.getCurrentInstance();
 			MethodExpression methodExpression = context.getApplication().getExpressionFactory().createMethodExpression(
 			    context.getELContext(), "#{newDashBoardMB.loadBill("+tblModel.getTableId()+")}", null,null);
 
-			submit.addActionListener(new MethodExpressionActionListener(methodExpression));*/
+			submit.addActionListener(new MethodExpressionActionListener(methodExpression));
 			
 			panel.getChildren().add(submit);
 			//panel.getChildren().add(ajaxLink);
 
 			
 		}
-	}
+	}*/
 
 	public Dashboard getDashboard() {
 		return dashboard;
