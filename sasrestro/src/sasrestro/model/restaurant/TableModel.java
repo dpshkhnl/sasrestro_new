@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -29,8 +30,11 @@ public class TableModel implements Serializable {
 	@Column(name ="capacity")
 	private String capacity;
 	
-	@Column(name = "is_reservable")
-	private boolean reservable;
+	@JoinColumn(name="table_class")
+	private TableClass tableClass;
+	
+	@Column(name = "reservable")
+	private int reservable;
 	
 	@Column(name = "created_date")
 	@Temporal(TemporalType.TIMESTAMP)
@@ -73,13 +77,7 @@ public class TableModel implements Serializable {
 		this.capacity = capacity;
 	}
 
-	public boolean isReservable() {
-		return reservable;
-	}
-
-	public void setReservable(boolean reservable) {
-		this.reservable = reservable;
-	}
+	
 
 	public Date getCreatedDate() {
 		return createdDate;
@@ -119,6 +117,22 @@ public class TableModel implements Serializable {
 
 	public void setUpdateCount(int updateCount) {
 		this.updateCount = updateCount;
+	}
+
+	public TableClass getTableClass() {
+		return tableClass;
+	}
+
+	public void setTableClass(TableClass tableClass) {
+		this.tableClass = tableClass;
+	}
+
+	public int getReservable() {
+		return reservable;
+	}
+
+	public void setReservable(int reservable) {
+		this.reservable = reservable;
 	}
 
 

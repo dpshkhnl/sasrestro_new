@@ -35,11 +35,13 @@ import sasrestro.model.account.JournalVoucherDetailModel;
 import sasrestro.model.account.JournalVoucherModel;
 import sasrestro.model.restaurant.ItemClassModel;
 import sasrestro.model.restaurant.OrderModel;
+import sasrestro.model.restaurant.TableClass;
 import sasrestro.model.restaurant.TableModel;
 import sasrestro.sessionejb.account.AccHeadMapEJB;
 import sasrestro.sessionejb.account.CodeValueEJB;
 import sasrestro.sessionejb.account.JournalVoucherEJB;
 import sasrestro.sessionejb.restaurant.OrderItemEJB;
+import sasrestro.sessionejb.restaurant.TableClassEJB;
 import sasrestro.sessionejb.restaurant.TableEJB;
 import sasrestro.sessionejb.util.VatSettingEJB;
 
@@ -49,7 +51,7 @@ public class NewDashBoardMB extends AbstractMB implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final int DEFAULT_COLUMN_COUNT = 3;
+	public static final int DEFAULT_COLUMN_COUNT = 10;
 	private int columnCount = DEFAULT_COLUMN_COUNT;
 
 	@EJB
@@ -69,6 +71,9 @@ public class NewDashBoardMB extends AbstractMB implements Serializable {
 
 	@EJB
 	JournalVoucherEJB journalEJB;
+	
+	@EJB
+	TableClassEJB tableClassEJB;
 
 	@ManagedProperty(value = UserMB.INJECTION_NAME)
 	private UserMB userMB;
@@ -279,29 +284,49 @@ public class NewDashBoardMB extends AbstractMB implements Serializable {
 		}
 		dashboard.setModel(model);
 
-		List<OrderModel> lstOrders = new ArrayList<OrderModel>();
-		lstOrders = orderItemEJB.getDistinctActiveTable();
-
-		for (int i = 0, n = lstOrders.size(); i < n; i++) {
-			TableModel tblModel = new TableModel();
-			tblModel = tableEJB.find(lstOrders.get(i).getTable_id().getTableId());
+		List<TableClass> lstTableClass = new ArrayList<>();
+		lstTableClass = tableClassEJB.findAll();
+		int a = 0;
+		for (TableClass tableClass:lstTableClass){
+			a++;
 			Panel panel = (Panel) application.createComponent(fc, "org.primefaces.component.Panel",
 					"org.primefaces.component.PanelRenderer");
-			panel.setId("measure_" + i);
-			panel.setHeader(tblModel.getTableName());
+			panel.setId("mainpanel"+a );
+			panel.setHeader(tableClass.getClassName());
+			
 			panel.setClosable(false);
 			panel.setToggleable(true);
 
-			getDashboard().getChildren().add(panel);
+		
+		
+		
+		List<OrderModel> lstOrders = new ArrayList<OrderModel>();
+		lstOrders = orderItemEJB.getDistinctActiveTable();
+		List<TableModel> lstTable = tableEJB.findAll();
+
+		for (int i = 0, n = lstTable.size(); i < n; i++) {
+			TableModel tblModel = new TableModel();
+			tblModel = tableEJB.find(lstTable.get(i).getTableId());
+			Panel panelInside = (Panel) application.createComponent(fc, "org.primefaces.component.Panel",
+					"org.primefaces.component.PanelRenderer");
+			panelInside.setId("measure_" + i+a);
+			panelInside.setHeader(tblModel.getTableName());
+			panelInside.setClosable(false);
+			panelInside.setStyle("margin-left:5px");
+			panelInside.setToggleable(true);
+			
+			panel.getChildren().add(panelInside);
+			//getDashboard().getChildren().add(panel);
 			// refreshChildren(panel, tblModel.getTableId());
-			DashboardColumn column = model.getColumn(i % getColumnCount());
-			column.addWidget(panel.getId());
+		
+			
+			
 
 			CommandButton submit = new CommandButton();
 			submit.setValue("View");
 			submit.setIcon("ui-icon-zoomin");
 			submit.setUpdate(":activeBill");
-			submit.setId("createkjkas" + i);
+			submit.setId("create" + i+"-"+a);
 			FacesContext facesCtx = FacesContext.getCurrentInstance();
 			ELContext elContext = facesCtx.getELContext();
 			Application app = facesCtx.getApplication();
@@ -313,8 +338,16 @@ public class NewDashBoardMB extends AbstractMB implements Serializable {
 			submit.addActionListener(new MethodExpressionActionListener(methodExpression));
 			submit.setActionExpression(methodExpression);
 
-			panel.getChildren().add(submit);
+			panelInside.getChildren().add(submit);
 
+		}
+		
+		DashboardColumn column = model.getColumn(a % getColumnCount());
+		column.addWidget(panel.getId());
+		
+		getDashboard().getChildren().add(panel);
+		
+		
 		}
 	}
 
