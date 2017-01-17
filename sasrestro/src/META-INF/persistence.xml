@@ -8,7 +8,6 @@
 		<class>sasrestro.model.account.AccHeadMap</class>
 		<class>sasrestro.model.account.AccHeadMcg</class>
 		<class>sasrestro.model.account.AccountReportModel</class>
-		<class>sasrestro.model.account.BudgetModel</class>
 		<class>sasrestro.model.account.CodeValue</class>
 		<class>sasrestro.model.account.FormCodeModel</class>
 		<class>sasrestro.model.account.JournalPk</class>

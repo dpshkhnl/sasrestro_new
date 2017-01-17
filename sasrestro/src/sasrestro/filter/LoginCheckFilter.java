@@ -34,6 +34,7 @@ public class LoginCheckFilter extends AbstractFilter implements Filter {
             allowedURIs = new ArrayList<String>();
             allowedURIs.add(fConfig.getInitParameter("loginActionURI"));
             allowedURIs.add("/sasrestro/");
+            
             allowedURIs.add("/sasrestro/javax.faces.resource/css/main.css.xhtml");
             allowedURIs.add("/sasrestro/javax.faces.resource/fonts/preeti.ttf.xhtml");
             allowedURIs.add("/sasrestro/javax.faces.resource/theme.css.xhtml");
@@ -50,8 +51,7 @@ public class LoginCheckFilter extends AbstractFilter implements Filter {
             allowedURIs.add("/sasrestro/javax.faces.resource/clock/clock.css.xhtml");
             allowedURIs.add("/sasrestro/javax.faces.resource/clock/clock.js.xhtml");
             allowedURIs.add("/sasrestro/javax.faces.resource/jquery/jquery-plugins.js.xhtml");
-            allowedURIs.add("/sasrestro/javax.faces.resource/primefaces.css.xhtml");
-            allowedURIs.add("/sasrestro/javax.faces.resource/primefaces.js.xhtml");
+            allowedURIs.add("/sasrestro/javax.faces.resource/css/main.css.xhtml");
             
             allowedURIs.add("/sasrestro/javax.faces.resource/images/ui-bg_inset-hard_100_fcfdfd_1x100.png.xhtml");
             allowedURIs.add("/sasrestro/javax.faces.resource/images/ui-bg_glass_45_0078ae_1x400.png.xhtml");
@@ -93,6 +93,7 @@ public class LoginCheckFilter extends AbstractFilter implements Filter {
             allowedURIs.add("/sasrestro/javax.faces.resource/css/fonts/fontomas-webfont.svg");
             allowedURIs.add("/sasrestro/javax.faces.resource/images/button.png.xhtml");
             allowedURIs.add("/sasrestro/javax.faces.resource/jsf.js.xhtml");
+            allowedURIs.add("/sasrestro/javax.faces.resource/css/main.css.xhtml");
             
         }
     }

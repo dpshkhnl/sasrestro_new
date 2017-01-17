@@ -26,7 +26,7 @@ h1 {
 	color: black;
 }
 
-a:link,a:visited,a:hover,a:active {
+a:link, a:visited, a:hover, a:active {
 	color: black;
 }
 
@@ -81,9 +81,8 @@ a:link,a:visited,a:hover,a:active {
 }
 
 #divMain {
-	
 	margin-left: 2px;
-	margin-right:2px;
+	margin-right: 2px;
 	position: absolute;
 	top: 130px;
 	left: 8px;
@@ -94,7 +93,7 @@ a:link,a:visited,a:hover,a:active {
 	border: thin solid lightGray;
 	background-color: #fdfffe;
 	font-size: 12px;
-	width:97.4%;
+	width: 97.4%;
 	/* color: #b48484; */
 }
 
@@ -122,7 +121,7 @@ a:link,a:visited,a:hover,a:active {
 }
 
 #menu {
-	 padding-top: 78px;
+	padding-top: 78px;
 	padding-left: 5px;
 	padding-right: 5px;
 	margin: 0;
@@ -131,19 +130,18 @@ a:link,a:visited,a:hover,a:active {
 	left: 10px;
 	right: 20px;  */
 	height: 25px;
-	width: 90% 
-	 /* width: 1329px;
+	width: 90% /* width: 1329px;
 	  */  
 	  overflow:   auto;
 	background-color: #fdfffe;
 }
 
 p:panelGrid {
-	margin-top:50px;
+	margin-top: 50px;
 	border: none;
 }
 
-.issuePanel tr,.companyHeaderGrid td {
+.issuePanel tr, .companyHeaderGrid td {
 	border: none;
 	border-color: white;
 }
@@ -174,76 +172,78 @@ p:panelGrid {
 	position: relative;
 	width: auto;
 }
-.invalidDataClass
-{
+
+.invalidDataClass {
 	background-color: yellow;
 }
-table.borderlesspanel tr
-{
+
+table.borderlesspanel tr {
 	padding: 5px;
-    border: none;
+	border: none;
 	border-color: red;
 }
-table.borderlesspanel td
-{
+
+table.borderlesspanel td {
 	padding: 5px;
-    border: none;
+	border: none;
 	border-color: red;
 }
-table.borderpaddinglesspanel tr
-{
+
+table.borderpaddinglesspanel tr {
 	padding: 2px;
-    border: none;
+	border: none;
 	border-color: red;
 }
-table.borderpaddinglesspanel td
-{
+
+table.borderpaddinglesspanel td {
 	padding: 2px;
-	margin-right:5px;
-    border: none;
+	margin-right: 5px;
+	border: none;
 	border-color: red;
 }
+
 customFieldset .ui-fieldset, .ui-fieldset .ui-fieldset-legend {
-background-color: white;
-border-color: white;
+	background-color: white;
+	border-color: white;
 }
-.ui-button-login{
-    background: #3D9DB3;
-    padding-left: 10px !important;
-    padding-right: 10px !important;
-    font-size: 23px;
+
+.ui-button-login {
+	background: #3D9DB3;
+	padding-left: 10px !important;
+	padding-right: 10px !important;
+	font-size: 23px;
 	border: none;
 	letter-spacing: -0.1em;
-	font-family: 'FranchiseRegular','Arial Narrow',Arial,sans-serif;
-	font-weight: normal; !important;
+	font-family: 'FranchiseRegular', 'Arial Narrow', Arial, sans-serif;
+	font-weight: normal; ! important;
 	color: white;
-	
-	}
+}
 
-.nepali
-{
+.nepali {
 	font-family: 'Preeti' !important;
 }
 
-@font-face{ 
-font-family: 'Preeti';
-src: url("#{resource['css:fonts/preeti.ttf']}") format('truetype');
+@font-face {
+	font-family: 'Preeti';
+	src: url("#{resource['css:fonts/preeti.ttf']}") format('truetype');
 }
-.ui-panelgrid tr, .ui-panelgrid td {
-border:0 !important;
+
+.ui-panelgrid tr .ui-panelgrid td {
+	border: 0 !important;
 }
-.bold-total
-{
+
+.bold-total {
 	font-weight: bold;
 	font-size: 15px;
 }
-.ui-clock{
-    border-radius: 4px !important;
-    color: #003380!important;
-	background-color: #ECECEB!important;
-	margin-right:2px;
-	
+
+.ui-clock {
+	border-radius: 4px !important;
+	color: #003380 !important;
+	background-color: #ECECEB !important;
+	margin-right: 2px;
 }
+
 .ui-panel .ui-panel-titlebar {
-   color: #19506C!important;
+	color: #19506C !important;
 }

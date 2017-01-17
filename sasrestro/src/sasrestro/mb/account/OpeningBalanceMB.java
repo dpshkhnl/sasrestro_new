@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -19,9 +20,9 @@ import sasrestro.model.account.LedgerMcg;
 import sasrestro.sessionejb.account.AccHeadEJB;
 import sasrestro.sessionejb.account.LedgerEJB;
 
-@ManagedBean(name="openingBalMB")
+@ManagedBean(name = "openingBalMB")
 @ViewScoped
-public class OpeningBalanceMB extends AbstractMB implements Serializable{
+public class OpeningBalanceMB extends AbstractMB implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@ManagedProperty(value = UserMB.INJECTION_NAME)
@@ -35,70 +36,72 @@ public class OpeningBalanceMB extends AbstractMB implements Serializable{
 
 	private AccHeadMcg head;
 
+	private List<AccHeadMcg> rootHeads;
+
 	private List<OpenBalDummy> openBalDummyList;
-	
 
-	public List<AccHeadMcg> getRootHeads(){
-
+	@PostConstruct
+	public void init() {
 		List<AccHeadMcg> objList = new ArrayList<AccHeadMcg>();
-		for (Iterator<AccHeadMcg> iterator = accHeadEJB.listRootNodes().iterator(); iterator
-				.hasNext();) {
+		for (Iterator<AccHeadMcg> iterator = accHeadEJB.listRootNodes().iterator(); iterator.hasNext();) {
 			AccHeadMcg openBalDummy = (AccHeadMcg) iterator.next();
-			
-			if (openBalDummy.getAccName().equalsIgnoreCase("Liabilities") || openBalDummy.getAccName().equalsIgnoreCase("Assets")) {
+
+			if (openBalDummy.getAccName().equalsIgnoreCase("Liabilities")
+					|| openBalDummy.getAccName().equalsIgnoreCase("Assets")) {
 				objList.add(openBalDummy);
 			}
-			
+
 		}
-		return objList;
+		rootHeads = objList;
 	}
 
+	public List<AccHeadMcg> getRootHeads() {
+		return rootHeads;
+	}
+
+	public void setRootHeads(List<AccHeadMcg> rootHeads) {
+		this.rootHeads = rootHeads;
+	}
 
 	/**
 	 * @return the head
 	 */
 	public AccHeadMcg getHead() {
-		if (head==null) {
+		if (head == null) {
 			head = new AccHeadMcg();
 		}
 		return head;
 	}
 
-
 	/**
-	 * @param head the head to set
+	 * @param head
+	 *            the head to set
 	 */
 	public void setHead(AccHeadMcg head) {
 		this.head = head;
 	}
 
-	public void getChildHeads(){
-		if (head!=null && head.getAccHeadId()>0) {
-
-			openBalDummyList=null;
-
+	public void getChildHeads() {
+		if (head != null && head.getAccHeadId() > 0) {
+			openBalDummyList = null;
+			OpenBalDummy dummy;
 			for (AccHeadMcg accHeadObj : accHeadEJB.findAllNonRoot(head.getAccCode())) {
-
-				OpenBalDummy dummy = new OpenBalDummy();
-
+				dummy = new OpenBalDummy();
 				dummy.setAccheadObj(accHeadObj);
 				dummy.setOpeningBal(0.00);
-
 				getOpenBalDummyList().add(dummy);
 			}
 		}
-
 	}
 
-	public void save(){
-
-		if (head!=null && head.getAccHeadId()>0) {
+	public void save() {
+		if (head != null && head.getAccHeadId() > 0) {
 			try {
 				List<LedgerMcg> ledgerList = new ArrayList<LedgerMcg>();
 
 				if (head.getDrcr().equalsIgnoreCase("dr")) {
 					for (OpenBalDummy openBalDummy : openBalDummyList) {
-						
+
 						LedgerMcg ledgerObj = new LedgerMcg();
 
 						ledgerObj.setAccountHead(openBalDummy.getAccheadObj());
@@ -117,7 +120,7 @@ public class OpeningBalanceMB extends AbstractMB implements Serializable{
 				}
 				if (head.getDrcr().equalsIgnoreCase("cr")) {
 					for (OpenBalDummy openBalDummy : openBalDummyList) {
-						
+
 						LedgerMcg ledgerObj = new LedgerMcg();
 
 						ledgerObj.setAccountHead(openBalDummy.getAccheadObj());
@@ -137,17 +140,16 @@ public class OpeningBalanceMB extends AbstractMB implements Serializable{
 				}
 
 				ledgerEJB.saveList(ledgerList);
-				
+
 				displayInfoMessageToUser("Successfully Saved.");
-				
-				openBalDummyList=null;
-				head=null;
-				
+
+				openBalDummyList = null;
+				head = null;
+
 			} catch (Exception e) {
-				displayErrorMessageToUser("Sorry.\n Error Occurred");// TODO: handle exception
+				displayErrorMessageToUser("Sorry.\n Error Occurred");
 			}
 
-			
 		}
 
 	}
@@ -156,15 +158,15 @@ public class OpeningBalanceMB extends AbstractMB implements Serializable{
 	 * @return the openBalDummyList
 	 */
 	public List<OpenBalDummy> getOpenBalDummyList() {
-		if (openBalDummyList==null) {
+		if (openBalDummyList == null) {
 			openBalDummyList = new ArrayList<OpeningBalanceMB.OpenBalDummy>();
 		}
 		return openBalDummyList;
 	}
 
-
 	/**
-	 * @param openBalDummyList the openBalDummyList to set
+	 * @param openBalDummyList
+	 *            the openBalDummyList to set
 	 */
 	public void setOpenBalDummyList(List<OpenBalDummy> openBalDummyList) {
 		this.openBalDummyList = openBalDummyList;
@@ -177,40 +179,46 @@ public class OpeningBalanceMB extends AbstractMB implements Serializable{
 		return userMB;
 	}
 
-
 	/**
-	 * @param userMB the userMB to set
+	 * @param userMB
+	 *            the userMB to set
 	 */
 	public void setUserMB(UserMB userMB) {
 		this.userMB = userMB;
 	}
 
-	public class OpenBalDummy{
+	public class OpenBalDummy {
 		AccHeadMcg accheadObj;
 		double openingBal;
+
 		/**
 		 * @return the accheadObj
 		 */
 		public AccHeadMcg getAccheadObj() {
-			if (accheadObj==null) {
-				accheadObj=new AccHeadMcg();
+			if (accheadObj == null) {
+				accheadObj = new AccHeadMcg();
 			}
 			return accheadObj;
 		}
+
 		/**
-		 * @param accheadObj the accheadObj to set
+		 * @param accheadObj
+		 *            the accheadObj to set
 		 */
 		public void setAccheadObj(AccHeadMcg accheadObj) {
 			this.accheadObj = accheadObj;
 		}
+
 		/**
 		 * @return the openingBal
 		 */
 		public double getOpeningBal() {
 			return openingBal;
 		}
+
 		/**
-		 * @param openingBal the openingBal to set
+		 * @param openingBal
+		 *            the openingBal to set
 		 */
 		public void setOpeningBal(double openingBal) {
 			this.openingBal = openingBal;
