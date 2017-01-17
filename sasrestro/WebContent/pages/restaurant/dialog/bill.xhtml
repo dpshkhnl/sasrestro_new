@@ -4,14 +4,19 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>:Menu</title>
+</h:head>
 <h:body>
+
 	<p:dialog widgetVar="activeBillDia" id="activeBillId"
 		maximizable="false" width="800" modal="true" closable="true"
 		draggable="true" header="Bill">
-		<h:form id="activeBill" prependId="false">
+		<h:form id="activeBill">
 			<p:growl id="mesasda" showDetail="false"></p:growl>
-			<p:panelGrid columns="2">
-				<p:fieldset legend="Table Info" id="info">
+			<p:panelGrid columns="1">
+				<!-- <p:fieldset legend="Table Info" id="info">
 					<p:panelGrid columns="2">
 						<h:outputText value="Table Name :"></h:outputText>
 						<h:outputText value="#{newDashBoardMB.tableModel.tableName}"></h:outputText>
@@ -24,100 +29,101 @@
 						<h:outputText value="Grand Total  :"></h:outputText>
 						<h:outputText value="Rs.#{newDashBoardMB.billTotal}"></h:outputText>
 					</p:panelGrid>
-				</p:fieldset>
+				</p:fieldset> -->
 
-				<p:fieldset legend="Table Action">
-					<p:panelGrid columns="3">
-						<p:commandButton icon="ui-icon-check" style="width:100px"
-							value="Pay" onclick="receiptDialog.show();"></p:commandButton>
-						<p:commandButton icon="ui-icon-print" style="width:100px"
-							value="Print" onclick="printDia.show();"></p:commandButton>
-						<p:commandButton icon="ui-icon-shuffle" style="width:100px"
-							onclick="mergeTableDialog.show();" update="@form" value="Merge"></p:commandButton>
-							
-							<h:outputText value="Send Bill To:" id="lblName" />
-					
-							<h:selectOneMenu id="cmbClass" 
-										style="width:100px;text-align:left"
-										requiredMessage="Please select Class Type."
-										value="#{newDashBoardMB.itemClass.classId}">
-										<f:selectItem itemLabel="Select" itemValue="0" />
-										<f:selectItems value="#{itemClassMB.lstItemClass}" var="item"
-								itemLabel="#{item.className}"
-								itemValue="#{item.classId}" />
-								<p:ajax update="sendBill billTable" listener="#{newDashBoardMB.loadBillByClass}" process="@this"></p:ajax>
-										
-									</h:selectOneMenu>
-							<p:commandButton value="Send " id="sendBill" type="button" icon="ui-icon-print" style="display:block;width:100px">
-    <p:printer target="activeBill" />
-</p:commandButton>
 
-					</p:panelGrid>
-				</p:fieldset>
+				<p:panelGrid columns="7">
+					<p:commandButton icon="ui-icon-check" style="width:100px"
+						value="Pay" onclick="receiptDialog.show();"></p:commandButton>
+					<p:commandButton icon="ui-icon-shuffle" style="width:100px"
+						onclick="mergeTableDialog.show();" update="@form" value="Merge"></p:commandButton>
+
+					<h:outputText value="Send Bill To:" id="lblName" />
+
+					<h:selectOneMenu id="cmbClass" style="width:100px;text-align:left"
+						requiredMessage="Please select Class Type."
+						value="#{newDashBoardMB.itemClass.classId}">
+						<f:selectItem itemLabel="Select" itemValue="0" />
+						<f:selectItems value="#{itemClassMB.lstItemClass}" var="item"
+							itemLabel="#{item.className}" itemValue="#{item.classId}" />
+						<p:ajax update="sendBill billTable"
+							listener="#{newDashBoardMB.loadBillByClass}" process="@this"></p:ajax>
+
+					</h:selectOneMenu>
+					<p:commandButton value="Send " id="sendBill" type="button"
+						icon="ui-icon-print" style="display:block;width:100px">
+						<p:printer target="activeBill" />
+					</p:commandButton>
+
+				</p:panelGrid>
+
 			</p:panelGrid>
-			<p:dataTable id="billTable" value="#{newDashBoardMB.lstOrder}"
-				update="mesasda" rowIndexVar="rowsn" var="item" paginator="true"
-				rows="7"
-				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-				rowsPerPageTemplate="7,14,21" resizableColumns="true">
+			<p:panel>
+				<p:dataTable id="billTable" rowIndexVar="rowsn" editable="true"
+					value="#{newDashBoardMB.lstOrder}" var="item" paginator="true"
+					rows="10" rowsPerPageTemplate="10,20,30" scrollable="true">
+
+					<p:column style="width:20px">
+						<f:facet name="header">
+							<h:outputText value="Sn" />
+						</f:facet>
+						<h:outputText value="#{rowsn+1}" />
+					</p:column>
+					<p:column style="width:100px">
+
+						<f:facet name="header">
+							<h:outputText value="Class" />
+						</f:facet>
+
+						<h:outputText value="#{item.itemId.itemClass.className}" />
+					</p:column>
 
 
+					<p:column style="width:100px">
 
-				<p:column style="width:20px">
-					<f:facet name="header">
-						<h:outputText value="Sn" />
-					</f:facet>
-					<h:outputText value="#{rowsn+1}" />
-				</p:column>
-				<p:column style="width:100px">
+						<f:facet name="header">
+							<h:outputText value="Name" />
+						</f:facet>
 
-					<f:facet name="header">
-						<h:outputText value="Class" />
-					</f:facet>
+						<h:outputText value="#{item.itemId.name}" />
+					</p:column>
 
-					<h:outputText value="#{item.itemId.itemClass.className}" />
-				</p:column>
+					<p:column style="width:100px">
+						<f:facet name="header">
+							<h:outputText value="Rate" />
+						</f:facet>
+						<h:outputText value="#{item.itemId.price}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Quantity" />
+						</f:facet>
+						 <p:cellEditor>
+               <f:facet name="output"><h:outputText value="#{item.quantity}" /></f:facet>
+               <f:facet name="input"><p:inputText id="modelInput" value="#{item.quantity}" style="width:100%"/></f:facet>
+           </p:cellEditor>
+						
+						<h:outputText value="" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Total" />
+						</f:facet>
+						<h:outputText value="#{item.itemId.price * item.quantity}" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Action" />
+						</f:facet>
+					 <p:rowEditor />
+						<!-- <p:commandButton icon="ui-icon-close"></p:commandButton> -->
+					</p:column>
+
+
+				</p:dataTable>
 				
-				
-				<p:column style="width:100px">
-
-					<f:facet name="header">
-						<h:outputText value="Name" />
-					</f:facet>
-
-					<h:outputText value="#{item.itemId.name}" />
-				</p:column>
-
-				<p:column style="width:100px">
-					<f:facet name="header">
-						<h:outputText value="Rate" />
-					</f:facet>
-					<h:outputText value="#{item.itemId.price}" />
-				</p:column>
-				<p:column>
-					<f:facet name="header">
-						<h:outputText value="Quantity" />
-					</f:facet>
-					<h:outputText value="#{item.quantity}" />
-				</p:column>
-				<p:column>
-					<f:facet name="header">
-						<h:outputText value="Total" />
-					</f:facet>
-					<h:outputText value="#{item.itemId.price * item.quantity}" />
-				</p:column>
-
-				<p:column>
-					<f:facet name="header">
-						<h:outputText value="Action" />
-					</f:facet>
-					<p:commandButton icon="ui-icon-pencil"></p:commandButton>
-					<p:commandButton icon="ui-icon-close"></p:commandButton>
-				</p:column>
-
-
-			</p:dataTable>
-
+			</p:panel>
 
 		</h:form>
 		<ui:include src="/pages/restaurant/dialog/mergetable.xhtml" />

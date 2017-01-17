@@ -8,7 +8,7 @@
 	xmlns:pe="http://primefaces.org/ui/extensions">
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-	<link rel="stylesheet" type="text/css" href="css/decorator.css" />
+	
 </h:head>
 <h:body>
 	<p:dialog id="receipt" width="800px" header="Receipt"
@@ -50,7 +50,10 @@
 			<p:commandButton value="Receive" icon="ui-icon-check"
 				actionListener="#{newDashBoardMB.saveReceipt()}"
 				update=":receiptForm" />
+				<p:commandButton icon="ui-icon-print" style="width:100px"
+						value="Print" action="#{printBillMB.printReceipt()}"></p:commandButton>
 		</h:form>
+		
 	</p:dialog>
 </h:body>
 </html>

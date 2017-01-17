@@ -71,8 +71,8 @@
 										class="fa fa-chevron-down"></span></a>
 									<ul class="nav child_menu" style="display: none">
 										<li><a href="/sasrestro/pages/protected/admin/usermanagement.xhtml">User Management</a></li>
-										<li><a onclick="vatSettingFormWidget.show();">Master Setting</a></li>
-										<li><a onclick="activeUserWidget.show();">Active Users</a></li>
+										<li><a href="/sasrestro/pages/protected/admin/dialogs/vatSetting.xhtml">Master Setting</a></li>
+										<li><a href="/sasrestro/pages/protected/admin/dialogs/activeuserdialog.xhtml">Active Users</a></li>
 										<li><a onclick="activeUserWidget.show();">Day Out</a></li>
 										<li><a onclick="activeUserWidget.show();">Back Up Database</a></li>
 										<li><a onclick="activeUserWidget.show();">Log Out</a></li>
@@ -108,6 +108,7 @@
 									<ul class="nav child_menu" style="display: none">
 									<li><a href="/sasrestro/pages/restaurant/tableclass.xhtml">Table Class</a></li>
 										<li><a  href="/sasrestro/pages/restaurant/tables.xhtml">Table Management</a></li>
+										<li><a  href="/sasrestro/pages/restaurant/tables.xhtml">Reserve Table</a></li>
 										
 									</ul></li>
 							</ul>
@@ -275,9 +276,8 @@
 	<script type="text/javascript" src="#{request.contextPath}/resources/js/bootstrap.min.js"></script> <!-- Correio -->
 	<script type="text/javascript" src="#{request.contextPath}/resources/js/custom.js"></script> <!-- Menu -->
 	
-<ui:include
-				src="/pages/protected/admin/dialogs/activeuserdialog.xhtml" />
-			<ui:include src="/pages/protected/admin/dialogs/vatSetting.xhtml" />
+
+			
 
 
 </h:body>

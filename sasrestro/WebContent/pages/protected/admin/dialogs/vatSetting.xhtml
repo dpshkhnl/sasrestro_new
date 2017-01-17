@@ -4,27 +4,39 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Restro Management:Main</title>
+	<link rel="stylesheet" type="text/css" href="css/decorator.css" />
+</h:head>
 <h:body>
-	<p:dialog widgetVar="vatSettingFormWidget"
-		id="vatSettigFormId" height="120" width="300" modal="true"
-		closable="true" draggable="false" resizable="false"
-		header="Vat Setting">
+
+
+	<!-- ll generally  xhtml folders are maitainded with minimum sub folders for jsf navigation simplicity - -->
+	<ui:composition template="/pages/protected/templates/master.xhtml">
+		<ui:define name="divMain">
+			
 		<h:form id="vatSettingForm" prependId="false">
-			<h:panelGrid columns="2">
+			<h:panelGrid columns="2" cellpadding="7" cellspacing="10">
+			
 				<h:outputText value="Vat % : " />
 				<p:inputText value="#{vatSettingMB.vatPercent}" required="true" label="VAT" />
 
 				<h:outputText value="Service Charge % : " />
 				<p:inputText value="#{vatSettingMB.servChargePercent}" label="Service Charge" />
 
-				<p:commandButton value="Save" icon="ui-icon-plus"
+			</h:panelGrid>
+			
+				<p:commandButton value="Save" icon="ui-icon-plus" style="margin-top:10px"
 				actionListener="#{vatSettingMB.save()}"
 					update=":vatSettingForm"
 					oncomplete="closeDialogIfSucess(xhr, status, args, vatSettingFormWidget, 'vatSettigFormId')" />
 				<p:commandButton value="Cancel" icon="ui-icon-cancel"
 					onclick="vatSettingFormWidget.hide();" type="button" />
-			</h:panelGrid>
+					
 		</h:form>
-	</p:dialog>
+	</ui:define>
+	</ui:composition>
 </h:body>
 </html>

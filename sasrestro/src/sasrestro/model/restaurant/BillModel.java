@@ -31,6 +31,46 @@ import sasrestro.model.user.User;
 		@Column(name ="bill_no")
 		private int billNo;
 		
+		@Column(name ="bill_to")
+		private int billTo;
+		
+		@Column(name ="address")
+		private String address;
+		
+		@Column(name ="bill_amount")
+		private Double billAmount;
+		
+		@Column(name ="received_amount")
+		private Double receivedAmount;
+		
+		
+		@Column(name ="Vat_amount")
+		private Double vatAmount;
+		
+		@Column(name ="service_charge")
+		private Double serviceCharge;
+		
+		@Column(name = "date_time")
+		@Temporal(TemporalType.TIMESTAMP)
+		private Date date;
+		
+		@OneToOne
+		@JoinColumn(name="collected_by")
+		private User collectedBy;
+		
+		
+		@Column(name="status")
+		private boolean status;
+
+		public boolean isStatus() {
+			return status;
+		}
+
+		public void setStatus(boolean status) {
+			this.status = status;
+		}
+		
+
 		public int getBillId() {
 			return billId;
 		}
@@ -111,44 +151,6 @@ import sasrestro.model.user.User;
 			this.collectedBy = collectedBy;
 		}
 
-		@Column(name ="bill_to")
-		private int billTo;
-		
-		@Column(name ="address")
-		private String address;
-		
-		@Column(name ="bill_amount")
-		private Double billAmount;
-		
-		@Column(name ="received_amount")
-		private Double receivedAmount;
-		
-		
-		@Column(name ="Vat_amount")
-		private Double vatAmount;
-		
-		@Column(name ="service_charge")
-		private Double serviceCharge;
-		
-		@Column(name = "date_time")
-		@Temporal(TemporalType.TIMESTAMP)
-		private Date date;
-		
-		@OneToOne
-		@JoinColumn(name="collected_by")
-		private User collectedBy;
-		
-		
-		@Column(name="status")
-		private boolean status;
-
-		public boolean isStatus() {
-			return status;
-		}
-
-		public void setStatus(boolean status) {
-			this.status = status;
-		}
 		
 
 }

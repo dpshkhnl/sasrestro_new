@@ -20,6 +20,7 @@ import javax.faces.event.MethodExpressionActionListener;
 
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.dashboard.Dashboard;
+import org.primefaces.component.effect.Effect;
 import org.primefaces.component.panel.Panel;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.DashboardColumn;
@@ -321,7 +322,6 @@ public class NewDashBoardMB extends AbstractMB implements Serializable {
 		
 			
 			
-
 			CommandButton submit = new CommandButton();
 			submit.setValue("View");
 			submit.setIcon("ui-icon-zoomin");
@@ -416,6 +416,8 @@ public class NewDashBoardMB extends AbstractMB implements Serializable {
 			displayErrorMessageToUser("Receipt amount must be equal to bill amount.");
 			return;
 		}
+		
+		
 
 		JournalVoucherModel jvm = getJVListForSave();
 

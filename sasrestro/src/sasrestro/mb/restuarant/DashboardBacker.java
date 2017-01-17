@@ -26,6 +26,7 @@ import org.primefaces.component.column.Column;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.dashboard.Dashboard;
 import org.primefaces.component.datatable.DataTable;
+import org.primefaces.component.effect.Effect;
 import org.primefaces.component.panel.Panel;
 import org.primefaces.component.panelgrid.PanelGrid;
 import org.primefaces.model.DashboardColumn;
@@ -72,7 +73,7 @@ public class DashboardBacker implements Serializable {
 	@EJB
 	TableClassEJB tableClassEJB;
 	
-	@PostConstruct
+/*	@PostConstruct
 	public void init() {
 		FacesContext fc = FacesContext.getCurrentInstance();
 		Application application = fc.getApplication();
@@ -110,16 +111,14 @@ public class DashboardBacker implements Serializable {
 
 			panel.getChildren().add(text);
 		}
-	}
+	}*/
 
 
-/*	@PostConstruct
+	@PostConstruct
 	public void init() {
-
-		dashboard = new Dashboard();
-		DecimalFormat d = new DecimalFormat("#.##");
 		FacesContext fc = FacesContext.getCurrentInstance();
 		Application application = fc.getApplication();
+
 		dashboard = (Dashboard) application.createComponent(fc, "org.primefaces.component.Dashboard",
 				"org.primefaces.component.DashboardRenderer");
 		dashboard.setId("dashboard");
@@ -130,64 +129,96 @@ public class DashboardBacker implements Serializable {
 			model.addColumn(column);
 		}
 		dashboard.setModel(model);
+		
+		Panel panelHead = (Panel) application.createComponent(fc, "org.primefaces.component.Panel",
+				"org.primefaces.component.PanelRenderer");
+		panelHead.setId("PanelHead");
+		panelHead.setStyle("width:1050px");
+		panelHead.setClosable(false);
+		
 
-		List<OrderModel> lstOrders = new ArrayList<OrderModel>();
-		lstOrders = orderItemEJB.getDistinctActiveTable();
-
-		for (int i = 0, n = lstOrders.size(); i < n; i++) {
-			TableModel tblModel = new TableModel();
-			tblModel = tableEJB.find(lstOrders.get(i).getTable_id().getTableId());
+		List<TableClass> lstTableClass = new ArrayList<>();
+		lstTableClass = tableClassEJB.findAll();
+		int a = 0;
+		for (TableClass tableClass:lstTableClass){
+			a++;
 			Panel panel = (Panel) application.createComponent(fc, "org.primefaces.component.Panel",
 					"org.primefaces.component.PanelRenderer");
-			panel.setId("measure_" + i);
-			panel.setHeader(tblModel.getTableName());
+			panel.setId("mainpanel"+a );
+			panel.setHeader(tableClass.getClassName());
+			panel.setStyle("width:950px");
 			panel.setClosable(false);
-			panel.setStyleClass("panel panel-primary");
 			panel.setToggleable(true);
-
-			getDashboard().getChildren().add(panel);
-			//refreshChildren(panel, tblModel.getTableId());
-			DashboardColumn column = model.getColumn(i % getColumnCount());
-			column.addWidget(panel.getId());
+			panel.setStyleClass("customTitleBar");
 			
+			PanelGrid panelGrid = (PanelGrid) application.createComponent(fc, "org.primefaces.component.PanelGrid",
+					"org.primefaces.component.PanelGridRenderer");
+			panelGrid.setId("mainpanelGrid"+a );
+			panelGrid.setColumns(4);
+			
+		List<TableModel> lstTable = tableEJB.getByTableClass(tableClass.getClassId());
+
+		for (int i = 0, n = lstTable.size(); i < n; i++) {
+			TableModel tblModel = new TableModel();
+			tblModel = tableEJB.find(lstTable.get(i).getTableId());
+			Panel panelInside = (Panel) application.createComponent(fc, "org.primefaces.component.Panel",
+					"org.primefaces.component.PanelRenderer");
+			panelInside.setId("measure_" + i+a);
+			panelInside.setHeader(tblModel.getTableName());
+			panelInside.setClosable(false);
+			
+			panelInside.setStyle("margin-left:5px;width:180px");
+			panelInside.setToggleable(true);
+			
+			panelGrid.getChildren().add(panelInside);
+			//getDashboard().getChildren().add(panel);
+			// refreshChildren(panel, tblModel.getTableId());
+		
+			List<OrderModel> lstOrders = new ArrayList<OrderModel>();
+			lstOrders = orderItemEJB.getOrdersFromActiveTable(tblModel.getTableId());
+			if (lstOrders.size() >0){
+			Effect effect = new Effect();
+			effect.setType("pulsate");
+			effect.setEvent("load");
+			panelInside.getChildren().add(effect);
+			panelInside.setStyleClass("active");
+			
+			}
+			else {
+				panelInside.setStyleClass("customTitleBar");
+			}
+
 			CommandButton submit = new CommandButton();
 			submit.setValue("View");
-			submit.setUpdate("maina");
-			submit.setId("createkjkas"+i);
-			submit.setStyleClass("normal");
 			submit.setIcon("ui-icon-zoomin");
+			submit.setUpdate(":activeBill");
+			submit.setId("create" + i+"-"+a);
 			FacesContext facesCtx = FacesContext.getCurrentInstance();
 			ELContext elContext = facesCtx.getELContext();
 			Application app = facesCtx.getApplication();
 			ExpressionFactory elFactory = app.getExpressionFactory();
-			MethodExpression methodExpression =null;
-			methodExpression = elFactory.createMethodExpression(elContext,"#{newDashBoardMB.loadBill("+tblModel.getTableId()+")}",null, new Class[]{});
-			//submit.setActionExpression(methodExpression);
+			MethodExpression methodExpression = null;
+			methodExpression = elFactory.createMethodExpression(elContext,
+					"#{newDashBoardMB.loadBill(" + tblModel.getTableId() + ")}", null, new Class[] {});
+			// submit.setActionExpression(methodExpression);
 			submit.addActionListener(new MethodExpressionActionListener(methodExpression));
 			submit.setActionExpression(methodExpression);
-			
-			HtmlCommandLink ajaxLink = new HtmlCommandLink();
-		        ajaxLink.setId("Link"+i);
-		        ajaxLink.setValue("Check Bill");
-		       
-		        FacesContext context = FacesContext.getCurrentInstance();
-		        MethodExpression actionListenerExpression = context.getApplication().getExpressionFactory().createMethodExpression(context.getELContext(), "#{newDashBoardMB.loadBill("+tblModel.getTableId()+")}", null, new Class[]{ActionEvent.class});
-		        MethodExpressionActionListener actionListener = new MethodExpressionActionListener(actionListenerExpression);
-		        ajaxLink.addActionListener(actionListener);
-		        
-			
-			FacesContext context = FacesContext.getCurrentInstance();
-			MethodExpression methodExpression = context.getApplication().getExpressionFactory().createMethodExpression(
-			    context.getELContext(), "#{newDashBoardMB.loadBill("+tblModel.getTableId()+")}", null,null);
 
-			submit.addActionListener(new MethodExpressionActionListener(methodExpression));
-			
-			panel.getChildren().add(submit);
-			//panel.getChildren().add(ajaxLink);
+			panelInside.getChildren().add(submit);
 
-			
 		}
-	}*/
+		
+		
+		panel.getChildren().add(panelGrid);
+		panelHead.getChildren().add(panel);
+		
+		
+		
+		}
+		DashboardColumn column = model.getColumn(a % getColumnCount());
+		column.addWidget(panelHead.getId());
+		getDashboard().getChildren().add(panelHead);
+	}
 
 	public Dashboard getDashboard() {
 		return dashboard;

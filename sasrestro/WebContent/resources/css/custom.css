@@ -6343,3 +6343,22 @@ ul.notifications {
     float: right;
     opacity: 1;
 }
+
+.customTitleBar.ui-panel  .ui-panel-titlebar {
+ background: #BBBBBB;!important
+}
+
+.active.ui-panel .ui-panel-titlebar {
+ background: #00AAFF;!important
+}
+
+.reserve.ui-panel .ui-panel-titlebar {
+ background: #B90000;!important
+}
+.ui-panel .ui-panel-titlebar
+ {
+   
+    }
+    
+ 
+}  

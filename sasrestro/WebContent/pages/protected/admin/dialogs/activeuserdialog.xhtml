@@ -4,17 +4,25 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Restro Management:Active Users</title>
+	<link rel="stylesheet" type="text/css" href="css/decorator.css" />
+</h:head>
 <h:body>
-	<p:dialog widgetVar="activeUserWidget" id="activeUserFormId"
-		width="600" modal="true" closable="true" draggable="false"
-		resizable="false" header="Active Users">
+
+
+	<!-- ll generally  xhtml folders are maitainded with minimum sub folders for jsf navigation simplicity - -->
+	<ui:composition template="/pages/protected/templates/master.xhtml">
+		<ui:define name="divMain">
 		<h:form id="activeUserForm" prependId="false">
 			<p:growl id="mess" showDetail="false"></p:growl>
 			<p:panel id="panelActive">
 				<p:panelGrid id="gridActive" columns="1">
 					<p:dataTable id="usersTable" value="#{dayInOutMB.lstActiveUser}"
 						update="mess" rowIndexVar="rowsn" var="user"
-						style="width:500px;margin-top:30px" paginator="true" rows="5"
+						style="margin-top:30px" paginator="true" rows="5"
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 						rowsPerPageTemplate="5,10,15" resizableColumns="true">
 
@@ -77,6 +85,7 @@
 					type="button" />
 			</p:confirmDialog>
 		</h:form>
-	</p:dialog>
+	</ui:define>
+	</ui:composition>
 </h:body>
 </html>
