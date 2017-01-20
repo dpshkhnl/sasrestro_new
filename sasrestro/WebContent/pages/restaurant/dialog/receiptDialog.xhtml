@@ -11,7 +11,7 @@
 	
 </h:head>
 <h:body>
-	<p:dialog id="receipt" width="800px" header="Receipt"
+	<p:dialog id="receipt" header="Receipt"
 		widgetVar="receiptDialog" appendToBody="true" closable="true"
 		modal="true" dynamic="true" resizable="false" draggable="false">
 		<h:form id="receiptForm">
@@ -19,8 +19,50 @@
 			<p:panelGrid columns="2">
 				<p:panelGrid columns="3">
 					<h:outputText value="" />
-					<h:outputText value="Bill Total Amount :" />
-					<h:inputText value="#{newDashBoardMB.billTotal}" readonly="true" />
+					<h:outputText value="Bill Amount :" />
+					<h:inputText value="#{newDashBoardMB.billModel.billAmount}" readonly="true" />
+					<h:selectBooleanCheckbox value="#{newDashBoardMB.chkCash}" />
+					<h:outputText value="Discount :" />
+					<p:panelGrid columns="3">
+					<h:inputText id="disPer" value="#{newDashBoardMB.discoutPerc}" style="width:80px">
+					<p:ajax listener="#{newDashBoardMB.calculateDiscount}" update=":receiptForm" process="@this disPer"></p:ajax>
+					</h:inputText>
+					<h:outputText value="%" />
+					<h:inputText id="disAmt" value="#{newDashBoardMB.billModel.discount}" style="width:80px">
+						<p:ajax listener="#{newDashBoardMB.calculateDiscountPer}" update=":receiptForm" process="@this disAmt"></p:ajax>
+					 </h:inputText>
+					</p:panelGrid>
+					<h:selectBooleanCheckbox value="#{newDashBoardMB.chkCash}" />
+					
+					<h:outputText value="TSC" />
+					<h:inputText value="#{newDashBoardMB.billModel.serviceCharge}" readonly="true" />
+					<h:selectBooleanCheckbox value="#{newDashBoardMB.chkCash}" />
+					
+					<h:outputText value="Taxable Amt" />
+					<h:inputText value="#{newDashBoardMB.billModel.billAmount + newDashBoardMB.billModel.serviceCharge - newDashBoardMB.billModel.discount }" readonly="true" />
+					<h:outputText value="" />
+					<h:outputText value="VAT" />
+					<h:inputText value="#{newDashBoardMB.billModel.vatAmount}" readonly="true" />
+					<h:outputText value="" />
+					<h:outputText value="Grand Total" />
+					<h:inputText value="#{newDashBoardMB.billModel.grandTotal}" readonly="true" />
+					
+				</p:panelGrid>
+
+
+				<p:panelGrid columns="3">
+				<h:outputText value="" />
+					<h:outputText value="Name : " />
+					<h:inputText value="#{newDashBoardMB.billModel.billTo}" />
+					
+					<h:outputText value="" />
+					<h:outputText value="Address : " />
+					<h:inputText value="#{newDashBoardMB.billModel.address}" />
+					<h:outputText value="" />
+					<h:outputText value="VAT No : " />
+					<h:inputText value="#{newDashBoardMB.billModel.custVAT}" />
+					
+					
 					<h:selectBooleanCheckbox value="#{newDashBoardMB.chkCash}" />
 					<h:outputText value="Cash :" />
 					<h:inputText value="#{newDashBoardMB.cashAmount}" />
@@ -30,28 +72,18 @@
 					<h:selectBooleanCheckbox value="#{newDashBoardMB.chkCredit}" />
 					<h:outputText value="Credit :" />
 					<h:inputText value="#{newDashBoardMB.creditAmount}" />
+					<h:outputText value="" />
+					<h:outputText value="Card No./Cheque No. :" />
+					<h:inputText value="#{newDashBoardMB.billModel.cardNo}" />
 				</p:panelGrid>
 
-
-				<p:panelGrid columns="2">
-					<h:outputText value="Name : " />
-					<h:inputText value="#{newDashBoardMB.customerName}" />
-					<h:outputText value="Cheque No. :" />
-					<h:inputText value="#{newDashBoardMB.chequeNum}" />
-				</p:panelGrid>
-
-				<!-- <p:panelGrid columns="1">
-					<h:outputText value="" />
-					<h:outputText value="" />
-					<h:selectOneMenu value="" />
-					<h:outputText value="" />
-				</p:panelGrid> -->
+				
 			</p:panelGrid>
 			<p:commandButton value="Receive" icon="ui-icon-check"
 				actionListener="#{newDashBoardMB.saveReceipt()}"
-				update=":receiptForm" />
+				update=":receiptForm receiptMsg :maina" />
 				<p:commandButton icon="ui-icon-print" style="width:100px"
-						value="Print" action="#{printBillMB.printReceipt()}"></p:commandButton>
+						value="Print" action="#{newDashBoardMB.printReceipt()}"></p:commandButton>
 		</h:form>
 		
 	</p:dialog>

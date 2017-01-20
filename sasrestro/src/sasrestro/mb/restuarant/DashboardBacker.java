@@ -29,6 +29,7 @@ import org.primefaces.component.datatable.DataTable;
 import org.primefaces.component.effect.Effect;
 import org.primefaces.component.panel.Panel;
 import org.primefaces.component.panelgrid.PanelGrid;
+import org.primefaces.component.scrollpanel.ScrollPanel;
 import org.primefaces.model.DashboardColumn;
 import org.primefaces.model.DashboardModel;
 import org.primefaces.model.DefaultDashboardColumn;
@@ -116,6 +117,12 @@ public class DashboardBacker implements Serializable {
 
 	@PostConstruct
 	public void init() {
+		
+	}
+
+	public Dashboard getDashboard() {
+		dashboard = null;
+		dashboard = new  Dashboard();
 		FacesContext fc = FacesContext.getCurrentInstance();
 		Application application = fc.getApplication();
 
@@ -130,10 +137,12 @@ public class DashboardBacker implements Serializable {
 		}
 		dashboard.setModel(model);
 		
+		
+		
 		Panel panelHead = (Panel) application.createComponent(fc, "org.primefaces.component.Panel",
 				"org.primefaces.component.PanelRenderer");
 		panelHead.setId("PanelHead");
-		panelHead.setStyle("width:1050px");
+		panelHead.setStyle("width:1050px;height:500px");
 		panelHead.setClosable(false);
 		
 
@@ -142,6 +151,8 @@ public class DashboardBacker implements Serializable {
 		int a = 0;
 		for (TableClass tableClass:lstTableClass){
 			a++;
+			
+			
 			Panel panel = (Panel) application.createComponent(fc, "org.primefaces.component.Panel",
 					"org.primefaces.component.PanelRenderer");
 			panel.setId("mainpanel"+a );
@@ -187,6 +198,41 @@ public class DashboardBacker implements Serializable {
 			else {
 				panelInside.setStyleClass("customTitleBar");
 			}
+			
+			
+			HtmlOutputText text = new HtmlOutputText();
+			text.setValue(
+					"<br/>"
+							+ "Bill Amount:" );
+
+			
+
+			HtmlOutputText text1 = new HtmlOutputText();
+			text1.setValue(
+					"<br/> "
+							+ "Logged In time : ");
+
+			
+
+			HtmlOutputText text2 = new HtmlOutputText();
+			text2.setValue(
+					"<br/>"
+							+ "Active Since:");
+
+			
+
+			/*
+			 * CommandButton button = new CommandButton();
+			 * button.setValue("Print Bill");
+			 */
+
+			panelInside.getChildren().add(text);
+			panelInside.getChildren().add(text1);
+			panelInside.getChildren().add(text2);
+			// panel.getChildren().add(button);
+
+			// }
+			
 
 			CommandButton submit = new CommandButton();
 			submit.setValue("View");
@@ -203,8 +249,22 @@ public class DashboardBacker implements Serializable {
 			// submit.setActionExpression(methodExpression);
 			submit.addActionListener(new MethodExpressionActionListener(methodExpression));
 			submit.setActionExpression(methodExpression);
-
 			panelInside.getChildren().add(submit);
+			
+			CommandButton merge = new CommandButton();
+			merge.setValue("Merge");
+			merge.setIcon("ui-icon-shuffle");
+			merge.setUpdate(":activeBill");
+			merge.setId("mergenew" + i+"-"+a);
+			MethodExpression methodExpression1 = null;
+			methodExpression1 = elFactory.createMethodExpression(elContext,
+					"#{newDashBoardMB.loadMergeDialog}", null, new Class[] {});
+			// merge.setActionExpression(methodExpression);
+			merge.addActionListener(new MethodExpressionActionListener(methodExpression1));
+			merge.setActionExpression(methodExpression1);
+			
+
+			panelInside.getChildren().add(merge);
 
 		}
 		
@@ -213,16 +273,17 @@ public class DashboardBacker implements Serializable {
 		panelHead.getChildren().add(panel);
 		
 		
-		
 		}
+		
 		DashboardColumn column = model.getColumn(a % getColumnCount());
 		column.addWidget(panelHead.getId());
-		getDashboard().getChildren().add(panelHead);
-	}
-
-	public Dashboard getDashboard() {
+		dashboard.getChildren().add(panelHead);
+		
 		return dashboard;
 	}
+	
+	
+	
 
 	public void setDashboard(Dashboard dashboard) {
 		this.dashboard = dashboard;

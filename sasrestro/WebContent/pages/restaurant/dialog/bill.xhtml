@@ -33,10 +33,10 @@
 
 
 				<p:panelGrid columns="7">
-					<p:commandButton icon="ui-icon-check" style="width:100px"
-						value="Pay" onclick="receiptDialog.show();"></p:commandButton>
-					<p:commandButton icon="ui-icon-shuffle" style="width:100px"
-						onclick="mergeTableDialog.show();" update="@form" value="Merge"></p:commandButton>
+					<p:commandButton icon="ui-icon-check" style="width:100px" action="#{newDashBoardMB.loadReceiptDialog}"
+						value="Pay" ></p:commandButton>
+					<!-- <p:commandButton icon="ui-icon-shuffle" style="width:100px"
+						onclick="mergeTableDialog.show();" update="@form" value="Merge"></p:commandButton> -->
 
 					<h:outputText value="Send Bill To:" id="lblName" />
 
@@ -50,9 +50,9 @@
 							listener="#{newDashBoardMB.loadBillByClass}" process="@this"></p:ajax>
 
 					</h:selectOneMenu>
-					<p:commandButton value="Send " id="sendBill" type="button"
+					<p:commandButton value="Send " id="sendBill"  action="#{newDashBoardMB.sendKOTBOT()}" process="@this"
 						icon="ui-icon-print" style="display:block;width:100px">
-						<p:printer target="activeBill" />
+						
 					</p:commandButton>
 
 				</p:panelGrid>

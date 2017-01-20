@@ -43,6 +43,9 @@ import javax.persistence.TemporalType;
 		@Column(name="status")
 		private Integer status;
 
+		@Column(name ="token_no")
+		private Integer tokenNo;
+		
 		public int getOrderId() {
 			return orderId;
 		}
@@ -89,6 +92,14 @@ import javax.persistence.TemporalType;
 
 		public void setStatus(Integer status) {
 			this.status = status;
+		}
+
+		public Integer getTokenNo() {
+			return tokenNo;
+		}
+
+		public void setTokenNo(Integer tokenNo) {
+			this.tokenNo = tokenNo;
 		}
 
 		

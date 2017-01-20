@@ -62,6 +62,7 @@ public class PrintBillMB extends AbstractMB implements Serializable {
 	public void printReceipt() throws IOException, JRException {
 
 		// loadData();
+		getLstBillItem();
 		if (lstBillItem.size() == 0) {
 			displayErrorMessageToUser("No Data to Print");
 			return;

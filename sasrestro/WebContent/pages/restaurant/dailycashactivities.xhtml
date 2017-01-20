@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>SAS Restro:Menu</title>
+	<link rel="stylesheet" type="text/css" href="css/decorator.css" />
+</h:head>
+<h:body>
+	<ui:composition template="/pages/protected/templates/master.xhtml">
+		<ui:define name="divMain">
+
+
+			<h:form id="frmBill" target="_blank">
+
+
+				<p:growl id="msgs" showDetail="false" />
+				<p:panel>
+
+					<p:panelGrid columns="5">
+						
+						<p:column>
+						<p:outputLabel value="Date: " for="fromDate" />
+						<p:calendar id="fromDate" value="#{billMB.billModel.date}" required="true" requiredMessage="Date Required"
+							pattern="yyyy-MM-dd" navigator="true" />
+					</p:column>
+
+						<p:commandButton icon=" ui-icon-search " id="cmdSave"
+							action="#{billMB.searchBill}" process="@this fromDate"
+							update=":frmBill" value="Search"
+							style="width:100px;margin-left:10px">
+						</p:commandButton>
+						<p:commandButton icon=" ui-icon-refresh " value="Cancel"
+							style="width:100px;margin-left:10px">
+
+
+						</p:commandButton>
+
+
+
+
+					</p:panelGrid>
+
+					<p:dataTable id="tblClass" rowIndexVar="rowIndex"
+						value="#{billMB.lstBillModel}" var="bill" paginator="true"
+						rows="50"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="50,100,150" scrollable="true">
+
+						<p:column style="width:20px">
+							<f:facet name="header">
+								<h:outputText value="Sno" />
+							</f:facet>
+							<h:outputText value="#{rowIndex+1}" />
+						</p:column>
+
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Bill No" />
+							</f:facet>
+							<h:outputText value="#{bill.billNo}" />
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Date" />
+							</f:facet>
+							<h:outputText value="#{bill.date}">
+							 <f:convertDateTime pattern="yyyy-MM-dd" />
+							</h:outputText>
+						</p:column>
+
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Customer Name" />
+							</f:facet>
+							<h:outputText value="#{bill.billTo}" />
+									<f:facet name="footer">
+        Total:
+    </f:facet>
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Bill Amount" />
+							</f:facet>
+							<h:outputText value="#{bill.billAmount}" />
+								<f:facet name="footer">
+       <h:outputText value="#{billMB.totBillAmount}" />
+    </f:facet>
+						</p:column>
+
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Discount" />
+							</f:facet>
+							<h:outputText value="#{bill.discount}" />
+							<f:facet name="footer">
+       <h:outputText value="#{billMB.totDiscount}" />
+    </f:facet>
+						</p:column>
+
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="VAT" />
+							</f:facet>
+							<h:outputText value="#{bill.vatAmount}" />
+							<f:facet name="footer">
+       <h:outputText value="#{billMB.totVat}" />
+    </f:facet>
+						</p:column>
+
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Service Charge" />
+							</f:facet>
+							<h:outputText value="#{bill.serviceCharge}" />
+							<f:facet name="footer">
+       <h:outputText value="#{billMB.totTSC}" />
+    </f:facet>
+						</p:column>
+						
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Grand Total" />
+							</f:facet>
+							<h:outputText value="#{bill.grandTotal}" />
+							<f:facet name="footer">
+       <h:outputText value="#{billMB.grandTotal}" />
+    </f:facet>
+						</p:column>
+						
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Remarks" />
+							</f:facet>
+							<h:outputText value="#{bill.remarks}" />
+						</p:column>
+					
+
+					</p:dataTable>
+
+				</p:panel>
+
+
+			</h:form>
+
+
+		</ui:define>
+	</ui:composition>
+
+
+
+</h:body>
+</html>
