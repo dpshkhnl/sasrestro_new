@@ -274,10 +274,6 @@ public class JournalVoucherDetailMB extends AbstractMB implements Serializable {
 
 		List<AccHeadMap> bankAcc = accHeadMapEJB
 				.findByMapPurpose("Bank Account");
-		// List<AccHeadMap> cashAcc = accHeadMapEJB
-		// .findByMapPurpose("Cash In Hand");
-		// List<AccHeadMap> mainCashAcc = accHeadMapEJB
-		// .findByMapPurpose("Main Cash In Hand");
 
 		boolean accCheck = false;
 
@@ -287,20 +283,6 @@ public class JournalVoucherDetailMB extends AbstractMB implements Serializable {
 				accCheck = true;
 			}
 		}
-
-		// for (AccHeadMap accHeadMap : cashAcc) {
-		// if (accHeadMap.getAccHeadModel().getAccHeadId() == accMcg
-		// .getAccHeadId()) {
-		// accCheck = true;
-		// }
-		// }
-		//
-		// for (AccHeadMap accHeadMap : mainCashAcc) {
-		// if (accHeadMap.getAccHeadModel().getAccHeadId() == accMcg
-		// .getAccHeadId()) {
-		// accCheck = true;
-		// }
-		// }
 
 		if (accMcg == null || accMcg.getAccHeadId() <= 0) {
 			displayErrorMessageToUser("Please select the account head. ");
