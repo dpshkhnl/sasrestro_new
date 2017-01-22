@@ -18,17 +18,13 @@
 				<p:blockUI block="ledgerForm" trigger="cmdView">
 					<p:graphicImage value="/resources/images/ajax-load.gif" />
 				</p:blockUI>
-				<p:panelGrid columns="8">
-					<p:column>
-						<p:outputLabel value="From: " for="fromDate" />
-						<p:calendar id="fromDate" value="#{accReportMB.fromDate}"
-							pattern="yyyy-MM-dd" navigator="true" />
-					</p:column>
-					<p:column>
-						<p:outputLabel value="To: " for="toDate" />
-						<p:calendar id="toDate" value="#{accReportMB.toDate}"
-							pattern="yyyy-MM-dd" navigator="true" />
-					</p:column>
+				<p:panelGrid columns="11">
+					<p:outputLabel value="From: " for="fromDate" />
+					<p:calendar id="fromDate" value="#{accReportMB.fromDate}"
+						pattern="yyyy-MM-dd" navigator="true" size="8" />
+					<p:outputLabel value="To: " for="toDate" />
+					<p:calendar id="toDate" value="#{accReportMB.toDate}"
+						pattern="yyyy-MM-dd" navigator="true" size="8" />
 					<p:outputLabel value="Root Account Heads: " for="cmbRootHead" />
 					<p:selectOneMenu id="cmbRootHead" filter="true"
 						filterMatchMode="startsWith"
