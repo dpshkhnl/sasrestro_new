@@ -15,16 +15,15 @@
 </h:head>
 <h:body>
 	<p:dialog id="journalCreate" widgetVar="journalCreateWidget"
-		height="600" width="1200" closable="true" draggable="false"
+		height="500" width="1250" closable="true" draggable="true"
 		resizable="false" header="Journal Voucher" modal="true">
 		<h:form id="journalEntryForm">
-			<br />
 			<p:panel id="jPanel" header="Journal Voucher">
 				<p:panelGrid columns="2" id="panelMain" style="border:none;">
 					<p:tree value="#{treeBean.root}" var="node" dynamic="true"
 						cache="false" selectionMode="single" emptyMessage="No Records"
 						selection="#{treeBean.selectedNode}" id="tree"
-						style="height: 500px!important; width:200px; margin:0px;">
+						style="height: 500px!important; width:200px; margin:0px;margin-top: -90px;">
 						<p:ajax event="expand" update=":messageGrowl"
 							listener="#{treeBean.onNodeExpand}" />
 						<p:ajax event="collapse" update=":messageGrowl"
@@ -42,7 +41,7 @@
 						</p:treeNode>
 					</p:tree>
 					<p:panel header="Journal Details"
-						style="height: 500px!important; width: 100%;">
+						style="height: auto!important; width: 100%;">
 						<p:focus context="jvPanel" />
 						<p:panelGrid columns="5" id="accDetailsPG" style="border:0px;">
 							<p:outputLabel value="JV No" />
