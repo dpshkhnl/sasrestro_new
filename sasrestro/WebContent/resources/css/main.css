@@ -247,3 +247,18 @@ customFieldset .ui-fieldset, .ui-fieldset .ui-fieldset-legend {
 .ui-panel .ui-panel-titlebar {
 	color: #19506C !important;
 }
+
+.ui-widget-content{
+	padding : 0px;
+}
+
+.ui-autocomplete{
+	line-height: 20px;
+}
+
+.ui-datepicker-calendar{
+	width:none;
+	font-size:.9em;
+	border-collapse:collapse;
+	margin:-1px 0 0 0 !important;
+}
