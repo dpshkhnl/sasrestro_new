@@ -9,7 +9,8 @@
 <h:head>
 	<title>E-Cafe</title>
 	<!-- Bootstrap core CSS -->
-
+	<link rel="stylesheet" type="text/css"
+		href="#{request.contextPath}/resources/css/main.css" />
 	<link rel="stylesheet" type="text/css"
 		href="#{request.contextPath}/resources/css/bootstrap.min.css" />
 	<link rel="stylesheet" type="text/css"
@@ -35,16 +36,16 @@
 				<div class="left_col scroll-view">
 
 					<div class="navbar nav_title" style="border: 0;">
-						<a href="index.html" class="site_title">
-						<span class="glyphicon glyphicon-leaf" aria-hidden="true"></span>
-							<span>E-Cafe</span></a>
+						<a href="index.html" class="site_title"> <span
+							class="glyphicon glyphicon-leaf" aria-hidden="true"></span> <span>E-Cafe</span></a>
 					</div>
 					<div class="clearfix"></div>
 
 					<!-- menu prile quick info -->
 					<div class="profile">
 						<div class="profile_pic">
-							<h:graphicImage library="images" name="Rest.png" class="img-circle profile_img"/>
+							<h:graphicImage library="images" name="Rest.png"
+								class="img-circle profile_img" />
 						</div>
 						<div class="profile_info">
 							<span>Welcome,</span>
@@ -66,52 +67,81 @@
 										class="fa fa-chevron-down"></span></a>
 									<ul class="nav child_menu" style="display: none">
 										<li><a href="/sasrestro/pages/restaurant/main.xhtml">Dashboard</a></li>
-										<li><a href="/sasrestro/pages/restaurant/billHistory.xhtml">Bill History</a></li>
-										<li><a href="/sasrestro/pages/restaurant/dailycashactivities.xhtml">Daily Sales Activities</a></li>
+										<li><a
+											href="/sasrestro/pages/restaurant/billHistory.xhtml">Bill
+												History</a></li>
+										<li><a
+											href="/sasrestro/pages/restaurant/dailycashactivities.xhtml">Daily
+												Sales Activities</a></li>
 									</ul></li>
 								<li><a><i class="fa fa-edit"></i> Admin <span
 										class="fa fa-chevron-down"></span></a>
 									<ul class="nav child_menu" style="display: none">
-										<li><a href="/sasrestro/pages/protected/admin/usermanagement.xhtml">User Management</a></li>
-										<li><a href="/sasrestro/pages/protected/admin/dialogs/vatSetting.xhtml">Master Setting</a></li>
-										<li><a href="/sasrestro/pages/protected/admin/dialogs/activeuserdialog.xhtml">Active Users</a></li>
+										<li><a
+											href="/sasrestro/pages/protected/admin/usermanagement.xhtml">User
+												Management</a></li>
+										<li><a
+											href="/sasrestro/pages/protected/admin/dialogs/vatSetting.xhtml">Master
+												Setting</a></li>
+										<li><a
+											href="/sasrestro/pages/protected/admin/dialogs/activeuserdialog.xhtml">Active
+												Users</a></li>
 										<li><a onclick="activeUserWidget.show();">Day Out</a></li>
-										<li><a onclick="activeUserWidget.show();">Back Up Database</a></li>
+										<li><a onclick="activeUserWidget.show();">Back Up
+												Database</a></li>
 										<li><a onclick="activeUserWidget.show();">Log Out</a></li>
 									</ul></li>
-								
+
 								<li><a><i class="fa fa-pie-chart"></i> Account <span
 										class="fa fa-chevron-down"></span></a>
 									<ul class="nav child_menu" style="display: none">
-										<li><a href="/sasrestro/pages/account/accounthead.xhtml">Account Heads</a></li>
-										<li><a href="/sasrestro/pages/account/openingBalanceEntry.xhtml">Opening Balance Entry</a></li>
-										<li><a href="/sasrestro/pages/account/accHeadMap.xhtml">Account Head Map</a></li>
-										<li><a href="/sasrestro/pages/account/journalVoucherDetails.xhtml">Journal Voucher</a></li>
+										<li><a href="/sasrestro/pages/account/accounthead.xhtml">Account
+												Heads</a></li>
+										<li><a
+											href="/sasrestro/pages/account/openingBalanceEntry.xhtml">Opening
+												Balance Entry</a></li>
+										<li><a href="/sasrestro/pages/account/accHeadMap.xhtml">Account
+												Head Map</a></li>
+										<li><a
+											href="/sasrestro/pages/account/journalVoucherDetails.xhtml">Journal
+												Voucher</a></li>
 										<li><a href="/sasrestro/pages/account/ledger.xhtml">Ledger</a></li>
-										<li><a href="/sasrestro/pages/account/trialBalance.xhtml">Trial Balance</a></li>
-										<li><a href="/sasrestro/pages/account/balanceSheet.xhtml">Balance Sheet</a></li>
-										<li><a href="/sasrestro/pages/account/profitLoss.xhtml">Profit and Loss</a></li>
+										<li><a href="/sasrestro/pages/account/trialBalance.xhtml">Trial
+												Balance</a></li>
+										<li><a href="/sasrestro/pages/account/balanceSheet.xhtml">Balance
+												Sheet</a></li>
+										<li><a href="/sasrestro/pages/account/profitLoss.xhtml">Profit
+												and Loss</a></li>
 									</ul></li>
-								
+
 								<li><a><i class="fa fa-desktop"></i> Menu <span
 										class="fa fa-chevron-down"></span></a>
 									<ul class="nav child_menu" style="display: none">
-										<li><a href="/sasrestro/pages/restaurant/ItemClass.xhtml">Menu Class</a></li>
-										<li><a href="/sasrestro/pages/restaurant/itemCategory.xhtml">Menu Category</a></li>
-										<li><a href="/sasrestro/pages/restaurant/ItemUnit.xhtml">Menu Unit</a></li>
-										<li><a href="/sasrestro/pages/restaurant/menu.xhtml">Menu Item</a></li>
-									
+										<li><a href="/sasrestro/pages/restaurant/ItemClass.xhtml">Menu
+												Class</a></li>
+										<li><a
+											href="/sasrestro/pages/restaurant/itemCategory.xhtml">Menu
+												Category</a></li>
+										<li><a href="/sasrestro/pages/restaurant/ItemUnit.xhtml">Menu
+												Unit</a></li>
+										<li><a href="/sasrestro/pages/restaurant/menu.xhtml">Menu
+												Item</a></li>
+
 									</ul></li>
-								
-									
-									
-									<li><a><i class="fa fa-newspaper-o"></i> Table <span
+
+
+
+								<li><a><i class="fa fa-newspaper-o"></i> Table <span
 										class="fa fa-chevron-down"></span></a>
 									<ul class="nav child_menu" style="display: none">
-									<li><a href="/sasrestro/pages/restaurant/tableclass.xhtml">Table Class</a></li>
-										<li><a  href="/sasrestro/pages/restaurant/tables.xhtml">Table Management</a></li>
-										<li><a  href="/sasrestro/pages/restaurant/tables.xhtml">Reserve Table</a></li>
-										
+										<li><a
+											href="/sasrestro/pages/restaurant/tableclass.xhtml">Table
+												Class</a></li>
+										<li><a href="/sasrestro/pages/restaurant/tables.xhtml">Table
+												Management</a></li>
+										<li><a href="/sasrestro/pages/restaurant/tables.xhtml">Reserve
+												Table</a></li>
+
 									</ul></li>
 							</ul>
 						</div>
@@ -138,7 +168,7 @@
 			<div class="top_nav">
 
 				<div class="nav_menu">
-					
+
 					<div class="nav toggle">
 						<a id="menu_toggle"><i class="fa fa-bars"></i></a>
 					</div>
@@ -200,7 +230,7 @@
 							</ul></li>
 
 					</ul> -->
-					
+
 				</div>
 
 			</div>
@@ -214,15 +244,13 @@
 							<ui:insert name="divHead" />
 						</div>
 					</div>
-					<div class="clearfix">
-					
-					</div>
+					<div class="clearfix"></div>
 
 					<div class="row">
 
 						<div class="col-md-12 col-sm-12 col-xs-12">
 							<div class="x_panel" style="height: 600px;">
-							<!-- 	<div class="x_title">
+								<!-- 	<div class="x_title">
 									<h2>Plain Page</h2>
 									<ul class="nav navbar-right panel_toolbox">
 										<li><a class="collapse-link"><i
@@ -239,10 +267,10 @@
 									</ul>
 									<div class="clearfix"></div>
 								</div> -->
-								
+
 								<p:growl id="messageGrowl" />
 								<ui:insert name="divMain" />
-								
+
 							</div>
 						</div>
 					</div>
@@ -252,8 +280,8 @@
 				<footer>
 				<div class="">
 					<p class="pull-right">
-						Crysp Labs Inc. <a></a>. | <span
-							class="lead"> <i class="fa fa-paw"></i> 
+						Crysp Labs Inc. <a></a>. | <span class="lead"> <i
+							class="fa fa-paw"></i>
 						</span>
 					</p>
 				</div>
@@ -275,11 +303,15 @@
 		<div id="notif-group" class="tabbed_notifications"></div>
 	</div>
 
-	<script type="text/javascript" src="#{request.contextPath}/resources/js/bootstrap.min.js"></script> <!-- Correio -->
-	<script type="text/javascript" src="#{request.contextPath}/resources/js/custom.js"></script> <!-- Menu -->
-	
+	<script type="text/javascript"
+		src="#{request.contextPath}/resources/js/bootstrap.min.js"></script>
+	<!-- Correio -->
+	<script type="text/javascript"
+		src="#{request.contextPath}/resources/js/custom.js"></script>
+	<!-- Menu -->
 
-			
+
+
 
 
 </h:body>
