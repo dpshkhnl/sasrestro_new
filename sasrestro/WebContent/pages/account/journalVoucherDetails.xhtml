@@ -5,7 +5,8 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:pe="http://primefaces.org/ui/extensions">
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 	<title>Journal Voucher Details</title>
@@ -14,14 +15,11 @@
 <h:body>
 	<ui:composition template="/pages/protected/templates/master.xhtml">
 		<ui:define name="divMain">
-			<!-- <p:growl id="growl" showDetail="true"> -->
 			<h:form id="journalDetail">
 				<p:blockUI block="journalDetail" trigger="jvSearchBtn">
 					<p:graphicImage value="/resources/images/ajax-load.gif" />
 				</p:blockUI>
 				<p:panel>
-
-					<!-- <h:link target="" outcome="journalVoucherEntry.xhtml" value="a">New</h:link> -->
 					<p:panelGrid columns="15">
 						<p:commandButton value="New" icon="ui-icon-plus"
 							disabled="#{userPrevilegeMB.journalVoucher lt 2}"
@@ -47,7 +45,7 @@
 
 						<h:outputLabel value="From: " />
 						<p:calendar id="fDt" value="#{journalMB.frmDt}" size="6"
-							pattern="yyyy-MM-dd" navigator="true" display="inline">
+							pattern="yyyy-MM-dd" navigator="true">
 							<p:ajax event="dateSelect"
 								listener="#{journalMB.updateDatesNP()}"
 								update=":journalDetail:fDtNep" process="@this fDtNep" />
@@ -59,7 +57,7 @@
 						</p:inputMask>
 						<h:outputLabel value="To: " />
 						<p:calendar id="toDt" value="#{journalMB.toDt}" size="6"
-							pattern="yyyy-MM-dd" navigator="true" display="inline">
+							pattern="yyyy-MM-dd" navigator="true">
 							<p:ajax event="dateSelect"
 								listener="#{journalMB.updateDatesNP()}"
 								update=":journalDetail:toNep" process="@this toNep" />
