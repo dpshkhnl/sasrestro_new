@@ -5,6 +5,7 @@ public class BillReportModel {
 	double itemPrice;
 	double quantity;
 	String itemName;
+	String comment;
 	public double getItemPrice() {
 		return itemPrice;
 	}
@@ -23,6 +24,12 @@ public class BillReportModel {
 	}
 	public void setQuantity(double quantity) {
 		this.quantity = quantity;
+	}
+	public String getComment() {
+		return comment;
+	}
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 
 }

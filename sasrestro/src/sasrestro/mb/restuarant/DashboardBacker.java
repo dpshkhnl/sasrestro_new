@@ -2,7 +2,9 @@ package sasrestro.mb.restuarant;
 
 import java.io.Serializable;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -51,6 +53,7 @@ public class DashboardBacker implements Serializable {
 
 	public static final int DEFAULT_COLUMN_COUNT = 3;
 	private int columnCount = DEFAULT_COLUMN_COUNT;
+	DecimalFormat df = new DecimalFormat("##.##");
 
 	@ManagedProperty(value = UserMB.INJECTION_NAME)
 	private UserMB userMB;
@@ -160,8 +163,8 @@ public class DashboardBacker implements Serializable {
 			panel.setStyle("width:950px");
 			panel.setClosable(false);
 			panel.setToggleable(true);
+			panel.setCollapsed(true);
 			panel.setStyleClass("customTitleBar");
-			
 			PanelGrid panelGrid = (PanelGrid) application.createComponent(fc, "org.primefaces.component.PanelGrid",
 					"org.primefaces.component.PanelGridRenderer");
 			panelGrid.setId("mainpanelGrid"+a );
@@ -178,57 +181,73 @@ public class DashboardBacker implements Serializable {
 			panelInside.setHeader(tblModel.getTableName());
 			panelInside.setClosable(false);
 			
-			panelInside.setStyle("margin-left:5px;width:180px");
+			panelInside.setStyle("margin-left:5px;width:190px");
 			panelInside.setToggleable(true);
 			
-			panelGrid.getChildren().add(panelInside);
+			
 			//getDashboard().getChildren().add(panel);
 			// refreshChildren(panel, tblModel.getTableId());
 		
 			List<OrderModel> lstOrders = new ArrayList<OrderModel>();
 			lstOrders = orderItemEJB.getOrdersFromActiveTable(tblModel.getTableId());
+			double billAmount = 0.0;
+			String activeSince="N/A";
+			
+			
 			if (lstOrders.size() >0){
 			Effect effect = new Effect();
 			effect.setType("pulsate");
 			effect.setEvent("load");
 			panelInside.getChildren().add(effect);
 			panelInside.setStyleClass("active");
-			
+			Date firstOrder = new Date();
+			for (OrderModel order : lstOrders)
+			{
+				double amt = order.getQuantity() * order.getItemId().getPrice();
+				billAmount+=amt;
+				if (firstOrder.after(order.getOrderTime()))
+				{
+					firstOrder = order.getOrderTime();
+				}
+			}
+			SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");
+			activeSince = sdf.format(firstOrder);
 			}
 			else {
 				panelInside.setStyleClass("customTitleBar");
 			}
 			
-			
 			HtmlOutputText text = new HtmlOutputText();
-			text.setValue(
-					"<br/>"
-							+ "Bill Amount:" );
+			text.setValue( "Bill Amount:" );
+			
+			HtmlOutputText textAmt = new HtmlOutputText();
+			textAmt.setValue( " Rs."+df.format(billAmount)+" " );
 
 			
-
 			HtmlOutputText text1 = new HtmlOutputText();
-			text1.setValue(
-					"<br/> "
-							+ "Logged In time : ");
+			text1.setValue( "Logged In time : ");
 
-			
+			HtmlOutputText textLoggedin = new HtmlOutputText();
+			textLoggedin.setValue(activeSince +" ");
+
 
 			HtmlOutputText text2 = new HtmlOutputText();
-			text2.setValue(
-					"<br/>"
-							+ "Active Since:");
+			text2.setValue("Active Since: ");
 
 			
-
+			HtmlOutputText textActiveFrom = new HtmlOutputText();
+			textActiveFrom.setValue(" N/A");
 			/*
 			 * CommandButton button = new CommandButton();
 			 * button.setValue("Print Bill");
 			 */
 
 			panelInside.getChildren().add(text);
+			panelInside.getChildren().add(textAmt);
 			panelInside.getChildren().add(text1);
+			panelInside.getChildren().add(textLoggedin);
 			panelInside.getChildren().add(text2);
+			panelInside.getChildren().add(textActiveFrom);
 			// panel.getChildren().add(button);
 
 			// }
@@ -254,17 +273,18 @@ public class DashboardBacker implements Serializable {
 			CommandButton merge = new CommandButton();
 			merge.setValue("Merge");
 			merge.setIcon("ui-icon-shuffle");
-			merge.setUpdate(":activeBill");
+			merge.setUpdate(":mergeTableForm");
 			merge.setId("mergenew" + i+"-"+a);
 			MethodExpression methodExpression1 = null;
 			methodExpression1 = elFactory.createMethodExpression(elContext,
-					"#{newDashBoardMB.loadMergeDialog}", null, new Class[] {});
+					"#{newDashBoardMB.loadMergeDialog(" + tblModel.getTableId() + ")}", null, new Class[] {});
 			// merge.setActionExpression(methodExpression);
 			merge.addActionListener(new MethodExpressionActionListener(methodExpression1));
 			merge.setActionExpression(methodExpression1);
 			
 
 			panelInside.getChildren().add(merge);
+			panelGrid.getChildren().add(panelInside);
 
 		}
 		

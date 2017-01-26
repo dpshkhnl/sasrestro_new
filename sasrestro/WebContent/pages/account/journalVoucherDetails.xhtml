@@ -20,7 +20,7 @@
 					<p:graphicImage value="/resources/images/ajax-load.gif" />
 				</p:blockUI>
 				<p:panel>
-					<p:panelGrid columns="15">
+					<p:panelGrid columns="10">
 						<p:commandButton value="New" icon="ui-icon-plus"
 							disabled="#{userPrevilegeMB.journalVoucher lt 2}"
 							oncomplete="journalCreateWidget.show()"
@@ -50,7 +50,7 @@
 								listener="#{journalMB.updateDatesNP()}"
 								update=":journalDetail:fDtNep" process="@this fDtNep" />
 						</p:calendar>
-						<p:inputMask id="fDtNep" size="6" mask="9999-99-99"
+						<p:inputMask id="fDtNep" size="6" mask="9999-99-99" rendered="false"
 							value="#{journalMB.frmDtNp}">
 							<p:ajax event="blur" listener="#{journalMB.updateDatesAD()}"
 								update=":journalDetail:fDt" process="@this fDt" />
@@ -62,7 +62,7 @@
 								listener="#{journalMB.updateDatesNP()}"
 								update=":journalDetail:toNep" process="@this toNep" />
 						</p:calendar>
-						<p:inputMask id="toNep" size="6" mask="9999-99-99"
+						<p:inputMask id="toNep" size="6" mask="9999-99-99" rendered="false"
 							value="#{journalMB.toDtNp}">
 							<p:ajax event="blur" listener="#{journalMB.updateDatesAD()}"
 								update=":journalDetail:toDt" process="@this toDt" />
@@ -76,7 +76,7 @@
 						</p:inputText>
 
 
-						<p:commandButton id="jvSearchBtn" value="Search"
+						<p:commandButton id="jvSearchBtn" value="Search" icon="ic_icon_search"
 							action="#{journalMB.loadTree()}"
 							process="@this chkUnapproved jvType fDt toDt jvNo"
 							update=":journalDetail:jorTreeTable" />

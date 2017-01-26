@@ -65,7 +65,7 @@
 									</p:inputText>
 
 									<p:outputLabel value="Acc Type " />
-									<p:selectOneMenu id="cmbAccType"
+									<h:selectOneMenu id="cmbAccType"
 										value="#{treeBean.accHeadMB.accHead.accType}"
 										label="Account Type" required="true" effect="fold">
 										<f:selectItem itemLabel="Select One" itemValue="" />
@@ -74,7 +74,7 @@
 											itemLabel="#{codeValue.cvLbl}" />
 										<p:ajax listener="#{treeBean.onAccTypeSelect()}"
 											update=":accHeadForm:cmbAccType	:accHeadForm:drcrOptions" />
-									</p:selectOneMenu>
+									</h:selectOneMenu>
 									<h:outputText value="Dr.or Cr. " />
 									<p:selectOneRadio id="drcrOptions"
 										value="#{treeBean.accHeadMB.accHead.drcr}" disabled="true">

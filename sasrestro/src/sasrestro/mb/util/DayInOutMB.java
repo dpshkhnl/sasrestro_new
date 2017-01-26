@@ -209,7 +209,7 @@ public class DayInOutMB extends AbstractMB implements Serializable {
 			displayErrorMessageToUser("All user must be logged out");
 			return;
 		}
-		backUp();
+		//backUp();
 		dayInOutModel = new DayInOutStatusModel();
 		dayInOutModel = userMB.getUser().getDayInStatus();
 		if (dayInOutModel.getStatus() == 0) {
@@ -279,7 +279,7 @@ public class DayInOutMB extends AbstractMB implements Serializable {
 		Long countUser = DirectSqlUtils
 				.getSingleResult("SELECT COUNT(*) cnt FROM user_login_info WHERE user_id !="
 						+ userMB.getUser().getId()
-						+ " AND IFNULL(logout_time) = 0");
+						+ " AND ISNULL(logout_time) = 0");
 		if (countUser > 0)
 			hasUser = true;
 		return hasUser;

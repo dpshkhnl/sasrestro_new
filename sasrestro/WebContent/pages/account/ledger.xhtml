@@ -26,22 +26,22 @@
 					<p:calendar id="toDate" value="#{accReportMB.toDate}"
 						pattern="yyyy-MM-dd" navigator="true" size="8" />
 					<p:outputLabel value="Root Account Heads: " for="cmbRootHead" />
-					<p:selectOneMenu id="cmbRootHead" filter="true"
+					<h:selectOneMenu id="cmbRootHead" filter="true"
 						filterMatchMode="startsWith"
 						value="#{accReportMB.rootNode.accHeadId}">
 						<f:selectItem itemValue="0" itemLabel="Select" />
 						<f:selectItems value="#{accReportMB.rootNodes}" var="head"
 							itemValue="#{head.accHeadId}" itemLabel="#{head.accName}" />
 						<p:ajax update="cmbChildHead" process="@this cmbRootHead" />
-					</p:selectOneMenu>
+					</h:selectOneMenu>
 					<p:outputLabel value="Child Account Head: " for="cmbChildHead" />
-					<p:selectOneMenu id="cmbChildHead" filter="true"
+					<h:selectOneMenu id="cmbChildHead" filter="true"
 						filterMatchMode="startsWith"
 						value="#{accReportMB.childNode.accHeadId}">
 						<f:selectItem itemValue="0" itemLabel="Select" />
 						<f:selectItems value="#{accReportMB.childNodes}" var="child"
 							itemValue="#{child.accHeadId}" itemLabel="#{child.accName}" />
-					</p:selectOneMenu>
+					</h:selectOneMenu>
 					<p:commandButton id="cmdView" value="View" icon="ui-icon-search"
 						actionListener="#{accReportMB.loadLedger()}" title="View Ledger"
 						update=":ledgerForm:ledgerTable"

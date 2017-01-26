@@ -32,14 +32,14 @@ div.ui-datepicker {
 					<p:panelGrid id="grid" columns="3">
 						<h:outputText value="Day In Date" />
 						<p:calendar value="#{dayInOutMB.dayInOutModel.dayInDateEn}"
-							inline="true" id="calDayInDate" pattern="yyyy-MM-dd"
-							required="true" requiredmsssa="Day In Date Required">
+							 id="calDayInDate" pattern="yyyy-MM-dd"
+							required="true" requiredmessage="Day In Date Required">
 							<p:ajax event="dateSelect"
 								listener="#{dayInOutMB.updateDateInToBS()}" update="dayInNpDate" />
 						</p:calendar>
 						<p:inputMask id="dayInNpDate"
 							value="#{dayInOutMB.dayInOutModel.dayInDateNp}" required="true"
-							mask="9999-99-99" requiredmsssa="Enter DayIn Date in Nepali">
+							mask="9999-99-99" requiredmessage="Enter DayIn Date in Nepali">
 							<p:focus />
 							<p:ajax event="blur" listener="#{dayInOutMB.updateDateInToAD()}"
 								update="calDayInDate" />

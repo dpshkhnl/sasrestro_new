@@ -27,12 +27,11 @@
 		<ui:define name="divMain">
 			<h:form id="maina">
 
-				<!-- <h:form>
+			<!-- <h:form>
 
-					<p:poll interval="10" update=":maina:dash" /> 
-				</h:form> -->
+					<p:poll interval="5" update=":maina:dash" /> 
+				</h:form>  -->
 
-				<p:growl id="msgs" showDetail="true" />
 				<h:panelGrid columns="1" id="dash">
 
 					<p:dashboard id="dynamic_dashboard"
@@ -48,6 +47,7 @@
 
 
 			</h:form>
+			<ui:include src="/pages/restaurant/dialog/mergetable.xhtml" />
 			<ui:include src="/pages/restaurant/dialog/bill.xhtml" />
 		</ui:define>
 	</ui:composition>

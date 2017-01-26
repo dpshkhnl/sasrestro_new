@@ -33,6 +33,11 @@ import javax.persistence.TemporalType;
 		@JoinColumn(name="item_id")
 		private MenuItemModel itemId;
 		
+		@OneToOne
+		@JoinColumn(name="unit")
+		private ItemUnitModel unit;
+		
+		
 		@Column(name="quantity")
 		private Double quantity;
 		
@@ -45,6 +50,9 @@ import javax.persistence.TemporalType;
 
 		@Column(name ="token_no")
 		private Integer tokenNo;
+		
+		@Column(name ="remarks")
+		private String remarks;
 		
 		public int getOrderId() {
 			return orderId;
@@ -100,6 +108,22 @@ import javax.persistence.TemporalType;
 
 		public void setTokenNo(Integer tokenNo) {
 			this.tokenNo = tokenNo;
+		}
+
+		public String getRemarks() {
+			return remarks;
+		}
+
+		public void setRemarks(String remarks) {
+			this.remarks = remarks;
+		}
+
+		public ItemUnitModel getUnit() {
+			return unit;
+		}
+
+		public void setUnit(ItemUnitModel unit) {
+			this.unit = unit;
 		}
 
 		

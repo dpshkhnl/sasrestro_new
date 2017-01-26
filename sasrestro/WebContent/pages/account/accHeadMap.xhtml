@@ -25,7 +25,7 @@
 								<p:outputLabel for="MapPurpose" value="Map purpose" />
 							</p:column>
 							<p:column>
-								<p:selectOneMenu id="MapPurpose" style="width:200px;"
+								<h:selectOneMenu id="MapPurpose" style="width:200px;"
 									required="true"
 									value="#{accHeadMappingMB.mapPurpose.formCodeId}">
 									<f:selectItem itemLabel="Select" itemValue="" />
@@ -34,7 +34,7 @@
 										itemLabel="#{formcode.label}" />
 									<p:ajax listener="#{accHeadMappingMB.selectedData()}"
 										update=":AccountHeadMap:pickLeaf" />
-								</p:selectOneMenu>
+								</h:selectOneMenu>
 							</p:column>
 						</p:row>
 						<p:row>

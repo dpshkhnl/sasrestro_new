@@ -16,7 +16,7 @@
 		<ui:define name="divMain">
 
 
-			<h:form id="frmTable" target="_blank">
+			<h:form id="frmTable" >
 				
 
 				<p:growl id="msgs" showDetail="false" />
@@ -27,7 +27,7 @@
 
 							<p:outputLabel id="lblName" value="Table Class " />
 							
-							<p:inputText id="txttableClass" value="#{tableClassMB.tableClass.className}"></p:inputText>
+							<p:inputText id="txttableClass" required="true" requiredMessage="Please Enter Table Class Name" value="#{tableClassMB.tableClass.className}"></p:inputText>
 							<p:outputLabel id="lblDesc" value="table Class Description" />
 							
 							<p:inputText id="txttableDesc" value="#{tableClassMB.tableClass.description}"></p:inputText>
@@ -35,7 +35,7 @@
 						</p:panelGrid>
 						<p:panelGrid columns="3">
 							<p:commandButton icon=" ui-icon-search " id="cmdSave" action="#{tableClassMB.saveClass}"
-								process="@this @form" update=":frmTable" value="Save"
+								process="@this @form" update=":frmTable" value="Save" ajax="false"
 								style="width:100px;margin-left:10px">
 							</p:commandButton>
 							<p:commandButton icon=" ui-icon-refresh " value="Cancel"

@@ -468,9 +468,13 @@ public class NewDashBoardMB extends AbstractMB implements Serializable {
 		orderItemEJB.updateList(lstOrderModel);
 		displayInfoMessageToUser(
 				tableModel.getTableName() + " merged to " + mergeTable.getTableName() + " Successfully");
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.execute("mergeTableDialog.hide()");
+		context.update(":maina");
+		
 	}
 
-	public void saveReceipt() {
+	public void saveReceipt() throws IOException, JRException {
 		if (bankAmount > 0 && chequeNum < 0) {
 			displayErrorMessageToUser("Cheque number required.");
 			return;
@@ -498,8 +502,10 @@ public class NewDashBoardMB extends AbstractMB implements Serializable {
 			return;
 		} else if (journalEJB.postToLedgerDirectApproval(jvm)) {
 			saveBill();
-			deleteOrder();
 			loadDataForPrint();
+			printReceipt();
+			deleteOrder();
+			
 			resetReceipt();
 			RequestContext context = RequestContext.getCurrentInstance();
 			context.execute("receiptDialog.hide();");
@@ -706,12 +712,16 @@ public class NewDashBoardMB extends AbstractMB implements Serializable {
 		
 		getBillModel();
 		billModel.setBillAmount(billAmout);
+		if (vatAccHeadMap != null)
 		vat = billAmout * vatEJB.getVatSettingByMapId(vatAccHeadMap.getAccHeadMapId()).getPercent() / 100;
-		// vat = billAmout *13/ 100;
+		else
+		 vat = billAmout *13/ 100;
 		vat = Double.valueOf(df.format(vat));
+		if (servChargeAccHeadMap !=null)
 		serviceCharge = (billAmout + vat)
 				* vatEJB.getVatSettingByMapId(servChargeAccHeadMap.getAccHeadMapId()).getPercent() / 100;
-		// serviceCharge = (billAmout + vat)* 10/ 100;
+		else
+		serviceCharge = (billAmout + vat)* 10/ 100;
 
 		serviceCharge = Double.valueOf(df.format(serviceCharge));
 		billTotal = billAmout + vat + serviceCharge;
@@ -730,11 +740,12 @@ public class NewDashBoardMB extends AbstractMB implements Serializable {
 		
 	}
 	
-	public void loadMergeDialog()
+	public void loadMergeDialog(int tableId)
 	{
+		tableModel = tableEJB.find(tableId);
 		RequestContext context = RequestContext.getCurrentInstance();
 		context.execute("mergeTableDialog.show();");
-		context.update(":activeBill");
+		context.update("@form");
 	}
 
 	public BillModel getBillModel() {
@@ -793,9 +804,13 @@ public class NewDashBoardMB extends AbstractMB implements Serializable {
 
 		jasperPrint = JasperFillManager.fillReport(reportPath,
 				getReportParameters(), beanCollectionDataSource);
+		
+		PrintRecieptToPrinter(jasperPrint);
 		/*
 		 * jasperPrint.setPageHeight(596); jasperPrint.setPageWidth(420);
 		 */
+		
+		PrintReportToPrinter(jasperPrint);
 		httpServletResponse = (HttpServletResponse) FacesContext
 				.getCurrentInstance().getExternalContext().getResponse();
 		httpServletResponse.addHeader("Content-disposition",
@@ -857,6 +872,27 @@ public class NewDashBoardMB extends AbstractMB implements Serializable {
         exporter.exportReport();
 	}
 	
+	private void PrintRecieptToPrinter(JasperPrint jp) throws JRException {
+		 // TODO Auto-generated method stub
+  	 PrintRequestAttributeSet printRequestAttributeSet = new HashPrintRequestAttributeSet(); 
+       // printRequestAttributeSet.add(MediaSizeName.ISO_A4); //setting page size
+       printRequestAttributeSet.add(new Copies(1)); 
+
+       PrinterName printerName =new PrinterName("POS-58", null); //gets printer 
+
+       PrintServiceAttributeSet printServiceAttributeSet = new HashPrintServiceAttributeSet(); 
+       printServiceAttributeSet.add(printerName); 
+
+       JRPrintServiceExporter exporter = new JRPrintServiceExporter(); 
+
+       exporter.setParameter(JRExporterParameter.JASPER_PRINT, jp); 
+       exporter.setParameter(JRPrintServiceExporterParameter.PRINT_REQUEST_ATTRIBUTE_SET, printRequestAttributeSet); 
+       exporter.setParameter(JRPrintServiceExporterParameter.PRINT_SERVICE_ATTRIBUTE_SET, printServiceAttributeSet); 
+       exporter.setParameter(JRPrintServiceExporterParameter.DISPLAY_PAGE_DIALOG, Boolean.FALSE); 
+       exporter.setParameter(JRPrintServiceExporterParameter.DISPLAY_PRINT_DIALOG, Boolean.FALSE); 
+       exporter.exportReport();
+	}
+	
 	public void sendKOTBOT()
 	{
 		
@@ -876,6 +912,8 @@ public class NewDashBoardMB extends AbstractMB implements Serializable {
     			bill.setItemName(ord.getItemId().getName());
     			bill.setItemPrice(ord.getItemId().getPrice());
     			bill.setQuantity(ord.getQuantity());
+    			if(!ord.getRemarks().equals(""))
+    			bill.setComment("("+ord.getRemarks()+")");
     			lstBillItem.add(bill);
     			tableNo = ord.getTable_id().getTableName();
     			orderTime= sdf.format(ord.getOrderTime());

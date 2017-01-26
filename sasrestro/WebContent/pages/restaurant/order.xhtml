@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>SAS Restro:Menu</title>
+	<link rel="stylesheet" type="text/css" href="css/decorator.css" />
+</h:head>
+<h:body>
+	<ui:composition template="/pages/protected/templates/master.xhtml">
+		<ui:define name="divMain">
+
+
+			<h:form id="frmorder" target="_blank">
+				<p:panel>
+					<p:panel>
+						<p:panelGrid columns="4">
+
+
+							<h:outputLabel id="lblName" value="Table" />
+							
+							<h:selectOneMenu id="cmbTable" 
+										style="width:250px;text-align:left" required="true"
+										requiredMessage="Please select Table "
+										value="#{orderMB.orderModel.table_id.tableId}">
+										<f:selectItem itemLabel="Select" itemValue="0" />
+										<f:selectItems value="#{orderMB.lsttAllTables}" var="table"
+								itemLabel="#{table.tableName}"
+								itemValue="#{table.tableId}" />
+										
+									</h:selectOneMenu>
+							<h:outputLabel id="lblItemClass" value="Category" />
+							
+							<h:selectOneMenu id="cmbItemClass" 
+										style="width:250px;text-align:left" required="true"
+										requiredMessage="Please select Table "
+										value="#{orderMB.catId}">
+										<f:selectItem itemLabel="Select" itemValue="0" />
+										<f:selectItems value="#{orderMB.lstAllItemCat}" var="itemCat"
+								itemLabel="#{itemCat.categoryName}"
+								itemValue="#{itemCat.categoryId}" />
+										<p:ajax update="cmbItem" process="cmbItemClass"></p:ajax>
+									</h:selectOneMenu>
+								<h:outputLabel id="lblItem" value="Item" />
+							
+							<h:selectOneMenu id="cmbItem" 
+										style="width:250px;text-align:left" required="true"
+										requiredMessage="Please select Item "
+										value="#{orderMB.orderModel.itemId.itemId}">
+										<f:selectItem itemLabel="Select" itemValue="0" />
+										<f:selectItems value="#{orderMB.lstMenuItem}" var="item"
+								itemLabel="#{item.name}"
+								itemValue="#{item.itemId}" />
+										
+									</h:selectOneMenu>	
+									
+									
+									<p:outputLabel id="lblQnty" value="Quantity" />
+							
+							<h:inputText id="txtQnty" value="#{orderMB.orderModel.quantity}"/>
+							
+								<h:outputLabel id="lblUnit" value="Unit" />
+							
+							<h:selectOneMenu id="cmbUnit" 
+										style="width:250px;text-align:left" required="true"
+										requiredMessage="Please select Unit "
+										value="#{orderMB.orderModel.unit.unitId}">
+										<f:selectItem itemLabel="Select" itemValue="0" />
+										<f:selectItems value="#{orderMB.lstUnit}" var="unit"
+								itemLabel="#{unit.unitName}"
+								itemValue="#{unit.unitId}" />
+										
+									</h:selectOneMenu>	
+							
+							
+							<p:outputLabel id="lblRemarks" value="Remarks" />
+							
+							<h:inputText id="txtRemarks" value="#{orderMB.orderModel.remarks}"/>
+									
+						</p:panelGrid>
+						<p:panelGrid columns="3">
+						<p:commandButton icon=" ui-icon-plus" id="cmdAdd" action="#{orderMB.addOrder}"
+								process="@this @form" update=":frmorder" value="Add"
+								style="width:100px;margin-left:10px">
+							</p:commandButton>
+							<p:commandButton icon=" ui-icon-search " id="cmdSave" action="#{orderMB.saveOrder}"
+								process="@this @form" update=":frmorder" value="Save"
+								style="width:100px;margin-left:10px">
+							</p:commandButton>
+							<p:commandButton icon=" ui-icon-refresh " value="Cancel"
+								style="width:100px;margin-left:10px">
+
+
+							</p:commandButton>
+
+							
+
+
+						</p:panelGrid>
+					</p:panel>
+					<p:dataTable id="tblClass" rowIndexVar="rowIndex"
+						value="#{orderMB.lstOrderModel}" var="order" paginator="true"
+						rows="50"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="50,100,150" scrollable="true">
+
+						<p:column style="width:20px">
+							<f:facet name="header">
+								<h:outputText value="Sno" />
+							</f:facet>
+							<h:outputText value="#{rowIndex+1}" />
+						</p:column>
+
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Table" />
+							</f:facet>
+							<h:outputText value="#{order.table_id.tableName}" />
+						</p:column>
+
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Item" />
+							</f:facet>
+							<h:outputText value="#{order.itemId.name}" />
+						</p:column>
+						
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Quantity" />
+							</f:facet>
+							<h:outputText value="#{order.quantity}" />
+						</p:column>
+						
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Unit" />
+							</f:facet>
+							<h:outputText value="#{order.unit.unitName}" />
+						</p:column>
+						
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Remarks" />
+							</f:facet>
+							<h:outputText value="#{order.remarks}" />
+						</p:column>
+
+
+
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Action" />
+							</f:facet>
+
+							<p:commandButton icon="ui-icon-pencil" process="@this"  style="width:25px"
+								update=":frmorder" >
+								<f:setPropertyActionListener target="#{orderMB.orderModel}"
+									value="#{order}"></f:setPropertyActionListener>
+							</p:commandButton>
+							
+							<p:commandButton icon="ui-icon-close" style="width:25px"
+									process="@this"  title="Delete" update="@form"
+									onclick="cd.show()">
+									<f:setPropertyActionListener value="#{order}"
+										target="#{orderMB.orderModel}"></f:setPropertyActionListener>
+								</p:commandButton>
+
+						</p:column>
+
+
+
+
+					</p:dataTable>
+					
+					<p:confirmDialog
+					message="Are you sure you want to delete ?"
+					global="true" showEffect="fade" hideEffect="explode"
+					header="Delete" severity="alert" widgetVar="cd" modal="true">
+					<p:commandButton value="Yes" styleClass="ui-confirmdialog-yes"
+						icon="ui-icon-check"
+						actionListener="#{orderMB.deleteClass()}"
+						update=":frmorder"
+						process="@this" oncomplete="cd.hide()">
+					</p:commandButton>
+					<p:commandButton value="No" type="button"
+						styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+						onclick="cd.hide()" />
+				</p:confirmDialog>
+					
+					
+				</p:panel>
+				
+				
+				
+				
+			</h:form>
+		
+
+		</ui:define>
+	</ui:composition>
+
+
+
+</h:body>
+</html>

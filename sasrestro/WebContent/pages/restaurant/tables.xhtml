@@ -16,7 +16,7 @@
 		<ui:define name="divMain">
 
 
-			<h:form id="frmTable" target="_blank">
+			<h:form id="frmTable">
 				<p:blockUI block="frmTable" trigger="search">
 					<p:graphicImage value="/resources/images/ajax-load.gif" />
 				</p:blockUI>
@@ -31,8 +31,9 @@
 
 
 							<p:autoComplete id="autoCompleteDatad"
-								value="#{tableMB.tableModel.tableName}" minQueryLength="2" maxResults="7"
-								size="33" completeMethod="#{loanPaymentMB.getLstClientName()}">
+								value="#{tableMB.tableModel.tableName}" minQueryLength="2"
+								maxResults="7" size="33"
+								completeMethod="#{loanPaymentMB.getLstClientName()}">
 
 							</p:autoComplete>
 						</p:panelGrid>
@@ -47,9 +48,8 @@
 
 							</p:commandButton>
 
-							<p:commandButton icon=" ui-icon-refresh " value="Add"
-							action="#{tableMB.loadForNew()}"
-								 update=":addTable"
+							<p:commandButton icon=" ui-icon-plus " value="Add"
+								action="#{tableMB.loadForNew()}" update=":addTable"
 								style="width:100px;margin-left:10px">
 
 
@@ -70,7 +70,7 @@
 							</f:facet>
 							<h:outputText value="#{rowIndex+1}" />
 						</p:column>
-						
+
 						<p:column>
 							<f:facet name="header">
 								<h:outputText value="Class" />
@@ -108,20 +108,21 @@
 								<h:outputText value="Action" />
 							</f:facet>
 
-							<p:commandButton icon="ui-icon-pencil" process="@this"  style="width:25px"
-								action="#{tableMB.loadForEdit()}" update=":addTable ">
+							<p:commandButton icon="ui-icon-pencil" process="@this"
+								style="width:25px" action="#{tableMB.loadForEdit()}"
+								update=":addTable ">
 								<f:setPropertyActionListener target="#{tableMB.tableModel}"
 									value="#{table}"></f:setPropertyActionListener>
 							</p:commandButton>
-							
-							<p:commandButton icon="ui-icon-close" style="width:25px"
-									process="@this" update=":frmTable:msgs :addTable" title="Delete" 
-									onclick="cd.show()">
-									<f:setPropertyActionListener value="#{table}"
-										target="#{tableMB.tableModel}"></f:setPropertyActionListener>
-								</p:commandButton>
-							
-							
+
+							<p:commandButton icon="ui-icon-close" style="width:25px" 
+								process="@this" update=":frmTable:msgs :addTable" title="Delete"
+								oncomplete="cd.show()">
+								<f:setPropertyActionListener value="#{table}"
+									target="#{tableMB.tableModel}"></f:setPropertyActionListener>
+							</p:commandButton>
+
+
 
 						</p:column>
 
@@ -129,27 +130,24 @@
 
 
 					</p:dataTable>
-					
-					<p:confirmDialog
-					message="Are you sure you want to delete ?"
-					global="true" showEffect="fade" hideEffect="explode"
-					header="Delete" severity="alert" widgetVar="cd" modal="true">
-					<p:commandButton value="Yes" styleClass="ui-confirmdialog-yes"
-						icon="ui-icon-check"
-						actionListener="#{menuItemMB.delete()}"
-						update="tblPlan"
-						process="@this" oncomplete="cd.hide()">
-					</p:commandButton>
-					<p:commandButton value="No" type="button"
-						styleClass="ui-confirmdialog-no" icon="ui-icon-close"
-						onclick="cd.hide()" />
-				</p:confirmDialog>
+
+					<p:confirmDialog message="Are you sure you want to delete ?"
+						global="true" showEffect="fade" hideEffect="explode"
+						header="Delete" severity="alert" widgetVar="cd" modal="true">
+						<p:commandButton value="Yes" styleClass="ui-confirmdialog-yes"
+							icon="ui-icon-check" actionListener="#{tableMB.delete()}"
+							update="tblPlan" process="@this" oncomplete="cd.hide()">
+						</p:commandButton>
+						<p:commandButton value="No" type="button"
+							styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+							onclick="cd.hide()" />
+					</p:confirmDialog>
 
 				</p:panel>
-				
-				
+
+
 			</h:form>
-		
+
 
 			<ui:include src="/pages/restaurant/dialog/tableDialog.xhtml"></ui:include>
 		</ui:define>

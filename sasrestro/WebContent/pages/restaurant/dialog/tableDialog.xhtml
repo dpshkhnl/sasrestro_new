@@ -20,7 +20,7 @@
 		widgetVar="tableDia" resizable="false" header="Add/Edit Table"
 		appendToBody="true" showEffect="clip">
 
-		<h:form id="addTable" target="_blank">
+		<h:form id="addTable" >
 			<p:growl id="msgIssueGrowl"></p:growl>
 			
 			
@@ -78,7 +78,7 @@
 						</p:column>
 						<p:column>
 							<p:commandButton value="Save" id="cmdSave" process="@this cmbClass txtCapacity txtName "
-							icon="ic-icon-plus"
+							icon="ic-icon-plus"  ajax="false"
 								update=":frmTable msgIssueGrowl" action="#{tableMB.save}"
 								oncomplete="tableDia.hide();"
 								style="width:100px;margin-left:10px" />
