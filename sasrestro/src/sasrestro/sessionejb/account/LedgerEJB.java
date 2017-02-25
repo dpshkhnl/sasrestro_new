@@ -1,6 +1,7 @@
 package sasrestro.sessionejb.account;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -8,9 +9,12 @@ import java.util.Map;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.persistence.Query;
 
 import sasrestro.misc.DirectSqlUtils;
+import sasrestro.model.account.AccHeadMcg;
 import sasrestro.model.account.LedgerMcg;
+import sasrestro.model.restaurant.OrderModel;
 import sasrestro.sessionejb.core.GenericDAO;
 
 @Stateless
@@ -41,6 +45,26 @@ public class LedgerEJB extends GenericDAO<LedgerMcg> {
 						+ "				 		where  led_id = (select IFNULL(max(led_id),0) from  ledger_mcg\n"
 						+ "				  			where posted_date < '" + toDate + "'	))\n"
 						+ "						and is_opening = 1	)")).doubleValue();
+	}
+
+	public List<LedgerMcg> getExpensesLedger(String toDate) {
+		
+		List<LedgerMcg> listUltimateNodes = new ArrayList<>();
+		String sql = "SELECT led.* FROM `ledger_mcg` led "
+				+ "INNER JOIN acc_head_mcg ahm on ahm.acc_head_id = led.acc_code_id WHERE ahm.acc_type = 2 and led.posted_date='"+toDate+"'";
+		
+		System.out.println(sql);
+		listUltimateNodes = DirectSqlUtils.getListOfResultSets(sql, LedgerMcg.class);
+		/*Query query = getEntityManager()
+				.createQuery(sql);
+		lstOrders =  query.getResultList();
+		
+		return lstOrders;
+		Query query = getEntityManager().createQuery(
+				"SELECT led FROM LedgerMcg led where led.accountHead.accType = 2 and led.postedDate ='"+toDate+"'");
+		@SuppressWarnings("unchecked")
+		List<LedgerMcg> listUltimateNodes = query.getResultList();*/
+		return listUltimateNodes;
 	}
 
 }

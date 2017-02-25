@@ -11,8 +11,10 @@ import javax.faces.bean.ViewScoped;
 
 import sasrestro.misc.AbstractMB;
 import sasrestro.model.account.AccHeadMap;
+import sasrestro.model.restaurant.MasterSettingModel;
 import sasrestro.model.util.VatSettingModel;
 import sasrestro.sessionejb.account.AccHeadMapEJB;
+import sasrestro.sessionejb.restaurant.MasterSettingEJB;
 import sasrestro.sessionejb.util.VatSettingEJB;
 
 @ViewScoped
@@ -25,8 +27,12 @@ public class VatSettingMB extends AbstractMB implements Serializable {
 
 	@EJB
 	AccHeadMapEJB accHeadMapEJB;
+	
+	@EJB
+	MasterSettingEJB masterSettingEJB;
 
 	private double vatPercent, servChargePercent;
+	private MasterSettingModel masterSetting;
 
 	@PostConstruct
 	public void checkSavedVat() {
@@ -111,5 +117,20 @@ public class VatSettingMB extends AbstractMB implements Serializable {
 				displayInfoMessageToUser("Save successfull.");
 			}
 		}
+	}
+public void saveMasterSetting()
+{
+	
+}
+
+	
+	public MasterSettingModel getMasterSetting() {
+		if (masterSetting == null)
+			masterSetting = new MasterSettingModel();
+		return masterSetting;
+	}
+
+	public void setMasterSetting(MasterSettingModel masterSetting) {
+		this.masterSetting = masterSetting;
 	}
 }

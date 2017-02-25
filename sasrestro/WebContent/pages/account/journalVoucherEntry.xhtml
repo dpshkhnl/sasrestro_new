@@ -10,12 +10,11 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 	<title>Journal Voucher Entry</title>
 	<link rel="stylesheet" type="text/css" href="css/decorator.css" />
-	<link rel="javascript" />
 
 </h:head>
 <h:body>
-	<p:dialog id="journalCreate" widgetVar="journalCreateWidget"
-		height="500" width="1250" closable="true" draggable="true"
+	<p:dialog id="journalCreate" widgetVar="journalCreateWidget" style="margin-left:-150px;margin-top:-100px"
+		height="500" width="1240" closable="true" draggable="true"
 		resizable="false" header="Journal Voucher" modal="true">
 		<h:form id="journalEntryForm">
 			<p:panel id="jPanel" header="Journal Voucher">
@@ -45,16 +44,16 @@
 						<p:focus context="jvPanel" />
 						<p:panelGrid columns="5" id="accDetailsPG" style="border:0px;">
 							<p:outputLabel value="JV No" />
-							<p:inputText value="#{journalMB.jvmSummary.jvNo}"
+							<h:inputText value="#{journalMB.jvmSummary.jvNo}"
 								style="width:80px;" label="Acc Code" id="accCode"
 								readonly="true">
-							</p:inputText>
+							</h:inputText>
 							<p:column>
-								<p:selectOneRadio id="jvType" value="#{journalMB.jvType}"
+								<h:selectOneRadio id="jvType" value="#{journalMB.jvType}"
 									required="true" requiredMessage="Select Journal Voucher Type.">
 									<f:selectItems value="#{journalMB.jvTypeMap}" />
 									<p:ajax event="click" process="@this" />
-								</p:selectOneRadio>
+								</h:selectOneRadio>
 							</p:column>
 						</p:panelGrid>
 						<p:panelGrid columns="4" style="border:0px;" id="jvPanel">
@@ -84,15 +83,15 @@
 									update=":messageGrowl accAlias displayAmt" />
 							</p:autoComplete>
 							<p:column>
-								<pe:inputNumber value="#{journalMB.drAmt}" id="drAmt"
+								<h:inputText value="#{journalMB.drAmt}" id="drAmt"
 									required="true" style="width:100px; margin-right:5px;"
 									decimalPlaces="2" label="Parent" thousandSeparator=""
 									maxValue="9999999999999.99" />
-								<pe:inputNumber value="#{journalMB.crAmt}" id="crAmt"
+								<h:inputText value="#{journalMB.crAmt}" id="crAmt"
 									required="true" style="width:100px" decimalPlaces="2"
 									label="Alias" thousandSeparator="" maxValue="9999999999999.99" />
 							</p:column>
-							<p:inputText value="#{journalMB.narration}" id="txtNarration"
+							<h:inputText value="#{journalMB.narration}" id="txtNarration"
 								style="width:250px;" />
 							<p:commandButton value="Add" icon="ui-icon-plus"
 								partialSubmit="true" process="jvPanel" id="addVoucher"
@@ -107,8 +106,8 @@
 							<pe:inputNumber id="displayAmt" value="#{journalMB.displyAMount}"
 								maxValue="9999999999999.99" minValue="-9999999999999.99"
 								style="width:180px" thousandSeparator="" disabled="true"></pe:inputNumber>
-							<!-- <p:inputText id="displayAmt" value="#{journalMB.displyAMount}"
-								style="width:180px" readonly="true"></p:inputText> -->
+							<!-- <h:inputText id="displayAmt" value="#{journalMB.displyAMount}"
+								style="width:180px" readonly="true"></h:inputText> -->
 						</p:panelGrid>
 						<p:panelGrid columns="1" style="width:700px">
 							<p:dataTable id="newVouchDetails"
@@ -173,33 +172,33 @@
 								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 								<p:column>
-								<p:inputText readonly="true" value="#{journalMB.totalDr}"
+								<h:inputText readonly="true" value="#{journalMB.totalDr}"
 									id="totalDr" style="width:120px; margin-right:5px;">
 									<f:convertNumber currencySymbol="Rs." type="currency" />
-								</p:inputText>
-								<p:inputText readonly="true" value="#{journalMB.totalCr}"
+								</h:inputText>
+								<h:inputText readonly="true" value="#{journalMB.totalCr}"
 									id="totalCr" style="width:120px; margin-right:15px;">
 									<f:convertNumber currencySymbol="Rs." type="currency" />
-								</p:inputText>
+								</h:inputText>
 								<h:outputLabel value="Difference" style="margin-right:5px;" />
-								<p:inputText readonly="true" value="#{journalMB.drMinusCr}"
+								<h:inputText readonly="true" value="#{journalMB.drMinusCr}"
 									id="drMinusCr" style="width:120px;">
 									<f:convertNumber currencySymbol="Rs." type="currency" />
-								</p:inputText>
+								</h:inputText>
 							</p:column>
 							<h:outputText />
 						</p:panelGrid>
 						<p:panelGrid columns="2">
 							<h:outputText value="Narration" />
-							<p:inputTextarea id="narration" rows="2" style="width:700px"
+							<h:inputTextarea id="narration" rows="2" style="width:700px"
 								value="#{journalMB.narration}" required="false" />
 						</p:panelGrid>
 						<p:panelGrid columns="4" id="panelTrxnDetail">
 							<h:outputText value="Invoice No." />
-							<p:inputText id="invoice"
+							<h:inputText id="invoice"
 								value="#{journalMB.jvmSummary.receiptNo}" />
 							<h:outputText value="Received" rendered="false" />
-							<p:inputText value="#{journalMB.jvmSummary.receiptAmt}"
+							<h:inputText value="#{journalMB.jvmSummary.receiptAmt}"
 								onkeypress="validateNumericInput(event, this.text)"
 								rendered="false" />
 							<h:outputText value="Prepared By" />
@@ -211,10 +210,10 @@
 									itemLabel="#{user.name}" itemValue="#{user}" />
 							</p:selectOneMenu>
 							<h:outputText value="Cheque No" />
-							<p:inputText id="chequeNo"
+							<h:inputText id="chequeNo"
 								value="#{journalMB.jvmSummary.chequeNo}" />
 							<h:outputText value="Cheque Amount" />
-							<p:inputText value="#{journalMB.jvmSummary.receiptAmt}"
+							<h:inputText value="#{journalMB.jvmSummary.receiptAmt}"
 								onkeypress="validateNumericInput(event, this.text)" />
 							<p:column>
 								<h:outputText value="Submitted By" rendered="false" />

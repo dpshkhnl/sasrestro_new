@@ -9,7 +9,7 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core">
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-	<title>Show Loan Details</title>
+	<title>Show Menu Details</title>
 	<link rel="stylesheet" type="text/css" href="css/decorator.css" />
 	<style>
 </style>
@@ -32,7 +32,7 @@
 							<h:outputText value="Item Class:" id="lblName" />
 					
 							<h:selectOneMenu id="cmbClass" 
-										style="width:260px;text-align:left" required="true"
+										style="width:250px;text-align:left" required="true"
 										requiredMessage="Please select Class Type."
 										value="#{menuItemMB.menuItemModel.itemClass.classId}">
 										<f:selectItem itemLabel="Select" itemValue="0" />
@@ -45,13 +45,13 @@
 						
 
 							<h:outputText value="Item Name:" id="lblName1" />
-							<p:inputText style="width:250px" id="txtName"
+							<h:inputText style="width:250px" id="txtName"
 								value="#{menuItemMB.menuItemModel.name}" required="true"
 								requiredMessage="Please enter Item name." />
 
 
 							<h:outputText value="Category:" id="lblCategory" />
-							<h:selectOneMenu id="cmbCat" style="width:260px;text-align:left" required="true"
+							<h:selectOneMenu id="cmbCat" style="width:250px;text-align:left" required="true"
 										requiredMessage="Please select Class Type."
 										value="#{menuItemMB.menuItemModel.category.categoryId}" >
 										<f:selectItem itemLabel="Select" itemValue="0" />
@@ -60,16 +60,16 @@
 								itemValue="#{item.categoryId}" />
 								</h:selectOneMenu>
 							<h:outputText value="Rate:" id="lblrate" />
-							<p:inputText style="width:250px" id="txtRate"
+							<h:inputText style="width:250px" id="txtRate"
 								value="#{menuItemMB.menuItemModel.price}">
 								<f:convertNumber pattern="##,##0.00" />
-							</p:inputText>
+							</h:inputText>
 
 							<h:outputText value="Unit" id="lblunit" />
 						
 			
 									
-									<h:selectOneMenu id="unit" style="width:260px;text-align:left" required="true"
+									<h:selectOneMenu id="unit" style="width:250px;text-align:left" required="true"
 										requiredMessage="Please select Class Type."
 										value="#{menuItemMB.menuItemModel.unit.unitId}" >
 										<f:selectItem itemLabel="Select" itemValue="0" />
@@ -79,9 +79,9 @@
 								</h:selectOneMenu>
 
 							<h:outputText value="Description:" id="lblDesc" />
-							<p:inputText style="width:250px;" id="txtDesc">
+							<h:inputText style="width:250px;" id="txtDesc">
 								
-							</p:inputText>
+							</h:inputText>
 							<p:outputLabel></p:outputLabel>
 							<p:panelGrid columns="2">
 							<p:commandButton value="Save" id="cmdSave" process="@this cmbClass txtRate cmbCat txtName unit foodImage"

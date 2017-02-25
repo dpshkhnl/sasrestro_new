@@ -40,6 +40,15 @@ public class MasterSettingModel implements Serializable {
 	
 	@Column(name = "service_charge")
 	private double serviceCharge;
+	
+	@Column(name ="printer_pos")
+	private String posPrinterName;
+	
+	@Column(name ="printer_kot")
+	private String kotPrinterName;
+	
+	@Column(name ="printer_bot")
+	private String botPrinterName;
 
 	public int getId() {
 		return Id;
@@ -103,6 +112,30 @@ public class MasterSettingModel implements Serializable {
 
 	public void setServiceCharge(double serviceCharge) {
 		this.serviceCharge = serviceCharge;
+	}
+
+	public String getPosPrinterName() {
+		return posPrinterName;
+	}
+
+	public void setPosPrinterName(String posPrinterName) {
+		this.posPrinterName = posPrinterName;
+	}
+
+	public String getKotPrinterName() {
+		return kotPrinterName;
+	}
+
+	public void setKotPrinterName(String kotPrinterName) {
+		this.kotPrinterName = kotPrinterName;
+	}
+
+	public String getBotPrinterName() {
+		return botPrinterName;
+	}
+
+	public void setBotPrinterName(String botPrinterName) {
+		this.botPrinterName = botPrinterName;
 	}
 
 }

@@ -20,11 +20,30 @@
 		<h:form id="vatSettingForm" prependId="false">
 			<h:panelGrid columns="2" cellpadding="7" cellspacing="10">
 			
-				<h:outputText value="Vat % : " />
-				<p:inputText value="#{vatSettingMB.vatPercent}" required="true" label="VAT" />
+				<h:outputText value="Restaurant Name: " />
+				<p:inputText value="#{vatSettingMB.masterSetting.restaurantName}" required="true" label="Restaurant Name" />
 
-				<h:outputText value="Service Charge % : " />
-				<p:inputText value="#{vatSettingMB.servChargePercent}" label="Service Charge" />
+				<h:outputText value="Address : " />
+				<p:inputText value="#{vatSettingMB.masterSetting.address}"  />
+				
+								<h:outputText value="Address : " />
+				<p:inputText value="#{vatSettingMB.masterSetting.address}"  />
+				
+								<h:outputText value="Phone : " />
+				<p:inputText value="#{vatSettingMB.masterSetting.address}"  />
+				
+								<h:outputText value="email : " />
+				<p:inputText value="#{vatSettingMB.masterSetting.address}"  />
+				
+								<h:outputText value="Pos Printer Name : " />
+				<p:inputText value="#{vatSettingMB.masterSetting.posPrinterName}" />
+				
+								<h:outputText value="KOT Printer Name : " />
+				<p:inputText value="#{vatSettingMB.masterSetting.kotPrinterName}"  />
+				
+								<h:outputText value="BOT Printer Name : " />
+				<p:inputText value="#{vatSettingMB.masterSetting.botPrinterName}"  />
+				
 
 			</h:panelGrid>
 			

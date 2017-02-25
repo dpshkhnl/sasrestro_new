@@ -13,6 +13,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.support.ChildBeanDefinition;
 
 import sasrestro.mb.user.UserMB;
 import sasrestro.misc.AbstractMB;
@@ -67,6 +68,7 @@ public class AccountReportMB extends AbstractMB implements Serializable {
 	private int jvNo;
 
 	private String jvTpe;
+	double totAmt;
 
 	public List<AccountReportModel> getTrailBalanceLst() {
 		if (trailBalanceLst == null) {
@@ -731,5 +733,27 @@ public class AccountReportMB extends AbstractMB implements Serializable {
 		setJvDt(getLedgerRepoObj().getLedgerObj().getJournalVourcher().getJvDateBs());
 		setJvNo(getLedgerRepoObj().getLedgerObj().getJournalVourcher().getJvNo());
 		setJvTpe(getLedgerRepoObj().getLedgerObj().getJvType().getCvLbl());
+	}
+	
+	
+	public void loadExpenses()
+	{
+		
+			//childNode = accHeadEJB.find(childNode.getAccHeadId());
+			ledgerObj = ledgerEJB.getExpensesLedger( sdf.format(toDate));
+			totAmt = 0;
+			for (LedgerMcg led : ledgerObj) {
+				totAmt += led.getDrAmt();
+			}
+
+		
+	}
+
+	public double getTotAmt() {
+		return totAmt;
+	}
+
+	public void setTotAmt(double totAmt) {
+		this.totAmt = totAmt;
 	}
 }

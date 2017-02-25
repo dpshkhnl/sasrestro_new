@@ -16,45 +16,41 @@
 		<ui:define name="divMain">
 
 
-			<h:form id="frmTable" target="_blank">
-				
+			<h:form id="frmTable" >
+
 
 				<p:growl id="msgs" showDetail="false" />
 				<p:panel>
 					<p:panel>
-						<p:panelGrid columns="2">
+						<p:outputLabel id="lblName" value="Item Class " style="margin-left:10px" />
+
+						<p:inputText id="txtItemClass" style="margin-left:10px" required="true" requiredMessage="Class Name Required"
+							value="#{itemClassMB.itemClassModel.className}"></p:inputText>
+						<p:outputLabel id="lblDesc" style="margin-left:10px" value="Description" />
+
+						<p:inputText id="txtItemDesc" style="margin-left:10px"
+							value="#{itemClassMB.itemClassModel.description}"></p:inputText>
 
 
-							<p:outputLabel id="lblName" value="Item Class " />
-							
-							<p:inputText id="txtItemClass" value="#{itemClassMB.itemClassModel.className}"></p:inputText>
-							<p:outputLabel id="lblDesc" value="Item Class Description" />
-							
-							<p:inputText id="txtItemDesc" value="#{itemClassMB.itemClassModel.description}"></p:inputText>
-							
+						<p:commandButton icon="ui-icon-note" id="cmdSave" ajax="false"
+							action="#{itemClassMB.saveClass}" process="@this @form"
+							update=":frmTable" value="Save"
+							style="width:100px;margin-left:10px">
+						</p:commandButton>
+						<p:commandButton icon=" ui-icon-refresh " value="Cancel"
+							style="width:100px;margin-left:10px">
 
 
-							
-						</p:panelGrid>
-						<p:panelGrid columns="3">
-							<p:commandButton icon=" ui-icon-search " id="cmdSave" action="#{itemClassMB.saveClass}"
-								process="@this @form" update=":frmTable" value="Save"
-								style="width:100px;margin-left:10px">
-							</p:commandButton>
-							<p:commandButton icon=" ui-icon-refresh " value="Cancel"
-								style="width:100px;margin-left:10px">
+						</p:commandButton>
 
 
-							</p:commandButton>
-
-							
-
-
-						</p:panelGrid>
 					</p:panel>
-					<p:dataTable id="tblClass" rowIndexVar="rowIndex"
-						value="#{itemClassMB.lstItemClass}" var="itemClass" paginator="true"
-						rows="50"
+
+
+
+					<p:dataTable id="ItemClass" rowIndexVar="rowIndex"
+						value="#{itemClassMB.lstItemClass}" var="itemClass"
+						paginator="true" rows="50"
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 						rowsPerPageTemplate="50,100,150" scrollable="true">
 
@@ -86,18 +82,17 @@
 								<h:outputText value="Action" />
 							</f:facet>
 
-							<p:commandButton icon="ui-icon-pencil" process="@this"  style="width:25px"
-								update=":frmTable" >
-								<f:setPropertyActionListener target="#{itemClassMB.itemClassModel}"
-									value="#{itemClass}"></f:setPropertyActionListener>
+							<p:commandButton icon="ui-icon-pencil" process="@this"
+								style="width:25px" update=":frmTable">
+								<f:setPropertyActionListener
+									target="#{itemClassMB.itemClassModel}" value="#{itemClass}"></f:setPropertyActionListener>
 							</p:commandButton>
-							
+
 							<p:commandButton icon="ui-icon-close" style="width:25px"
-									process="@this"  title="Delete" 
-									onclick="cd.show()">
-									<f:setPropertyActionListener value="#{itemClass}"
-										target="#{itemClassMB.itemClassModel}"></f:setPropertyActionListener>
-								</p:commandButton>
+								process="@this" title="Delete" onclick="cd.show()">
+								<f:setPropertyActionListener value="#{itemClass}"
+									target="#{itemClassMB.itemClassModel}"></f:setPropertyActionListener>
+							</p:commandButton>
 
 						</p:column>
 
@@ -105,29 +100,25 @@
 
 
 					</p:dataTable>
-					
-					
-					
-					<p:confirmDialog
-					message="Are you sure you want to delete ?"
-					global="true" showEffect="fade" hideEffect="explode"
-					header="Delete" severity="alert" widgetVar="cd" modal="true">
-					<p:commandButton value="Yes" styleClass="ui-confirmdialog-yes"
-						icon="ui-icon-check"
-						actionListener="#{itemClassMB.deleteClass()}"
-						update=":frmTable"
-						process="@this" oncomplete="cd.hide()">
-					</p:commandButton>
-					<p:commandButton value="No" type="button"
-						styleClass="ui-confirmdialog-no" icon="ui-icon-close"
-						onclick="cd.hide()" />
-				</p:confirmDialog>
+
 
 				</p:panel>
-				
-				
+
+
+<p:confirmDialog message="Are you sure you want to delete ?"
+						global="true" showEffect="fade" hideEffect="explode"
+						header="Delete" severity="alert" widgetVar="cd" modal="true">
+						<p:commandButton value="Yes" styleClass="ui-confirmdialog-yes"
+							icon="ui-icon-check" ajax="false"
+							actionListener="#{itemClassMB.deleteClass()}" update=":frmTable"
+							process="@this" oncomplete="cd.hide()">
+						</p:commandButton>
+						<p:commandButton value="No" type="button"
+							styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+							onclick="cd.hide()" />
+					</p:confirmDialog>
 			</h:form>
-		
+
 
 		</ui:define>
 	</ui:composition>

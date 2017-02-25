@@ -81,7 +81,7 @@ public class LoginMB extends AbstractMB implements Serializable {
 	}
 
 	public String login() throws NoSuchAlgorithmException, InvalidKeySpecException{ 
-		if(dateCheck()){
+		
 		List<User> userList=userEJB.listAll();
 		if(userList==null)
 		{
@@ -170,7 +170,7 @@ public class LoginMB extends AbstractMB implements Serializable {
 
 			}
 		}
-	}
+	
 		return null;
 	}
 
@@ -341,17 +341,4 @@ public class LoginMB extends AbstractMB implements Serializable {
 		this.transactionDateNp = transactionDateNp;
 	}
 
-	private Boolean dateCheck(){
-		Date date = new Date();
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-		try {
-			if(date.before(sdf.parse("01-02-2017"))){
-				return true;
-			}
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		displayInfoMessageToUser("Please renew license for ERP Software. Sorry for Inconvinence.");
-		return false;
-	}
 }

@@ -16,20 +16,7 @@
 		<h:form id="activeBill">
 			<p:growl id="mesasda" showDetail="false"></p:growl>
 			<p:panelGrid columns="1">
-				<!-- <p:fieldset legend="Table Info" id="info">
-					<p:panelGrid columns="2">
-						<h:outputText value="Table Name :"></h:outputText>
-						<h:outputText value="#{newDashBoardMB.tableModel.tableName}"></h:outputText>
-						<h:outputText value="Total		  :"></h:outputText>
-						<h:outputText value="Rs.#{newDashBoardMB.billAmout}"></h:outputText>
-						<h:outputText value="Vat  		  :"></h:outputText>
-						<h:outputText value="Rs.#{newDashBoardMB.vat}"></h:outputText>
-						<h:outputText value="TSC  		  :"></h:outputText>
-						<h:outputText value="Rs.#{newDashBoardMB.serviceCharge}"></h:outputText>
-						<h:outputText value="Grand Total  :"></h:outputText>
-						<h:outputText value="Rs.#{newDashBoardMB.billTotal}"></h:outputText>
-					</p:panelGrid>
-				</p:fieldset> -->
+				
 
 
 				<p:panelGrid columns="7">
@@ -46,7 +33,7 @@
 						<f:selectItem itemLabel="Select" itemValue="0" />
 						<f:selectItems value="#{itemClassMB.lstItemClass}" var="item"
 							itemLabel="#{item.className}" itemValue="#{item.classId}" />
-						<p:ajax update="sendBill billTable"
+						<p:ajax update="sendBill billTableFinal"
 							listener="#{newDashBoardMB.loadBillByClass}" process="@this"></p:ajax>
 
 					</h:selectOneMenu>
@@ -59,9 +46,12 @@
 
 			</p:panelGrid>
 			<p:panel>
-				<p:dataTable id="billTable" rowIndexVar="rowsn" editable="true"
-					value="#{newDashBoardMB.lstOrder}" var="item" paginator="true"
-					rows="10" rowsPerPageTemplate="10,20,30" scrollable="true">
+				
+					<p:dataTable id="billTableFinal" rowIndexVar="rowIndex"
+						value="#{newDashBoardMB.lstOrder}" var="item"
+						paginator="true" rows="50"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="10,20,30" scrollable="true">
 
 					<p:column style="width:20px">
 						<f:facet name="header">

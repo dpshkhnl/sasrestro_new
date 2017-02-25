@@ -829,7 +829,7 @@ public class NewDashBoardMB extends AbstractMB implements Serializable {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("cusName", billModel.getBillTo());
 		params.put("Date", userMB.getUser().getDayInStatus().getDayInDateNp());
-		params.put("BillNo", billModel.getBillNo());
+		params.put("BillNo", billModel==null?0:billModel.getBillNo());
 		params.put("BillAmountInWord",
 				JrUtils.toWordsMiracle(String.valueOf(billModel.getBillAmount())));
 		params.put("discount", billModel.getDiscount());

@@ -30,7 +30,7 @@
 						</p:panelGrid>
 						<p:panelGrid columns="3">
 							<p:commandButton icon=" ui-icon-search " id="search"
-								process="@this" update="tblPlan" value="Search"
+								process="@this" update=":addMenu" value="Search"
 								style="width:100px;margin-left:10px">
 							</p:commandButton>
 							<p:commandButton icon=" ui-icon-refresh " value="Cancel"
@@ -42,7 +42,7 @@
 							</p:commandButton>
 						</p:panelGrid>
 					</p:panel>
-					<p:dataTable id="tblPlan" rowIndexVar="rowIndex"
+					<p:dataTable id="tblMenu" rowIndexVar="rowIndex"
 						value="#{menuItemMB.lstMenuItem}" var="item" paginator="true"
 						rows="50"
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -106,19 +106,20 @@
 							</p:commandButton>
 						</p:column>
 					</p:dataTable>
-					<p:confirmDialog message="Are you sure you want to delete ?"
+					
+				</p:panel>
+			</h:form>
+			<p:confirmDialog message="Are you sure you want to delete ?"
 						global="true" showEffect="fade" hideEffect="explode"
 						header="Delete" severity="alert" widgetVar="cd" modal="true">
 						<p:commandButton value="Yes" styleClass="ui-confirmdialog-yes"
 							icon="ui-icon-check" actionListener="#{menuItemMB.delete()}"
-							update="tblPlan" process="@this" oncomplete="cd.hide()">
+							 process="@this" oncomplete="cd.hide()">
 						</p:commandButton>
 						<p:commandButton value="No" type="button"
 							styleClass="ui-confirmdialog-no" icon="ui-icon-close"
 							onclick="cd.hide()" />
 					</p:confirmDialog>
-				</p:panel>
-			</h:form>
 			<ui:include src="/pages/restaurant/dialog/menuItemDialog.xhtml"></ui:include>
 		</ui:define>
 	</ui:composition>
